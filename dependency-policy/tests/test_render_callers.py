@@ -4,10 +4,11 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 from lib.commands import FORBIDDEN_FRAGMENTS
 from lib.models import Project, Repository
-from scripts.render_callers import main, render_caller
+from scripts.render_callers import TEMPLATE_PATH, main, render_caller
 
 
 POLICY_SHA = "a" * 40
@@ -59,6 +60,47 @@ class RenderCallersTest(unittest.TestCase):
         self.assertEqual(rendered.count(POLICY_SHA), 2)
         self.assertIn(f"dependency-validation.yml@{POLICY_SHA}", rendered)
         self.assertIn(f"policy-ref: {POLICY_SHA}", rendered)
+
+    def test_render_escapes_policy_sha_collisions_in_project_json_without_changing_value(self):
+        repository = Repository(
+            name="sha-collision",
+            default_branch="main",
+            projects=(
+                Project(
+                    name="root-node",
+                    ecosystem="npm",
+                    path=".",
+                    runtime_version="20",
+                    manifest="package.json",
+                    test_command=f"printf {POLICY_SHA} {POLICY_SHA}",
+                    timeout_minutes=15,
+                ),
+            ),
+        )
+
+        rendered = render_caller(repository, POLICY_SHA)
+        projects_line = next(
+            line.strip()
+            for line in rendered.splitlines()
+            if line.strip().startswith("projects-json: ")
+        )
+        projects_json = projects_line.removeprefix("projects-json: '").removesuffix("'")
+
+        self.assertEqual(rendered.count(POLICY_SHA), 2)
+        self.assertNotIn(POLICY_SHA, projects_json)
+        decoded_projects = json.loads(projects_json.replace("''", "'"))
+        self.assertEqual(
+            decoded_projects[0]["test-command"],
+            f"printf {POLICY_SHA} {POLICY_SHA}",
+        )
+
+    def test_render_rejects_output_when_policy_sha_postcondition_is_not_exactly_two(self):
+        with TemporaryDirectory() as temp:
+            template = Path(temp) / "caller.yml.tmpl"
+            template.write_text(TEMPLATE_PATH.read_text() + "\n# POLICY_COMMIT_SHA\n")
+            with patch("scripts.render_callers.TEMPLATE_PATH", template):
+                with self.assertRaisesRegex(RuntimeError, "exactly twice"):
+                    render_caller(self.repository(), POLICY_SHA)
 
     def test_render_uses_pr_identity_concurrency_and_aggregation_gate(self):
         rendered = render_caller(self.repository(), POLICY_SHA)

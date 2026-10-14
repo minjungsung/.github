@@ -66,13 +66,24 @@ def _project_payload(project: Project) -> dict[str, str | int]:
     }
 
 
+def _escape_policy_sha_collisions(projects_json: str, policy_sha: str) -> str:
+    escaped_policy_sha = "".join(
+        f"\\u{ord(character):04x}"
+        for character in policy_sha
+    )
+    return projects_json.replace(policy_sha, escaped_policy_sha)
+
+
 def render_caller(repository: Repository, policy_sha: str) -> str:
     if POLICY_SHA_PATTERN.fullmatch(policy_sha) is None:
         raise ValueError("policy SHA must be exactly 40 lowercase hexadecimal characters")
 
-    projects_json = json.dumps(
-        [_project_payload(project) for project in repository.projects],
-        separators=(",", ":"),
+    projects_json = _escape_policy_sha_collisions(
+        json.dumps(
+            [_project_payload(project) for project in repository.projects],
+            separators=(",", ":"),
+        ),
+        policy_sha,
     ).replace("'", "''")
     template = TEMPLATE_PATH.read_text()
     rendered = (
@@ -82,6 +93,8 @@ def render_caller(repository: Repository, policy_sha: str) -> str:
         .replace("COMPACT_PROJECT_JSON", projects_json)
     )
     reject_forbidden(rendered)
+    if rendered.count(policy_sha) != 2:
+        raise RuntimeError("rendered caller must contain policy SHA exactly twice")
     return rendered
 
 
