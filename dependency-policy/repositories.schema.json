@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/personal/dependency-policy/repositories.schema.json",
+  "title": "Dependency policy repository inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema-version",
+    "repositories"
+  ],
+  "properties": {
+    "schema-version": {
+      "const": 1
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repository"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "ecosystem",
+        "path"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "ecosystem": {
+          "enum": [
+            "npm",
+            "python-requirements",
+            "python-pyproject",
+            "gradle",
+            "github-actions"
+          ]
+        },
+        "path": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            {
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+            }
+          ]
+        },
+        "runtime-version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "manifest": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "lockfile": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "install-command": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "test-command": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "build-command": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "gradle-wrapper": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "timeout-minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 45
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "ecosystem": {
+                "enum": [
+                  "npm",
+                  "python-requirements",
+                  "python-pyproject"
+                ]
+              }
+            },
+            "required": [
+              "ecosystem"
+            ]
+          },
+          "then": {
+            "required": [
+              "runtime-version",
+              "manifest"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "ecosystem": {
+                "const": "gradle"
+              }
+            },
+            "required": [
+              "ecosystem"
+            ]
+          },
+          "then": {
+            "required": [
+              "runtime-version",
+              "manifest",
+              "gradle-wrapper"
+            ]
+          }
+        }
+      ]
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "default-branch",
+        "projects"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "default-branch": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "projects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/project"
+          }
+        },
+        "deployment-workflows": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "auto-merge-enabled": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

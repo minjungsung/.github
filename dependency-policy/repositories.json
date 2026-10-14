@@ -1,0 +1,18 @@
+{
+  "schema-version": 1,
+  "repositories": [
+    {
+      "name": ".github",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "projects": [
+        {
+          "name": "workflow-policy",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    }
+  ]
+}
