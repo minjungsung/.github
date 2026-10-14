@@ -165,7 +165,8 @@ def load_inventory(path: Path) -> Inventory:
     if not isinstance(value, dict):
         raise PolicyError("inventory must be an object")
     _reject_unknown(value, {"schema-version", "repositories"}, "inventory")
-    if value.get("schema-version") != 1:
+    schema_version = value.get("schema-version")
+    if type(schema_version) is not int or schema_version != 1:
         raise PolicyError("inventory: schema-version must equal 1")
     raw_repositories = value.get("repositories")
     if not isinstance(raw_repositories, list):
