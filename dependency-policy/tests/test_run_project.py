@@ -179,6 +179,85 @@ class RunProjectTest(unittest.TestCase):
         self.assertIn("install: `npm install` — FAIL", summary.read_text())
         self.assertIn("controlled missing executable", summary.read_text())
 
+    def python_project_json(self, fixture, ecosystem, manifest):
+        return json.dumps({
+            "name": fixture,
+            "ecosystem": ecosystem,
+            "path": "project",
+            "runtime-version": "3.12",
+            "manifest": manifest,
+        })
+
+    def test_real_runner_passes_python_requirements_fixture(self):
+        root = self.copy_fixture("python-pass")
+        environ, summary = self.summary_environment(root)
+
+        result = run_project(
+            self.python_project_json("python-pass", "python-requirements", "requirements.txt"),
+            root,
+            environ=environ,
+        )
+
+        self.assertEqual(result, 0)
+        text = summary.read_text()
+        self.assertIn("install:", text)
+        self.assertIn("test: `.dependency-gate-venv/bin/python -m pytest` — PASS", text)
+        self.assertIn("result: PASS", text)
+
+    def test_real_runner_passes_python_pyproject_fixture(self):
+        root = self.copy_fixture("python-pyproject-pass")
+        environ, summary = self.summary_environment(root)
+
+        result = run_project(
+            self.python_project_json("python-pyproject-pass", "python-pyproject", "pyproject.toml"),
+            root,
+            environ=environ,
+        )
+
+        self.assertEqual(result, 0)
+        text = summary.read_text()
+        self.assertIn("install:", text)
+        self.assertIn("test: `.dependency-gate-venv/bin/python -m pytest` — PASS", text)
+        self.assertIn("result: PASS", text)
+
+    def test_real_runner_fails_python_requirements_failure_fixture(self):
+        root = self.copy_fixture("python-requirements-fail")
+        environ, summary = self.summary_environment(root)
+
+        result = run_project(
+            self.python_project_json(
+                "python-requirements-fail",
+                "python-requirements",
+                "requirements.txt",
+            ),
+            root,
+            environ=environ,
+        )
+
+        self.assertNotEqual(result, 0)
+        text = summary.read_text()
+        self.assertIn("install:", text)
+        self.assertIn("— FAIL", text)
+        self.assertNotIn("test:", text)
+        self.assertIn("result: FAIL", text)
+
+    def test_real_runner_fails_python_pyproject_test_fixture(self):
+        root = self.copy_fixture("python-pyproject-fail")
+        environ, summary = self.summary_environment(root)
+
+        result = run_project(
+            self.python_project_json("python-pyproject-fail", "python-pyproject", "pyproject.toml"),
+            root,
+            environ=environ,
+        )
+
+        self.assertNotEqual(result, 0)
+        text = summary.read_text()
+        self.assertIn("install:", text)
+        self.assertIn("— PASS", text)
+        self.assertIn("test: `.dependency-gate-venv/bin/python -m pytest` — FAIL", text)
+        self.assertIn("result: FAIL", text)
+
 
 if __name__ == "__main__":
     unittest.main()

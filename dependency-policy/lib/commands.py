@@ -84,12 +84,12 @@ def _python_commands(project: Project, root: Path) -> tuple[Command, Command, Co
     manifest_path = _configured_file(root, project.manifest, "manifest")
     quoted_manifest = shlex.quote(str(manifest_path.relative_to(root.resolve())))
     create_venv = f"python3 -m venv --clear {VENV_DIRECTORY}"
-    upgrade_pip = f"{VENV_PYTHON} -m pip install --upgrade pip"
+    install_test_runner = f"{VENV_PYTHON} -m pip install pytest"
     if project.ecosystem == "python-requirements":
         install_project = f"{VENV_PYTHON} -m pip install -r {quoted_manifest}"
     else:
         install_project = f"{VENV_PYTHON} -m pip install ."
-    install: Command = f"{create_venv} && {upgrade_pip} && {install_project}"
+    install: Command = f"{create_venv} && {install_project} && {install_test_runner}"
     test: Command = (VENV_PYTHON, "-m", "pytest") if _has_python_tests(root) else None
     return install, test, None
 
