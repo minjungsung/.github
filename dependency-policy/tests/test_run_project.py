@@ -188,6 +188,29 @@ class RunProjectTest(unittest.TestCase):
             "manifest": manifest,
         })
 
+    def test_python_without_tests_does_not_install_pytest_and_reports_skip(self):
+        with TemporaryDirectory() as temp_name:
+            root = Path(temp_name)
+            project_root = root / "project"
+            project_root.mkdir()
+            (project_root / "requirements.txt").write_text("")
+            runner = FakeRunner()
+            environ, summary = self.summary_environment(root)
+
+            result = run_project(
+                self.python_project_json("python-no-tests", "python-requirements", "requirements.txt"),
+                root,
+                runner=runner,
+                environ=environ,
+            )
+
+            self.assertEqual(result, 0)
+            self.assertEqual(len(runner.calls), 1)
+            self.assertNotIn("pip install pytest", runner.calls[0][0])
+            text = summary.read_text()
+            self.assertIn("test: SKIP", text)
+            self.assertIn("result: PASS", text)
+
     def test_real_runner_passes_python_requirements_fixture(self):
         root = self.copy_fixture("python-pass")
         environ, summary = self.summary_environment(root)

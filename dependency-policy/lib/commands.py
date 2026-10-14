@@ -83,14 +83,17 @@ def _has_python_tests(root: Path) -> bool:
 def _python_commands(project: Project, root: Path) -> tuple[Command, Command, Command]:
     manifest_path = _configured_file(root, project.manifest, "manifest")
     quoted_manifest = shlex.quote(str(manifest_path.relative_to(root.resolve())))
+    has_tests = _has_python_tests(root)
     create_venv = f"python3 -m venv --clear {VENV_DIRECTORY}"
-    install_test_runner = f"{VENV_PYTHON} -m pip install pytest"
     if project.ecosystem == "python-requirements":
         install_project = f"{VENV_PYTHON} -m pip install -r {quoted_manifest}"
     else:
         install_project = f"{VENV_PYTHON} -m pip install ."
-    install: Command = f"{create_venv} && {install_project} && {install_test_runner}"
-    test: Command = (VENV_PYTHON, "-m", "pytest") if _has_python_tests(root) else None
+    install_steps = [create_venv, install_project]
+    if has_tests:
+        install_steps.append(f"{VENV_PYTHON} -m pip install pytest")
+    install: Command = " && ".join(install_steps)
+    test: Command = (VENV_PYTHON, "-m", "pytest") if has_tests else None
     return install, test, None
 
 

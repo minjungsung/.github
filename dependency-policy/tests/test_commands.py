@@ -99,6 +99,20 @@ class CommandsTest(unittest.TestCase):
         self.assertEqual(plan.test, (".dependency-gate-venv/bin/python", "-m", "pytest"))
         self.assertEqual(plan.skips, ("build",))
 
+    def test_python_without_tests_does_not_install_pytest(self):
+        root = self.make_root({"requirements.txt": ""})
+        project = self.project(
+            "python-requirements",
+            manifest="requirements.txt",
+            runtime_version="3.12",
+        )
+
+        plan = plan_commands(project, root)
+
+        self.assertNotIn("pip install pytest", plan.install)
+        self.assertIsNone(plan.test)
+        self.assertEqual(plan.skips, ("test", "build"))
+
     def test_plans_gradle_wrapper_check_without_daemon(self):
         root = self.make_root({"build.gradle.kts": "", "gradlew": "#!/usr/bin/env bash\n"})
         project = self.project(
