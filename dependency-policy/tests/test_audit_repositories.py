@@ -9,6 +9,7 @@ import unittest
 from lib.github_client import GitHubClient
 from lib.models import Inventory, PolicyError, Project, Repository, load_inventory
 from scripts.audit_repositories import (
+    DiscoveredRepository,
     discover_repositories,
     main,
     reconcile,
@@ -84,13 +85,46 @@ class GitHubClientTest(unittest.TestCase):
 
 
 class AuditRepositoriesTest(unittest.TestCase):
-    def repository_record(self, name, *, archived=False):
+    def repository_record(self, name, *, archived=False, default_branch="main"):
         return {
             "name": name,
             "nameWithOwner": f"owner/{name}",
             "isArchived": archived,
-            "defaultBranchRef": {"name": "main"},
+            "defaultBranchRef": (
+                {"name": default_branch} if default_branch is not None else None
+            ),
         }
+
+    def test_branchless_repositories_are_reported_without_aborting_discovery(self):
+        client = FakeGitHubClient([
+            self.repository_record("active-empty", default_branch=None),
+            self.repository_record("archived-empty", archived=True, default_branch=None),
+        ])
+        inventory = Inventory(
+            schema_version=1,
+            repositories=(
+                Repository(
+                    name="archived-empty",
+                    default_branch="main",
+                    projects=(Project("actions", "github-actions", ".", timeout_minutes=5),),
+                ),
+            ),
+        )
+
+        discovered = discover_repositories(client, "owner")
+        report = reconcile(inventory, discovered)
+
+        self.assertEqual(
+            [(repository.name, repository.default_branch) for repository in discovered],
+            [("active-empty", None), ("archived-empty", None)],
+        )
+        self.assertEqual(report.archived, ("archived-empty",))
+        self.assertEqual(report.unclassified, ("active-empty",))
+        self.assertEqual(
+            report.ambiguities,
+            ("active-empty: active repository has no default branch",),
+        )
+        self.assertEqual(report.inventory.repositories, ())
 
     def tree_entry(self, path, sha):
         return {"path": path, "mode": "100644", "type": "blob", "sha": sha}
@@ -118,6 +152,8 @@ class AuditRepositoriesTest(unittest.TestCase):
             "owner/archived": [],
         }
         blobs = {
+            ("owner/active", f"sha-{paths.index('package.json')}"): "{}",
+            ("owner/active", f"sha-{paths.index('nested/web/package.json')}"): "{}",
             ("owner/active", f"sha-{paths.index('.github/dependabot.yml')}"): """
 version: 2
 updates:
@@ -238,6 +274,64 @@ jobs:
         self.assertEqual(project.timeout_minutes, 23)
         self.assertEqual(report.inventory.repository("active").default_branch, "main")
 
+    def test_reconciliation_reports_python_manifest_disagreement_and_preserves_review(self):
+        reviewed = Project(
+            name="reviewed-python",
+            ecosystem="python-requirements",
+            path=".",
+            runtime_version="3.12",
+            manifest="requirements-prod.txt",
+            timeout_minutes=15,
+        )
+        discovered_project = Project(
+            name="root-python-requirements",
+            ecosystem="python-requirements",
+            path=".",
+            runtime_version="3.12",
+            manifest="requirements.txt",
+            timeout_minutes=15,
+        )
+
+        report = reconcile(
+            Inventory(1, (Repository("python", "main", (reviewed,)),)),
+            (DiscoveredRepository("python", "main", False, (discovered_project,)),),
+        )
+
+        project = report.inventory.repository("python").projects[0]
+        self.assertEqual(project.manifest, "requirements-prod.txt")
+        self.assertEqual(len(report.ambiguities), 1)
+        self.assertIn("python-requirements project at . manifest differs", report.ambiguities[0])
+
+    def test_reconciliation_reports_npm_lockfile_disagreement_and_preserves_review(self):
+        reviewed = Project(
+            name="reviewed-node",
+            ecosystem="npm",
+            path=".",
+            runtime_version="20",
+            manifest="package.json",
+            lockfile="npm-shrinkwrap.json",
+            timeout_minutes=15,
+        )
+        discovered_project = Project(
+            name="root-node",
+            ecosystem="npm",
+            path=".",
+            runtime_version="20",
+            manifest="package.json",
+            lockfile="package-lock.json",
+            timeout_minutes=15,
+        )
+
+        report = reconcile(
+            Inventory(1, (Repository("node", "main", (reviewed,)),)),
+            (DiscoveredRepository("node", "main", False, (discovered_project,)),),
+        )
+
+        project = report.inventory.repository("node").projects[0]
+        self.assertEqual(project.lockfile, "npm-shrinkwrap.json")
+        self.assertEqual(len(report.ambiguities), 1)
+        self.assertIn("npm project at . lockfile differs", report.ambiguities[0])
+
     def test_reconciliation_fails_closed_on_ambiguous_reviewed_project_identity(self):
         duplicate_identity = (
             Project("first", "npm", ".", "18", "package.json", timeout_minutes=15),
@@ -276,6 +370,27 @@ jobs:
             self.assertEqual(result, 2)
             self.assertEqual(path.read_bytes(), before)
 
+    def test_bun_package_manager_without_lockfile_disables_auto_merge(self):
+        client = FakeGitHubClient(
+            [self.repository_record("bun-project")],
+            {"owner/bun-project": [
+                self.tree_entry("package.json", "package"),
+            ]},
+            {
+                ("owner/bun-project", "package"): json.dumps({
+                    "name": "bun-project",
+                    "packageManager": "bun@1.2.21",
+                }),
+            },
+        )
+
+        repository = discover_repositories(client, "owner")[0]
+
+        self.assertEqual(repository.projects[0].ecosystem, "npm")
+        self.assertEqual(repository.projects[0].lockfile, None)
+        self.assertEqual(repository.unsupported_ecosystems, ("bun",))
+        self.assertFalse(repository.auto_merge_enabled)
+
     def test_security_workflow_product_mentions_are_not_deployment_triggers(self):
         client = FakeGitHubClient(
             [self.repository_record("security")],
@@ -306,6 +421,7 @@ jobs:
                 self.tree_entry("package.json", "package"),
                 self.tree_entry("bun.lock", "lock"),
             ]},
+            {("owner/bun-project", "package"): "{}"},
         )
 
         repository = discover_repositories(client, "owner")[0]

@@ -47,7 +47,7 @@ PROJECT_KEYS = {field.name: field.name.replace("_", "-") for field in fields(Pro
 @dataclass(frozen=True)
 class DiscoveredRepository:
     name: str
-    default_branch: str
+    default_branch: str | None
     archived: bool
     projects: tuple[Project, ...] = ()
     dependabot_config: str | None = None
@@ -67,7 +67,9 @@ class AuditReport:
     ambiguities: tuple[str, ...] = ()
 
 
-def _required_repository_fields(value: dict[str, Any]) -> tuple[str, str, bool]:
+def _required_repository_fields(
+    value: dict[str, Any],
+) -> tuple[str, str, bool, str | None]:
     name = value.get("name")
     full_name = value.get("nameWithOwner")
     archived = value.get("isArchived")
@@ -78,12 +80,19 @@ def _required_repository_fields(value: dict[str, Any]) -> tuple[str, str, bool]:
         or not isinstance(full_name, str)
         or not full_name
         or not isinstance(archived, bool)
-        or not isinstance(default_branch, dict)
-        or not isinstance(default_branch.get("name"), str)
-        or not default_branch["name"]
     ):
         raise PolicyError("GitHub repository response is missing required fields")
-    return name, full_name, archived
+    if default_branch is None:
+        branch_name = None
+    elif (
+        isinstance(default_branch, dict)
+        and isinstance(default_branch.get("name"), str)
+        and default_branch["name"]
+    ):
+        branch_name = default_branch["name"]
+    else:
+        raise PolicyError("GitHub repository response has an invalid default branch")
+    return name, full_name, archived, branch_name
 
 
 def _tree_files(tree: list[dict[str, Any]], repository: str) -> dict[str, str]:
@@ -233,6 +242,25 @@ def _dependabot_ecosystems(content: str) -> set[str]:
     return unsupported
 
 
+def _npm_package_metadata(
+    content: str,
+    project_path: str,
+) -> tuple[set[str], tuple[str, ...]]:
+    try:
+        value = json.loads(content)
+    except json.JSONDecodeError:
+        return set(), (f"npm project at {project_path} has invalid package.json JSON",)
+    if not isinstance(value, dict):
+        return set(), (f"npm project at {project_path} package.json is not an object",)
+    package_manager = value.get("packageManager")
+    if package_manager is None:
+        return set(), ()
+    if not isinstance(package_manager, str) or not package_manager.strip():
+        return set(), (f"npm project at {project_path} has invalid packageManager metadata",)
+    manager_name = package_manager.strip().split("@", 1)[0].lower()
+    return ({"bun"} if manager_name == "bun" else set()), ()
+
+
 def _is_auto_merge_workflow(path: str, content: str) -> bool:
     searchable = f"{path}\n{content}".lower()
     return "dependabot" in searchable and (
@@ -278,11 +306,18 @@ def discover_repositories(
     discovered: list[DiscoveredRepository] = []
     records = sorted(client.list_repositories(owner), key=lambda value: str(value.get("name", "")))
     for record in records:
-        name, full_name, archived = _required_repository_fields(record)
-        default_branch_value = record["defaultBranchRef"]
-        default_branch = default_branch_value["name"]
+        name, full_name, archived, default_branch = _required_repository_fields(record)
         if archived:
             discovered.append(DiscoveredRepository(name, default_branch, True))
+            continue
+        if default_branch is None:
+            discovered.append(DiscoveredRepository(
+                name=name,
+                default_branch=None,
+                archived=False,
+                auto_merge_enabled=False,
+                ambiguities=("active repository has no default branch",),
+            ))
             continue
 
         files_by_path = _tree_files(client.repository_tree(full_name, default_branch), full_name)
@@ -296,6 +331,21 @@ def discover_repositories(
             else None
         )
         unsupported = _manifest_unsupported_ecosystems(file_paths)
+        metadata_ambiguities: list[str] = []
+        for project in projects:
+            if project.ecosystem != "npm" or project.manifest is None:
+                continue
+            manifest_path = (
+                project.manifest
+                if project.path == "."
+                else f"{project.path}/{project.manifest}"
+            )
+            package_unsupported, package_ambiguities = _npm_package_metadata(
+                client.blob_text(full_name, files_by_path[manifest_path]),
+                project.path,
+            )
+            unsupported.update(package_unsupported)
+            metadata_ambiguities.extend(package_ambiguities)
         if dependabot_config is not None:
             unsupported.update(
                 _dependabot_ecosystems(
@@ -336,25 +386,42 @@ def discover_repositories(
             deployment_workflows=tuple(deployment_workflows),
             unsupported_ecosystems=tuple(sorted(unsupported)),
             auto_merge_enabled=not unsupported,
-            ambiguities=ambiguities,
+            ambiguities=tuple(sorted((*ambiguities, *metadata_ambiguities))),
         ))
     return tuple(discovered)
 
 
-def _merge_project(reviewed: Project, discovered: Project) -> Project:
+def _merge_project(
+    reviewed: Project,
+    discovered: Project,
+) -> tuple[Project, tuple[str, ...]]:
+    ambiguities: list[str] = []
+
+    def reviewed_file(field_name: str) -> str | None:
+        reviewed_value = getattr(reviewed, field_name)
+        discovered_value = getattr(discovered, field_name)
+        if reviewed_value is None:
+            return discovered_value
+        if reviewed_value != discovered_value:
+            ambiguities.append(
+                f"{discovered.ecosystem} project at {discovered.path} {field_name} differs: "
+                f"reviewed {reviewed_value!r}, discovered {discovered_value!r}"
+            )
+        return reviewed_value
+
     return Project(
         name=reviewed.name,
         ecosystem=discovered.ecosystem,
         path=discovered.path,
         runtime_version=reviewed.runtime_version or discovered.runtime_version,
-        manifest=discovered.manifest,
-        lockfile=discovered.lockfile,
+        manifest=reviewed_file("manifest"),
+        lockfile=reviewed_file("lockfile"),
         install_command=reviewed.install_command,
         test_command=reviewed.test_command,
         build_command=reviewed.build_command,
         gradle_wrapper=reviewed.gradle_wrapper or discovered.gradle_wrapper,
         timeout_minutes=reviewed.timeout_minutes,
-    )
+    ), tuple(ambiguities)
 
 
 def _merge_repository(
@@ -373,7 +440,11 @@ def _merge_repository(
         discovered_identities.add(identity)
         matches = existing_by_identity.get(identity, [])
         if len(matches) == 1:
-            merged.append(_merge_project(matches[0], project))
+            merged_project, project_ambiguities = _merge_project(matches[0], project)
+            merged.append(merged_project)
+            ambiguities.extend(
+                f"{reviewed.name}: {message}" for message in project_ambiguities
+            )
         elif not matches:
             merged.append(project)
         else:
@@ -427,6 +498,10 @@ def reconcile(
             continue
         ambiguities.extend(f"{repository.name}: {message}" for message in repository.ambiguities)
         reviewed = reviewed_by_name.get(repository.name)
+        if repository.default_branch is None:
+            if reviewed is not None:
+                reconciled.append(reviewed)
+            continue
         if reviewed is None:
             reconciled.append(Repository(
                 name=repository.name,
