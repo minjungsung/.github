@@ -1,0 +1,68 @@
+name: Controlled Fixture Validation
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: Controlled routing or adapter scenario; negative scenarios must fail
+        required: true
+        type: choice
+        options:
+          - ordinary
+          - npm-pass
+          - npm-peer-conflict
+          - npm-fail-test
+          - npm-fail-build
+          - python-requirements-fail
+
+permissions:
+  contents: read
+
+jobs:
+  ordinary:
+    if: inputs.scenario == 'ordinary'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "controlled-ordinary-author"
+      projects-json: '[{"name":"npm-pass","ecosystem":"npm","path":"dependency-policy/fixtures/npm-pass","runtime-version":"20","manifest":"package.json","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  npm-pass:
+    if: inputs.scenario == 'npm-pass'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-pass","ecosystem":"npm","path":"dependency-policy/fixtures/npm-pass","runtime-version":"20","manifest":"package.json","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  npm-peer-conflict:
+    if: inputs.scenario == 'npm-peer-conflict'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-peer-conflict","ecosystem":"npm","path":"dependency-policy/fixtures/npm-peer-conflict","runtime-version":"20","manifest":"package.json","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  npm-fail-test:
+    if: inputs.scenario == 'npm-fail-test'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-fail-test","ecosystem":"npm","path":"dependency-policy/fixtures/npm-fail-test","runtime-version":"20","manifest":"package.json","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  npm-fail-build:
+    if: inputs.scenario == 'npm-fail-build'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-fail-build","ecosystem":"npm","path":"dependency-policy/fixtures/npm-fail-build","runtime-version":"20","manifest":"package.json","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  python-requirements-fail:
+    if: inputs.scenario == 'python-requirements-fail'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"python-requirements-fail","ecosystem":"python-requirements","path":"dependency-policy/fixtures/python-requirements-fail","runtime-version":"3.12","manifest":"requirements.txt","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+

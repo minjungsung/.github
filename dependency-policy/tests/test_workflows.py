@@ -122,6 +122,17 @@ class WorkflowTest(unittest.TestCase):
         self.assertIn('expected_lines', workflow)
         self.assertIn('controlled fixture failure', workflow)
 
+    def test_controlled_dispatch_is_isolated_and_keeps_negative_results_failed(self):
+        workflow = (ROOT / '.github/workflows/controlled-fixture-validation.yml').read_text()
+        self.assertIn('workflow_dispatch:', workflow)
+        self.assertNotIn('pull_request:', workflow)
+        self.assertNotIn('continue-on-error', workflow)
+        self.assertNotIn('auto-merge', workflow)
+        self.assertIn('uses: ./.github/workflows/dependency-validation.yml', workflow)
+        self.assertIn('policy-ref: ${{ github.sha }}', workflow)
+        for scenario in ('ordinary', 'npm-pass', 'npm-peer-conflict', 'npm-fail-test', 'npm-fail-build', 'python-requirements-fail'):
+            self.assertIn(scenario, workflow)
+
     def test_installer_is_version_and_checksum_pinned(self):
         self.assertTrue(INSTALL_ACTIONLINT.is_file(), f"missing installer: {INSTALL_ACTIONLINT}")
         installer = INSTALL_ACTIONLINT.read_text()
