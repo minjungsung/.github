@@ -7,6 +7,7 @@ import hashlib
 from pathlib import Path
 import re
 import tempfile
+import subprocess
 from typing import Sequence
 
 from lib.github_client import CommandRunner, _default_runner
@@ -47,8 +48,12 @@ jobs:
 """
 
 
+def _byte_runner(command):
+    return subprocess.run(command, capture_output=True, check=False)
+
+
 def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_runner,
-         inventory_path: Path = INVENTORY_PATH) -> int:
+         inventory_path: Path = INVENTORY_PATH, byte_runner=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repository', required=True)
     parser.add_argument('--policy-sha', required=True)
@@ -66,8 +71,8 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
     repository = load_inventory(inventory_path).repository(args.repository)
     generated = render_caller(repository, args.policy_sha)
     def reviewed_legacy(content):
-        digest = hashlib.sha256(content.encode()).hexdigest()
-        return digest == args.reviewed_legacy_sha256 if args.reviewed_legacy_sha256 else content == LEGACY_CONTENT
+        digest = hashlib.sha256(content).hexdigest()
+        return digest == args.reviewed_legacy_sha256 if args.reviewed_legacy_sha256 else content == LEGACY_CONTENT.encode()
     full_name = f'{OWNER}/{repository.name}'
     workspace = args.workspace.resolve()
     workspace.mkdir(parents=True, exist_ok=True)
@@ -81,6 +86,13 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
 
     def git(*arguments):
         return run(['git', '-C', str(root), *arguments])
+
+    def blob_bytes(base):
+        command = ['git', '-C', str(root), 'show', f'{base}:{LEGACY}']
+        response = (byte_runner or (_byte_runner if runner is _default_runner else runner))(command)
+        if response.returncode or not isinstance(response.stdout, bytes):
+            raise PolicyError('immutable legacy blob requires a byte-preserving command runner')
+        return response.stdout
 
     def result(status, pr_url=None):
         print(json.dumps({'repository': full_name, 'policy_sha': args.policy_sha,
@@ -120,7 +132,7 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
                 raise PolicyError('workflow files must be regular files')
             text = path.read_text()
             relative = path.relative_to(root).as_posix()
-            if relative == LEGACY and reviewed_legacy(text):
+            if relative == LEGACY and reviewed_legacy(path.read_bytes()):
                 changes[relative] = (text, None)
             elif relative == LEGACY:
                 raise PolicyError('legacy workflow differs from exact reviewed removal bytes; review required')
@@ -146,9 +158,11 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
             raise PolicyError('existing rollout PR differs from requested policy; review before rerun')
         if LEGACY in files:
             base = git('merge-base', f'origin/{repository.default_branch}', head).strip()
-            if re.fullmatch(r'[0-9a-f]{40}', base) is None or not reviewed_legacy(git('show', f'{base}:{LEGACY}')):
+            if re.fullmatch(r'[0-9a-f]{40}', base) is None or not reviewed_legacy(blob_bytes(base)):
                 raise PolicyError('deleted legacy workflow differs from reviewed merge-base bytes')
         return result('existing-pr', pr['url'])
+    if args.reviewed_legacy_sha256 and not (root / LEGACY).is_file():
+        raise PolicyError('reviewed legacy hash supplied but workflow is absent')
     if current != repository.default_branch:
         raise PolicyError('clone must be on the reviewed default branch')
     git('fetch', 'origin', repository.default_branch)

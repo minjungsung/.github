@@ -36,7 +36,7 @@ class FakeRunner:
             (root / '.git').mkdir(parents=True)
             (root / LEGACY).parent.mkdir(parents=True)
             if self.legacy is not None:
-                (root / LEGACY).write_text(self.legacy)
+                (root / LEGACY).write_bytes(self.legacy.encode())
             (root / '.github/workflows/deploy.yml').write_text('name: Deploy\n')
         elif command[:3] == ['gh', 'repo', 'view']:
             output = json.dumps({'defaultBranchRef': {'name': 'main'}})
@@ -56,7 +56,7 @@ class FakeRunner:
             elif args == ['branch', '--show-current']:
                 output = self.branch + '\n'
             elif args[:1] == ['show']:
-                output = self.base_legacy if args[1].endswith(':' + LEGACY) else render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
+                output = self.base_legacy.encode() if args[1].endswith(':' + LEGACY) else render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
             elif args[:1] == ['merge-base']:
                 output = SHA + '\n'
             elif args[:1] == ['rev-parse']:
@@ -215,6 +215,23 @@ class RolloutTest(unittest.TestCase):
             runner = FakeRunner(prs=[pr], legacy=None, base_legacy=content)
             output = self.run_rollout(runner, Path(temp), '--push', '--create-pr', '--reviewed-legacy-sha256', digest)
             self.assertIn('existing-pr', output)
+
+    def test_reviewed_digest_uses_raw_crlf_bytes(self):
+        content = LEGACY_CONTENT.replace('\n', '\r\n')
+        for digest, accepted in ((hashlib.sha256(content.encode()).hexdigest(), True),
+                                 (hashlib.sha256(LEGACY_CONTENT.encode()).hexdigest(), False)):
+            with TemporaryDirectory() as temp:
+                runner = FakeRunner(legacy=content)
+                if accepted:
+                    self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', digest)
+                else:
+                    with self.assertRaises(PolicyError):
+                        self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', digest)
+
+    def test_explicit_reviewed_hash_refuses_missing_legacy_without_pr(self):
+        with TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(PolicyError, 'absent'):
+                self.run_rollout(FakeRunner(legacy=None), Path(temp), '--reviewed-legacy-sha256', 'a' * 64)
 
     def test_sha_validation_happens_before_commands(self):
         runner = FakeRunner()
