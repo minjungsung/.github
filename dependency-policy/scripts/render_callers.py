@@ -90,6 +90,7 @@ def render_caller(repository: Repository, policy_sha: str) -> str:
         template
         .replace("POLICY_COMMIT_SHA", policy_sha)
         .replace("AUTO_MERGE_JOB", AUTO_MERGE_JOB if repository.auto_merge_enabled else "")
+        .replace("DEFAULT_BRANCH_JSON", _escape_policy_sha_collisions(json.dumps(repository.default_branch), policy_sha))
         .replace("COMPACT_PROJECT_JSON", projects_json)
     )
     reject_forbidden(rendered)

@@ -106,9 +106,9 @@ class RenderCallersTest(unittest.TestCase):
         rendered = render_caller(self.repository(), POLICY_SHA)
 
         self.assertNotIn("github.actor", rendered)
-        self.assertIn("pr-author: ${{ github.event.pull_request.user.login }}", rendered)
+        self.assertIn("pr-author: ${{ github.event.pull_request.user.login || 'policy-push' }}", rendered)
         self.assertIn(
-            "group: dependency-gate-${{ github.repository }}-${{ github.event.pull_request.number }}",
+            "group: dependency-gate-${{ github.repository }}-${{ github.event.pull_request.number || github.ref }}",
             rendered,
         )
         self.assertIn("cancel-in-progress: true", rendered)
@@ -118,6 +118,15 @@ class RenderCallersTest(unittest.TestCase):
         self.assertIn('run: test "$VALIDATION_RESULT" = success', rendered)
         self.assertIn("  dependabot-auto-merge:", rendered)
         self.assertIn("    needs: dependency-gate", rendered)
+
+    def test_default_push_has_safe_branch_filter_and_ordinary_routing(self):
+        repository = Repository('custom', 'release/"stable', self.repository().projects)
+        rendered = render_caller(repository, POLICY_SHA)
+        self.assertIn('  push:\n    branches:\n      - "release/\\"stable"', rendered)
+        self.assertIn("pr-author: ${{ github.event.pull_request.user.login || 'policy-push' }}", rendered)
+        self.assertIn('github.event.pull_request.number || github.ref', rendered)
+        self.assertIn("if: github.event.pull_request.user.login == 'dependabot[bot]'", rendered)
+        self.assertEqual(rendered.count(POLICY_SHA), 2)
 
     def test_render_only_auto_merges_patch_and_minor_dependabot_updates(self):
         rendered = render_caller(self.repository(), POLICY_SHA)
