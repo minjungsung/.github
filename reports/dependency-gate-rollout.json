@@ -552,7 +552,12 @@
       "rollout-pr": "https://github.com/minjungsung/eltango/pull/28",
       "rollout-head-sha-prefix": "c39f2e",
       "caller-merge-sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
-      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately",
+      "wiki-guard-remediation": {
+        "pr": "https://github.com/minjungsung/eltango/pull/30",
+        "merge-sha": "e3342dc518e76354286832858aa054ba4e19e338",
+        "status": "merged-after-hosted-CI"
+      }
     },
     {
       "repository": "hackdigest",
@@ -628,12 +633,28 @@
         "python-requirements"
       ],
       "auto-merge-enabled": true,
-      "rollout-status": "service-aware-caller-pending",
-      "enforcement-status": "not-observed",
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Clean remediation PR58 passed all15 strict matrix entries and existing tests, including disposable PostgreSQL integration tests. Central service support is under review before caller rollout.",
+      "notes": "All15 strict projects and existing tests passed with PostgreSQL16. Service-aware caller/wiki/release guards and requiredgate verified. Actual majorbot40 central15-project gate passed at d5910b5a; PR remained open with null autoMergeRequest.",
       "remediation-pr": "https://github.com/minjungsung/jhu_software_concepts/pull/58",
-      "remediation-merge-sha": "00a9d10b540c639df9f4e033cae85963e9b31476"
+      "remediation-merge-sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+      "caller-merge-sha": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+      "default-branch-ci-run": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38678044079",
+      "default-branch-ci-conclusion": "success",
+      "policy-sha": "1749d8b2d4eacf6540347c142fc2d544c68c2d14",
+      "verified-default-branch-sha": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      },
+      "real-major-service-proof": {
+        "pr": "https://github.com/minjungsung/jhu_software_concepts/pull/40",
+        "head-sha": "d5910b5aab7040b823a557feb12a0d1a6a848783",
+        "run": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38678612279",
+        "conclusion": "success",
+        "auto-merge-request": null
+      }
     },
     {
       "repository": "kiro-skills",
@@ -767,7 +788,12 @@
       "baseline-status": "hosted-pass",
       "notes": "PR45 merged; default-branch CI/gate succeeded; required dependency-gate check bound to Actions App15368. Second apply was idempotent.",
       "baseline-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38666261119",
-      "baseline-head-sha": "ed6f15313506ebc9b0774b0633e7dac86a009406"
+      "baseline-head-sha": "ed6f15313506ebc9b0774b0633e7dac86a009406",
+      "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+      "verified-default-branch-sha": "6c43c027984858f8931c1da59d2b86c052c62233",
+      "default-branch-ci-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38678373113",
+      "default-branch-gate-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38678373542",
+      "metadata-promotion-pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/46"
     },
     {
       "repository": "repo-template",
@@ -884,11 +910,11 @@
     }
   ],
   "limitations": [
-    "Synthetic fixture runs do not establish real bot identity or fleet enforcement.",
-    "Ordinary/default-push no-op proves caller execution, not application validation.",
-    "Pending renderer release promotion leaves intentional full-SHA fleet version differences.",
-    "Failed deployments, enforced vulnerability audit, missing assets and unsupported ecosystems remain explicit blockers.",
-    "Latest live inventory check returned1 despite zero classification ambiguities; serialized drift must be resolved."
+    "Synthetic fixture runs establish validation behavior only; real bot identity is proved separately.",
+    "Ordinary no-op checks prove caller execution, while strict application evidence is recorded separately.",
+    "Protected automatic-merge callers use the reviewed metadata release; manual immutable caller versions remain explicit.",
+    "Three unenrolled repositories remain blocked by failed deployment/audit checks.",
+    "A complete list of publishing paths does not establish fresh validation guards; newly discovered wiki guard gaps remain under remediation."
   ],
   "inventoried-repository-count": 33,
   "unclassified-active-repositories": [],
@@ -938,6 +964,21 @@
       "source-id": "LingoCast-real-minor-evidence.json",
       "sha256": "e729d6cc030f5bd80099d3c903a786d7576b1c203ecb9accee6043d93347cbf2",
       "retention": "Actual exact-head metadata, gate, project and automatic merge facts embedded"
+    },
+    {
+      "source-id": "jhu-real-bot-service-evidence.json",
+      "sha256": "8b291325c6069b8c11bc343e3529a0e850537fade7328790dc31916e4a588dda",
+      "retention": "Actual DB test and major manual outcomes embedded"
+    },
+    {
+      "source-id": "metadata-fleet-final-evidence.json",
+      "sha256": "3dd3a9e6210fec850459bfa3d3f4ab06735b1178fcc06d7c15835396c4b9204c",
+      "retention": "All21 reviewed source hashes, exact PR/main checks and protection outcomes embedded"
+    },
+    {
+      "source-id": "dependency-gate-controlled-evidence.json",
+      "sha256": "1b3840657307cc535de032f790eb7ce26871095b7374b25ccb31aced5b8ac187",
+      "retention": "Four actual hosted controlled negative outcomes embedded"
     }
   ],
   "protection-backups": [
@@ -1018,6 +1059,10 @@
       "sha256": "f1cba484a0af381274363e34b6c228e7071b53d226d88f06f513f5547444bef5"
     },
     {
+      "location": "reports/protection-backups/minjungsung-jhu_software_concepts.json",
+      "sha256": "ac4d632e64ac6ab00719c8e7d3ef2018ea60b8eec2b6632eb4006e3a47c1634b"
+    },
+    {
       "location": "reports/protection-backups/minjungsung-kiro-skills.json",
       "sha256": "6c369e95ea83af5427585e9f3777f1824bff227925e7c4df41ff291b020fb77e"
     },
@@ -1058,7 +1103,7 @@
       "sha256": "56ee573f769d60d769588b70439bbc2630071becf28b9f3e4667bf4696613572"
     }
   ],
-  "observed-protected-repository-count": 29,
+  "observed-protected-repository-count": 30,
   "real-dependabot-major-evidence": {
     "repository": "repo-template",
     "number": 2,
@@ -1070,43 +1115,43 @@
     "limitation": "Evidence applies only to the recorded exact PR head"
   },
   "dependabot-reconciliation": {
-    "source-id": "dependency-gate-pr-reconciliation-next.json",
-    "sha256": "eca8b4f685671f9135a96232f76fa47c3e4a354f8eb4b2f1419bed36ccac538c",
+    "source-id": "dependency-gate-final-reconciliation.json",
+    "sha256": "4e0beeaf2ee2103f0ec5ec1a0bdf544e6a383b4bea28bb60dc4fcd28e1d3db71",
     "records": [
       {
         "evidence": {
           "body_sha256": "55a400bbe5ce44ff30761196d9b98568f7f870f8595ed9ea51506eb08ff52ebe",
-          "head_sha": "4520f38b93a9467931282901c13b7e7dfda698e7",
+          "head_sha": "29b6a4253bf72e480b248b0d9aa6683fc34ee505",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "4520f38b93a9467931282901c13b7e7dfda698e7",
+        "head_sha": "29b6a4253bf72e480b248b0d9aa6683fc34ee505",
         "number": 31,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/Chatbot/pull/31"
       },
       {
         "evidence": {
-          "body_sha256": "0afa4c4d8d342e61510081efb38f40d337c755dffd7343da0066db477f56e80c",
-          "head_sha": "d6faee2289a5355c0027feefa5e57e80faaaa5f0",
+          "body_sha256": "8e1e648ada27988aa0d3e1e08efeca95b0bfecb7f4e667940511c7199f7e7033",
+          "head_sha": "6a342820e86fd62180344269cdc4fcff9ffb9531",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "d6faee2289a5355c0027feefa5e57e80faaaa5f0",
+        "head_sha": "6a342820e86fd62180344269cdc4fcff9ffb9531",
         "number": 32,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/Chatbot/pull/32"
       },
       {
         "evidence": {
-          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
-          "head_sha": "93dae1f3fe9a4f11269307e36667921866bb5085",
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "bc4003111ff5b1f1897f593ae744dc886968042d",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "93dae1f3fe9a4f11269307e36667921866bb5085",
+        "head_sha": "bc4003111ff5b1f1897f593ae744dc886968042d",
         "number": 33,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/Chatbot/pull/33"
       },
       {
@@ -1117,8 +1162,8 @@
         },
         "head_sha": "f5467dbf9c5572fe7ca9ee499a29140beff8f2ab",
         "number": 51,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/Chatbot/pull/51"
       },
       {
@@ -1363,14 +1408,14 @@
       },
       {
         "evidence": {
-          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
-          "head_sha": "8c4585a3b52aef3d92c7885e3951f905709d229c",
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "d0ac83d8293c1a6b7c06056b73f0dad38dc2bd76",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "8c4585a3b52aef3d92c7885e3951f905709d229c",
+        "head_sha": "d0ac83d8293c1a6b7c06056b73f0dad38dc2bd76",
         "number": 17,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/visionRAG/pull/17"
       },
       {
@@ -1381,8 +1426,8 @@
         },
         "head_sha": "15104befa4aee3e003be9a18c0fcf78799ec0008",
         "number": 49,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/visionRAG/pull/49"
       },
       {
@@ -1393,8 +1438,8 @@
         },
         "head_sha": "3fc37f30c42a082fbc2e99c53cdb2dbe7e7c4e95",
         "number": 50,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/visionRAG/pull/50"
       },
       {
@@ -1405,24 +1450,24 @@
         },
         "head_sha": "abe214b4bf25dc9a499c1a7e124c9f89fea31d40",
         "number": 51,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
         "url": "https://github.com/minjungsung/visionRAG/pull/51"
       }
     ],
-    "limitation": "Conservative canonical-body metadata leaves grouped updates manual-unknown; no patch/minor eligibility claim."
+    "limitation": "Reviewed manual repository policy is authoritative; grouped/requirement metadata without verified parser evidence remains manual-unknown. This is a point-in-time open-PR snapshot."
   },
   "live-inventory-audit": {
-    "source-id": "dependency-gate-live-audit-next.json",
+    "source-id": "dependency-gate-live-audit-normalized.json",
     "sha256": "fc62c217afac8d5ba9736be38fb76c4a1ed097756f7dcc5fb48ba60efa3658a0",
-    "exit-code": 1,
+    "exit-code": 0,
     "result": {
       "active-repositories": 33,
       "ambiguities": [],
       "archived": [],
       "unclassified": []
     },
-    "limitation": "Reviewed publishing workflow lists were dropped by heuristic rediscovery for Chatbot and hackdigest despite existing guarded files. Preservation fix under review; check exits1 and acceptance remains incomplete."
+    "limitation": "Inventory/discovery reconciliation only; publication detector completeness and failed-update production behavior remain separate."
   },
   "live-enforcement": {
     "source-id": "dependency-gate-live-enforcement-next.json",
@@ -4970,16 +5015,18 @@
   },
   "policy-release-rollout": {
     "released-sha": "912a4df6333443b9f8a012275627d971a8218a03",
-    "status": "real-minor-canary-passed",
+    "status": "21-repository-wave-complete",
     "canary-pr": "https://github.com/minjungsung/LingoCast/pull/120",
-    "limitation": "LingoCast has promoted912a; other callers retain53eef. Latest renderer byte drift remains pending explicit version promotion.",
+    "limitation": "All protected automatic-merge callers have the reviewed metadata release; manual callers retain an immutable validated release. Three blocked default branches remain unenrolled.",
     "canary-status": "merged-and-actual-minor-auto-merge-proven",
     "canary-merge-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
     "real-bot-head": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
-    "default-fleet-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+    "default-fleet-sha": "912a4df6333443b9f8a012275627d971a8218a03",
     "exceptions": {
-      "LingoCast": "912a4df6333443b9f8a012275627d971a8218a03"
-    }
+      "jhu_software_concepts": "1749d8b2d4eacf6540347c142fc2d544c68c2d14",
+      "manual-repositories": "53eef31813cadd2611ade5062449c5089bbe1774"
+    },
+    "next-wave": "21 reviewed automatic-merge metadata promotions completed"
   },
   "real-dependabot-minor-evidence": {
     "repository": "minjungsung/LingoCast",
@@ -5052,5 +5099,1711 @@
       }
     ],
     "scope": "One actual minor dependency PR proved trusted validation, metadata classification and automatic merge. Fleet rollout, patch evidence, major/unknown manual behavior and production acceptance remain separate."
+  },
+  "real-dependabot-service-major-evidence": {
+    "repository": "jhu_software_concepts",
+    "number": 40,
+    "head-sha": "d5910b5aab7040b823a557feb12a0d1a6a848783",
+    "policy-sha": "1749d8b2d4eacf6540347c142fc2d544c68c2d14",
+    "run-url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38678612279",
+    "conclusion": "success",
+    "project-validation-count": 15,
+    "actual-tests": {
+      "module_4": 21,
+      "module_5": 26,
+      "module_6": 17
+    },
+    "coverage": "100% existing thresholds preserved",
+    "postgres-service": "Postgres16 disposable trust-auth",
+    "gate-job-conclusion": "success",
+    "metadata-update-type": "version-update:semver-major",
+    "pr-state": "OPEN",
+    "auto-merge-request": null,
+    "source-evidence": {
+      "source-id": "jhu-real-bot-service.log",
+      "sha256": "b5f0b67711327d7a8e628ada9092f2110017b249c81717ba383d85fee88982fa"
+    },
+    "limitation": "Exact real bot head service/major manual-routing evidence; not fleet patch/minor reconciliation"
+  },
+  "final-caller-verification": {
+    "source-id": "dependency-gate-final-caller-verification.json",
+    "sha256": "3647cda9e19cb7288c82d716cb16896d7eae37ae474d0db33e1ecc4c08b94b13",
+    "records": [
+      {
+        "repository": ".github",
+        "head-sha": "85eaf1c3daf3374b45eaa6d083bff7bb32be4447",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "b914f53f6bc4f5e93c3e47adb1b268f9ef6a5668944b0d6a61d3a6a05a2f72be",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "Algorithm",
+        "head-sha": "d3560953e4907bec0e3c4f88cd605e0dd396826d",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "Chatbot",
+        "head-sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+        "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+        "caller-sha256": "8bd98f6a96a15c4411c77def7a7bf09761157774eaca823538484aff499afe80",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "Interview",
+        "head-sha": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "92c93204b87a869a634889dc0f69d3c26c9605e451a4fdc7aeb0292e3436225b",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "KakaoBot",
+        "head-sha": "926768b50416ad2a66a6494cf77ace7beb0616ba",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "KakaoBot-API",
+        "status": "caller-missing",
+        "head-sha": "1e431912b1ba34fad076698c475aba80909d030e"
+      },
+      {
+        "repository": "Leethub",
+        "head-sha": "e169caa5c8c58ab8fe5ae7f2aec7c51a2ff930f2",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "LingoCast",
+        "head-sha": "5bd5fe28f784cc552635bbc2ad47321fe521ba01",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "49d769a7b6cabd2405e74457ec5761729b1d0df5b01065de47a546e12a94cea9",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "Nbody",
+        "head-sha": "0833b6d1e7ecb995ce75508e83392a13e4b98182",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "TangoDJ",
+        "head-sha": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "1258cac6bd87e3a79ed4731ced3007f65ce0189c6fa7910fd50eb2f901674413",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "TangoMBTI",
+        "status": "caller-missing",
+        "head-sha": "44096f79c963d50600b7ad54b574a968954c4c6d"
+      },
+      {
+        "repository": "Undead-Survivor",
+        "head-sha": "b5ca0e0964ad27196b11de032160310eb680bad3",
+        "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+        "caller-sha256": "8e7cd88de9acaaa6a30df7992909301d2f437f49b41c2fc603cbc0bf46bba010",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "head-sha": "0d149702d5ceed3186427bcd118d40c36d548f49",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "applied_generative_ai",
+        "head-sha": "cba43b3a90927df63919790ad8b7097ac474393d",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "e1d980025e0ea83a5e62e2eeac71e3a3e86748bc69b522149555d6815fbbb234",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "applied_machine_learning",
+        "head-sha": "5454428c1c986c91ecac009541fcc8caa8c9e496",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "course-manager",
+        "head-sha": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "03cbc7604cb1e181fdafd0b72924d7478fdcbb8273d1728f9d3c71bab924069a",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "head-sha": "4ec4b1a911fafc39f55600754f99fdb2bed3b316",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "dongle-game",
+        "head-sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+        "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+        "caller-sha256": "8e7cd88de9acaaa6a30df7992909301d2f437f49b41c2fc603cbc0bf46bba010",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "eltango",
+        "head-sha": "47c7f2d212249211c791779583c4cf2d389bb9c9",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "hackdigest",
+        "head-sha": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "1a06636f9a9f7acb5dbed81865f2ee11fcca34f6e4838110129f89ed460e53fc",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "house-scanner-frontend",
+        "status": "caller-missing",
+        "head-sha": "ccf1b1ce8d70afd1c1f99d36f001b43eb614602b"
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "head-sha": "2b9124ee97d8145b1fe272ac85325103db50d798",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "head-sha": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+        "policy-sha": "1749d8b2d4eacf6540347c142fc2d544c68c2d14",
+        "caller-sha256": "bb690fbae7fe6ea8990741f43af0572cae9ad3b66ec32541c148b83636bf11b9",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "kiro-skills",
+        "head-sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+        "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+        "caller-sha256": "2b03a4ea56181e8406095776dcd97f8ecf2ee4617f63c52f3dfe65c24b9e440a",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "medium",
+        "head-sha": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "51e02b36e8870d7647b3255dc53d764bf86f01b83dad54c891027672a5d84dee",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "minjungsung",
+        "head-sha": "50cac0ba2516867514cf5961d635e3ba99696d98",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "portfolio-backend",
+        "head-sha": "67bf404f8419f7873f388bc75955a3c5a420738b",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "portfolio-frontend",
+        "head-sha": "13136806d1b62120d0374704da8cad009564d65b",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "8cedd9d047c88838c10010166a399ff3860693770a06bf56af37988424240cc9",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "head-sha": "6c43c027984858f8931c1da59d2b86c052c62233",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "repo-template",
+        "head-sha": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "senior_eltango",
+        "head-sha": "daf275fe4d7f047caa6c8a976da1ece725319dcc",
+        "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+        "caller-sha256": "1546f10510d140adb45618c992e4e27165a3a1608153dbcebceffeaa814a3152",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "shooting-game",
+        "head-sha": "91aab2560160e737610e2271c20ae387fae54f50",
+        "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+        "caller-sha256": "8e7cd88de9acaaa6a30df7992909301d2f437f49b41c2fc603cbc0bf46bba010",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      },
+      {
+        "repository": "visionRAG",
+        "head-sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+        "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+        "caller-sha256": "396c72f5eff0b718b4305239542055f9e173d12af10f4cb164a75d7d63a1ded8",
+        "caller-exact-current-inventory": true,
+        "required-gate": true
+      }
+    ],
+    "required-gate-count": 30,
+    "exact-reviewed-caller-count": 30,
+    "missing-callers": [
+      "KakaoBot-API",
+      "TangoMBTI",
+      "house-scanner-frontend"
+    ]
+  },
+  "deployment-inventory": [
+    {
+      "repository": "Algorithm",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Algorithm",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Chatbot",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "source-guard-present",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Chatbot",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Interview",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "source-guard-present",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Interview",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "KakaoBot",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "KakaoBot",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "KakaoBot-API",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "KakaoBot-API",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Leethub",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Leethub",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "LingoCast",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "LingoCast",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Nbody",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Nbody",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "TangoMBTI",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "TangoMBTI",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Undead-Survivor",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "Undead-Survivor",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "ai_algorithm_design_and_analysis",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "ai_algorithm_design_and_analysis",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "applied_generative_ai",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "applied_generative_ai",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "applied_machine_learning",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "applied_machine_learning",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "creating_ai_enabled_systems",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "creating_ai_enabled_systems",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "dongle-game",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "dongle-game",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "eltango",
+      "workflow": ".github/workflows/init-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "eltango",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "eltango",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "hackdigest",
+      "workflow": ".github/workflows/clear-cache.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "hackdigest",
+      "workflow": ".github/workflows/daily-digest.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "hackdigest",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "hackdigest",
+      "workflow": ".github/workflows/subscribers.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "house-scanner-frontend",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "house-scanner-frontend",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "introduction_to_algorithm",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "introduction_to_algorithm",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "jhu_software_concepts",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "source-guard-present",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "jhu_software_concepts",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "kiro-skills",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "kiro-skills",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "medium",
+      "workflow": ".github/workflows/daily_publish.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "medium",
+      "workflow": ".github/workflows/deploy_pages.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "medium",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "source-guard-present",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "medium",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "minjungsung",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "minjungsung",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "portfolio-backend",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "portfolio-backend",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "portfolio-frontend",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "portfolio-frontend",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "portfolio-frontend-inner",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "portfolio-frontend-inner",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "repo-template",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "senior_eltango",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "senior_eltango",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "shooting-game",
+      "workflow": ".github/workflows/publish-wiki.yml",
+      "status": "wiki-guard-gap",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "shooting-game",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "visionRAG",
+      "workflow": ".github/workflows/push-wiki.yml",
+      "status": "source-guard-present",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    },
+    {
+      "repository": "visionRAG",
+      "workflow": ".github/workflows/release.yml",
+      "status": "source-proof-under-review",
+      "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
+    }
+  ],
+  "acceptance-gaps": [
+    "Three default branches lack merged callers/required protection due to failed deployment/audit checks.",
+    "Newly discovered wiki fresh-validation guards remain under remediation.",
+    "Failed-update publication denial has not been exercised for every publishing workflow."
+  ],
+  "metadata-policy-fleet-promotion": {
+    "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+    "repository-count": 21,
+    "status": "reviewed-pin-wave-merged-main-gate-and-protection-verified",
+    "sources": [
+      {
+        "reference": "review.json",
+        "sha256": "e30684dffc98d24a461577a6ddaa3e0af11ae71a47c5eff80b37498d5bce161a"
+      },
+      {
+        "reference": "published.json",
+        "sha256": "7e4c66fb78834d08207f3a0ff6c344211d454dfb01eddc4c8b480d614188d85d"
+      },
+      {
+        "reference": "merge-results.json",
+        "sha256": "61154b7158b101ac0a4644aad52ddcecee666e94409dda18e650ab06cbf0b246"
+      },
+      {
+        "reference": "main-proof.json",
+        "sha256": "d89ceb4e500f83d6b41d7d905f723f301edb09d01ef2e398638ae265c215d762"
+      }
+    ],
+    "records": [
+      {
+        "repository": ".github",
+        "status": "main-gate-protected",
+        "base-sha": "6f141081f1da2b573dcd3a0bfdf930a4dce7e9e0",
+        "before-sha256": "507a03e895556d497779466a3a41dfbc6bfdebe132b87b073d01f625ba42b114",
+        "after-sha256": "b914f53f6bc4f5e93c3e47adb1b268f9ef6a5668944b0d6a61d3a6a05a2f72be",
+        "changed-lines": 3,
+        "diff": ".github.diff",
+        "publication_base": "88653f0fda107653c45d559c6404d934ad00f7cc",
+        "head": "99e6fe415a71a3e4e65519ff8ff5051164ff470b",
+        "url": "https://github.com/minjungsung/.github/pull/20",
+        "merge_sha": "1d1484dec396a3382c901ead743768a4ac714f3f",
+        "verified_main_sha": "85eaf1c3daf3374b45eaa6d083bff7bb32be4447",
+        "main_advanced": true,
+        "main_gate": "https://github.com/minjungsung/.github/actions/runs/38678916286/job/116238764033",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Algorithm",
+        "status": "main-gate-protected",
+        "base-sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "Algorithm.diff",
+        "publication_base": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+        "head": "506e00dbf9d6a8bf188526294699da794c34b870",
+        "url": "https://github.com/minjungsung/Algorithm/pull/7",
+        "merge_sha": "d3560953e4907bec0e3c4f88cd605e0dd396826d",
+        "verified_main_sha": "d3560953e4907bec0e3c4f88cd605e0dd396826d",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Algorithm/actions/runs/38678832318/job/116238504024",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Interview",
+        "status": "main-gate-protected",
+        "base-sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+        "before-sha256": "5a2d5e7f7feea44b44a2c7e98a5e504372057d540c2a29b5b646187eae428777",
+        "after-sha256": "92c93204b87a869a634889dc0f69d3c26c9605e451a4fdc7aeb0292e3436225b",
+        "changed-lines": 3,
+        "diff": "Interview.diff",
+        "publication_base": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+        "head": "c63db482c8048d8c7af1aacd4b2ded0f44469992",
+        "url": "https://github.com/minjungsung/Interview/pull/34",
+        "merge_sha": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "verified_main_sha": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Interview/actions/runs/38678980198/job/116238967692",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "KakaoBot",
+        "status": "main-gate-protected",
+        "base-sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "KakaoBot.diff",
+        "publication_base": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+        "head": "544349b44f487b9cbd23b8311bfad382934342db",
+        "url": "https://github.com/minjungsung/KakaoBot/pull/8",
+        "merge_sha": "926768b50416ad2a66a6494cf77ace7beb0616ba",
+        "verified_main_sha": "926768b50416ad2a66a6494cf77ace7beb0616ba",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/KakaoBot/actions/runs/38678833041/job/116238506434",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Leethub",
+        "status": "main-gate-protected",
+        "base-sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+        "before-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1",
+        "after-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "changed-lines": 3,
+        "diff": "Leethub.diff",
+        "publication_base": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+        "head": "fb6ea7e6f6af634c4272a1ddf3c7ef2aec66cd49",
+        "url": "https://github.com/minjungsung/Leethub/pull/44",
+        "merge_sha": "e169caa5c8c58ab8fe5ae7f2aec7c51a2ff930f2",
+        "verified_main_sha": "e169caa5c8c58ab8fe5ae7f2aec7c51a2ff930f2",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Leethub/actions/runs/38678986409/job/116238991936",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Nbody",
+        "status": "main-gate-protected",
+        "base-sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "Nbody.diff",
+        "publication_base": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+        "head": "36f30f9648a3345b7e839c8c4296cf0211e728fa",
+        "url": "https://github.com/minjungsung/Nbody/pull/8",
+        "merge_sha": "0833b6d1e7ecb995ce75508e83392a13e4b98182",
+        "verified_main_sha": "0833b6d1e7ecb995ce75508e83392a13e4b98182",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Nbody/actions/runs/38678838822/job/116238529259",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "TangoDJ",
+        "status": "main-gate-protected",
+        "base-sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+        "before-sha256": "79f9dad8e6e8bdab0de63130b713bea3a97a1dcce77b7a07829b0652e6da20a9",
+        "after-sha256": "1258cac6bd87e3a79ed4731ced3007f65ce0189c6fa7910fd50eb2f901674413",
+        "changed-lines": 3,
+        "diff": "TangoDJ.diff",
+        "publication_base": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+        "head": "25a325378cc6f578f042ca5291c5d5972834a7af",
+        "url": "https://github.com/minjungsung/TangoDJ/pull/3",
+        "merge_sha": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "verified_main_sha": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/TangoDJ/actions/runs/38678840230/job/116238529792",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "status": "main-gate-protected",
+        "base-sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "ai_algorithm_design_and_analysis.diff",
+        "publication_base": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+        "head": "77547ffb2107e0555e3204bb2720a1396e4f613a",
+        "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/pull/7",
+        "merge_sha": "0d149702d5ceed3186427bcd118d40c36d548f49",
+        "verified_main_sha": "0d149702d5ceed3186427bcd118d40c36d548f49",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38678843366/job/116238546010",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "applied_generative_ai",
+        "status": "main-gate-protected",
+        "base-sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+        "before-sha256": "8fbad06989f2bf5009886fc040482b9106c178447016a4f4f38761915034ee99",
+        "after-sha256": "e1d980025e0ea83a5e62e2eeac71e3a3e86748bc69b522149555d6815fbbb234",
+        "changed-lines": 3,
+        "diff": "applied_generative_ai.diff",
+        "publication_base": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+        "head": "e53659ab75dffd104b32375ec83c807b52fc168b",
+        "url": "https://github.com/minjungsung/applied_generative_ai/pull/16",
+        "merge_sha": "cba43b3a90927df63919790ad8b7097ac474393d",
+        "verified_main_sha": "cba43b3a90927df63919790ad8b7097ac474393d",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38679225703/job/116239733028",
+        "main_checks_pending": [],
+        "main_checks_failed": [],
+        "main_ci_final": {
+          "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38679225133/job/116239704608",
+          "conclusion": "success"
+        }
+      },
+      {
+        "repository": "applied_machine_learning",
+        "status": "main-gate-protected",
+        "base-sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "applied_machine_learning.diff",
+        "publication_base": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+        "head": "ee44ad8e4306fbc2bb3645c6af656121295eb48f",
+        "url": "https://github.com/minjungsung/applied_machine_learning/pull/6",
+        "merge_sha": "5454428c1c986c91ecac009541fcc8caa8c9e496",
+        "verified_main_sha": "5454428c1c986c91ecac009541fcc8caa8c9e496",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38678844451/job/116238546713",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "course-manager",
+        "status": "main-gate-protected",
+        "base-sha": "82edaf7c1c777042a20302b916c36194654752a5",
+        "before-sha256": "f2f67e44559c50147f7031566995870fc483400db00cc6050e515ecbabb8ad51",
+        "after-sha256": "03cbc7604cb1e181fdafd0b72924d7478fdcbb8273d1728f9d3c71bab924069a",
+        "changed-lines": 3,
+        "diff": "course-manager.diff",
+        "publication_base": "82edaf7c1c777042a20302b916c36194654752a5",
+        "head": "b70fb39e9b220bbcdc8461331803d0bb29372560",
+        "url": "https://github.com/minjungsung/course-manager/pull/2",
+        "merge_sha": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "verified_main_sha": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/course-manager/actions/runs/38678848742/job/116238552839",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "status": "main-gate-protected",
+        "base-sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "creating_ai_enabled_systems.diff",
+        "publication_base": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+        "head": "d5587600adf3a3cc101eda38f8e98d7434768439",
+        "url": "https://github.com/minjungsung/creating_ai_enabled_systems/pull/6",
+        "merge_sha": "4ec4b1a911fafc39f55600754f99fdb2bed3b316",
+        "verified_main_sha": "4ec4b1a911fafc39f55600754f99fdb2bed3b316",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38678848748/job/116238552403",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "eltango",
+        "status": "main-gate-protected",
+        "base-sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+        "before-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1",
+        "after-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "changed-lines": 3,
+        "diff": "eltango.diff",
+        "publication_base": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+        "head": "e6ca3241243ea6d27e10ae41248eaebfafdbc41c",
+        "url": "https://github.com/minjungsung/eltango/pull/29",
+        "merge_sha": "47c7f2d212249211c791779583c4cf2d389bb9c9",
+        "verified_main_sha": "47c7f2d212249211c791779583c4cf2d389bb9c9",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/eltango/actions/runs/38678853806/job/116238571643",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "hackdigest",
+        "status": "main-gate-protected",
+        "base-sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+        "before-sha256": "a62ba304644a19579fb6cbcda07c65a676f6cc1651a31787cc3eb0f064047332",
+        "after-sha256": "1a06636f9a9f7acb5dbed81865f2ee11fcca34f6e4838110129f89ed460e53fc",
+        "changed-lines": 3,
+        "diff": "hackdigest.diff",
+        "publication_base": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+        "head": "772aa097c1251ca7b01d871a1fa9e738bc237fc4",
+        "url": "https://github.com/minjungsung/hackdigest/pull/26",
+        "merge_sha": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "verified_main_sha": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/hackdigest/actions/runs/38678853913/job/116238576117",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "status": "main-gate-protected",
+        "base-sha": "42af8778b240308c779f69a930c8808a338e266a",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "introduction_to_algorithm.diff",
+        "publication_base": "42af8778b240308c779f69a930c8808a338e266a",
+        "head": "42f4abd2f30e141985c4c1dcab8a3f1e2a4ed9ec",
+        "url": "https://github.com/minjungsung/introduction_to_algorithm/pull/6",
+        "merge_sha": "2b9124ee97d8145b1fe272ac85325103db50d798",
+        "verified_main_sha": "2b9124ee97d8145b1fe272ac85325103db50d798",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38678860150/job/116238597201",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "medium",
+        "status": "main-gate-protected",
+        "base-sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+        "before-sha256": "0d51e4a310aba2853e7aef6941a8f565128e6a48bc936c987773409a4a2ca227",
+        "after-sha256": "51e02b36e8870d7647b3255dc53d764bf86f01b83dad54c891027672a5d84dee",
+        "changed-lines": 3,
+        "diff": "medium.diff",
+        "publication_base": "29f480a8f36f195de7523b369cd85a5866687d6e",
+        "head": "69213712e3d6e6aeeab8ffb8eb526426c6b4780e",
+        "url": "https://github.com/minjungsung/medium/pull/10",
+        "merge_sha": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "verified_main_sha": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/medium/actions/runs/38678858848/job/116238586224",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "minjungsung",
+        "status": "main-gate-protected",
+        "base-sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "minjungsung.diff",
+        "publication_base": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+        "head": "664a368d05ac70e36ddab47e0e166861da9e771c",
+        "url": "https://github.com/minjungsung/minjungsung/pull/8",
+        "merge_sha": "50cac0ba2516867514cf5961d635e3ba99696d98",
+        "verified_main_sha": "50cac0ba2516867514cf5961d635e3ba99696d98",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/minjungsung/actions/runs/38678863842/job/116238603779",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "portfolio-backend",
+        "status": "main-gate-protected",
+        "base-sha": "27ae833c82fc371d113bc740d26394249f68c272",
+        "before-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1",
+        "after-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "changed-lines": 3,
+        "diff": "portfolio-backend.diff",
+        "publication_base": "27ae833c82fc371d113bc740d26394249f68c272",
+        "head": "4cb9a2d77ad48f8cf560b960ae34bd471a07f281",
+        "url": "https://github.com/minjungsung/portfolio-backend/pull/40",
+        "merge_sha": "67bf404f8419f7873f388bc75955a3c5a420738b",
+        "verified_main_sha": "67bf404f8419f7873f388bc75955a3c5a420738b",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/portfolio-backend/actions/runs/38678862917/job/116238606412",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "portfolio-frontend",
+        "status": "main-gate-protected",
+        "base-sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+        "before-sha256": "c21b6f5d36578431ba11c449e4c5a79668dcc4663bc8cea9b0854764394f5c87",
+        "after-sha256": "8cedd9d047c88838c10010166a399ff3860693770a06bf56af37988424240cc9",
+        "changed-lines": 3,
+        "diff": "portfolio-frontend.diff",
+        "publication_base": "527575362c12fea453e14e092bec3b1a28510dfb",
+        "head": "97ae97c428f914d6efad9d0d0eae8c346d51fff6",
+        "url": "https://github.com/minjungsung/portfolio-frontend/pull/37",
+        "merge_sha": "13136806d1b62120d0374704da8cad009564d65b",
+        "verified_main_sha": "13136806d1b62120d0374704da8cad009564d65b",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38679011825/job/116239070037",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "repo-template",
+        "status": "main-gate-protected",
+        "base-sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+        "before-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e",
+        "after-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "changed-lines": 3,
+        "diff": "repo-template.diff",
+        "publication_base": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+        "head": "c54d12f438929fc923667210317da479e658ba40",
+        "url": "https://github.com/minjungsung/repo-template/pull/5",
+        "merge_sha": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "verified_main_sha": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/repo-template/actions/runs/38678868275/job/116238623308",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "senior_eltango",
+        "status": "main-gate-protected",
+        "base-sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+        "before-sha256": "cf5beefc294486ca6e3d545470c1f8c4f4f6f8803841638a88db90f7eb64057d",
+        "after-sha256": "1546f10510d140adb45618c992e4e27165a3a1608153dbcebceffeaa814a3152",
+        "changed-lines": 3,
+        "diff": "senior_eltango.diff",
+        "publication_base": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+        "head": "e05f7652b25e88db20dd4ba4ff5890f9882e8b06",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/26",
+        "merge_sha": "daf275fe4d7f047caa6c8a976da1ece725319dcc",
+        "verified_main_sha": "daf275fe4d7f047caa6c8a976da1ece725319dcc",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/senior_eltango/actions/runs/38678870875/job/116238626762",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      }
+    ],
+    "scope": "Each one-file caller promotion was independently reviewed, published after live caller/protection checks, merged after all exact-head check runs and commit statuses succeeded, and verified at current main with exact renderer bytes, trusted gate and idempotent required App15368 protection. Ordinary main gate no-op is caller evidence; application checks are separate. Manual repositories, unsupported/unprotected repositories, original canaries, fleet reconciliation and production acceptance remain separate."
+  },
+  "deployment-path-count": 64,
+  "publication-source-hashes": {
+    "source-id": "dependency-gate-publication-source-evidence.json",
+    "sha256": "ef1ba9278069a3a6c594824726816721437ac046a378569d1ef22ede9a25ca4b",
+    "records": [
+      {
+        "repository": "Algorithm",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "Algorithm",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "Chatbot",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "0265784bfce63eaf9bcba79994edeed191cfd83d974f37dccc532df8b0f71022",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "Chatbot",
+        "path": ".github/workflows/release.yml",
+        "sha256": "0d859a2df032dcceeab9258b07e4c1b87aaa75d27466c14218e74298471d7f4b",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "Interview",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "8b45b085efa2b2b3987156c76596ae2142368b23619b8057ad795633d195c3e8",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@50650fccf3a10f741995523cf9708c53cec8912a"
+        ]
+      },
+      {
+        "repository": "Interview",
+        "path": ".github/workflows/release.yml",
+        "sha256": "c15b2f91c1e27832cfc9fc7c2c3dc6b96bfee91bf2356c969e4850759c6fbe64",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "KakaoBot",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "4d7bd43dea5cb4ac67eaebe9fa05bf6d55c4b46e4f4dd8ce79cb8454a3d7cf34",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@v5"
+        ]
+      },
+      {
+        "repository": "KakaoBot",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "KakaoBot-API",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "9991feb2e0b6fbe0eb62164625d65fdd479b9efb67a720392964122ac492fb87",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "KakaoBot-API",
+        "path": ".github/workflows/release.yml",
+        "sha256": "1214890f18cc18f0843b0284bf3e3ec43b016ad0be9db7f679c230a542be5881",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@v2"
+        ]
+      },
+      {
+        "repository": "Leethub",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "82433db4c0c2e4c6dd915b044ff8bd8289f56fa8908804528d913f77a184cb7a",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@v4"
+        ]
+      },
+      {
+        "repository": "Leethub",
+        "path": ".github/workflows/release.yml",
+        "sha256": "faf0f9e196672bc44a9703446c20cdf455672c399259013f0cc3d1e56398f227",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "LingoCast",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "b5038f8de4b32ce19e602559a9b4b544fa53f3fc04c88af2159824fe02b32fb9",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "LingoCast",
+        "path": ".github/workflows/release.yml",
+        "sha256": "c77051add530f3b1cc8f8b5d6817dfd8c780d9167d782b9453a89a6e6e995c4d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "Nbody",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "Nbody",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "TangoMBTI",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "df8738708b37610a4e9f67332593dce7c3579d882680ef2ef701a407a0df429b",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "TangoMBTI",
+        "path": ".github/workflows/release.yml",
+        "sha256": "1214890f18cc18f0843b0284bf3e3ec43b016ad0be9db7f679c230a542be5881",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@v2"
+        ]
+      },
+      {
+        "repository": "Undead-Survivor",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "4d7bd43dea5cb4ac67eaebe9fa05bf6d55c4b46e4f4dd8ce79cb8454a3d7cf34",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@v5"
+        ]
+      },
+      {
+        "repository": "Undead-Survivor",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "applied_generative_ai",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "b5038f8de4b32ce19e602559a9b4b544fa53f3fc04c88af2159824fe02b32fb9",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "applied_generative_ai",
+        "path": ".github/workflows/release.yml",
+        "sha256": "fa0951f36706a879d86d7f78269f1e96546c0bf637643e44b1eef565c7d0f32a",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "applied_machine_learning",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "b5038f8de4b32ce19e602559a9b4b544fa53f3fc04c88af2159824fe02b32fb9",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "applied_machine_learning",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "b5038f8de4b32ce19e602559a9b4b544fa53f3fc04c88af2159824fe02b32fb9",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "dongle-game",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "4d7bd43dea5cb4ac67eaebe9fa05bf6d55c4b46e4f4dd8ce79cb8454a3d7cf34",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@v5"
+        ]
+      },
+      {
+        "repository": "dongle-game",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "eltango",
+        "path": ".github/workflows/init-wiki.yml",
+        "sha256": "0ea2afe7d40b115a22068d752b7d3d0627b8bf9b7eef24bc27a7b7f49e395455",
+        "mutation-evidence": [
+          "git push -u origin master 2>&1 || echo \"WIKI_PUSH_FAILED\""
+        ]
+      },
+      {
+        "repository": "eltango",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "8195f860156fb47eb44cf53d201ad2a811cbe9b2d7fe725f12b773014979df5e",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "eltango",
+        "path": ".github/workflows/release.yml",
+        "sha256": "faf0f9e196672bc44a9703446c20cdf455672c399259013f0cc3d1e56398f227",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "hackdigest",
+        "path": ".github/workflows/clear-cache.yml",
+        "sha256": "28e917741b427967637ec283bb4da8b17f90fe2c7ac21fc09929c3a9fb2b90bd",
+        "mutation-evidence": []
+      },
+      {
+        "repository": "hackdigest",
+        "path": ".github/workflows/daily-digest.yml",
+        "sha256": "82350ec1778c8fa5256ea2aa84f796fa464a232ac3f2a34bf3a4e571f5adaeb8",
+        "mutation-evidence": []
+      },
+      {
+        "repository": "hackdigest",
+        "path": ".github/workflows/release.yml",
+        "sha256": "80bee820cb26e135ab7f427c099b2de50d1e06108e0d7973fdd4d05b7c8d5550",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "hackdigest",
+        "path": ".github/workflows/subscribers.yml",
+        "sha256": "3cbb673cedba2e0b0d0df6e43ebce22488700e9a828217a47e4eebd0bb527211",
+        "mutation-evidence": [
+          "git push origin HEAD:refs/heads/main"
+        ]
+      },
+      {
+        "repository": "house-scanner-frontend",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "9991feb2e0b6fbe0eb62164625d65fdd479b9efb67a720392964122ac492fb87",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "house-scanner-frontend",
+        "path": ".github/workflows/release.yml",
+        "sha256": "1214890f18cc18f0843b0284bf3e3ec43b016ad0be9db7f679c230a542be5881",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@v2"
+        ]
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "3d03d65b9bf582600d0d4af551edcf323d47f00b0c5148de6aa22ffcf0ebe515",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "path": ".github/workflows/release.yml",
+        "sha256": "86d7b68ff9a230fdee3a543a2cd0004b12cd1fe968eb870f75956c43d70b294c",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "kiro-skills",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "312a9fd51d2fe6102e81a851d5d2271f2e7f75d0459db71024d5d7b0d1539265",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "kiro-skills",
+        "path": ".github/workflows/release.yml",
+        "sha256": "1214890f18cc18f0843b0284bf3e3ec43b016ad0be9db7f679c230a542be5881",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@v2"
+        ]
+      },
+      {
+        "repository": "medium",
+        "path": ".github/workflows/daily_publish.yml",
+        "sha256": "6ae29466b412f235088d0cf199783561978061ab86dc781e638325620cc87de4",
+        "mutation-evidence": []
+      },
+      {
+        "repository": "medium",
+        "path": ".github/workflows/deploy_pages.yml",
+        "sha256": "33aa8502b77e159c0837f59b06089f701048937e415f5ef09db06dcc1a97127c",
+        "mutation-evidence": [
+          "uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346"
+        ]
+      },
+      {
+        "repository": "medium",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "44671709aa1c6e1ef0b45456d11e5d0ae2b690c2ca0876d1eed77ddb907fe438",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "medium",
+        "path": ".github/workflows/release.yml",
+        "sha256": "c392cc8bd8b2ce0485ae0195343c3f41a97ffdcd7eb959ff871626433e7467c7",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "minjungsung",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "b5038f8de4b32ce19e602559a9b4b544fa53f3fc04c88af2159824fe02b32fb9",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "minjungsung",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "portfolio-backend",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "c7479b3b36ee6688312e9892c72f1ce0a290138cbed50310a27c51d1d93f1e71",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "portfolio-backend",
+        "path": ".github/workflows/release.yml",
+        "sha256": "faf0f9e196672bc44a9703446c20cdf455672c399259013f0cc3d1e56398f227",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "portfolio-frontend",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "82433db4c0c2e4c6dd915b044ff8bd8289f56fa8908804528d913f77a184cb7a",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@v4"
+        ]
+      },
+      {
+        "repository": "portfolio-frontend",
+        "path": ".github/workflows/release.yml",
+        "sha256": "fafb7846375af1702f9de422eb4676f548641b59604817c352e3a3fd4e9edc16",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "path": ".github/workflows/release.yml",
+        "sha256": "d2e5edc98adee753111e87107c485b1e1572a8d8c34702a53bcfb4d698219698",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "repo-template",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "senior_eltango",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "c7479b3b36ee6688312e9892c72f1ce0a290138cbed50310a27c51d1d93f1e71",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "senior_eltango",
+        "path": ".github/workflows/release.yml",
+        "sha256": "402f3b8db4787457404505b9049d45c045455e85f94b7e117a11bdebc6076d4d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      },
+      {
+        "repository": "shooting-game",
+        "path": ".github/workflows/publish-wiki.yml",
+        "sha256": "4d7bd43dea5cb4ac67eaebe9fa05bf6d55c4b46e4f4dd8ce79cb8454a3d7cf34",
+        "mutation-evidence": [
+          "uses: Andrew-Chen-Wang/github-wiki-action@v5"
+        ]
+      },
+      {
+        "repository": "shooting-game",
+        "path": ".github/workflows/release.yml",
+        "sha256": "8acd692fc9f782ef68246016101218a29e146cc1b625da7afc0af436c853e30d",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64"
+        ]
+      },
+      {
+        "repository": "visionRAG",
+        "path": ".github/workflows/push-wiki.yml",
+        "sha256": "a93014c6fbb6d8557d8ccad8b6bd4d240ce4c6b9ce423da5214b558b1bbfdbfb",
+        "mutation-evidence": [
+          "git push"
+        ]
+      },
+      {
+        "repository": "visionRAG",
+        "path": ".github/workflows/release.yml",
+        "sha256": "46186dd98836125508352f6764a5869b8f0f46ac2e67ce8073a2e552a765329b",
+        "mutation-evidence": [
+          "git push origin \"$VERSION\"",
+          "uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"
+        ]
+      }
+    ]
+  },
+  "extended-controlled-evidence": {
+    "central-pr": 22,
+    "merge-sha": "a760b9ca52b4540425c80548d1db4d9a98272f06",
+    "controlled-evidence": [
+      {
+        "scenario": "cancel",
+        "run-url": "https://github.com/minjungsung/.github/actions/runs/38680147367",
+        "head-sha": "a760b9ca52b4540425c80548d1db4d9a98272f06",
+        "conclusion": "cancelled",
+        "phase-evidence": "Real npm test entered before authorized workflow cancellation",
+        "synthetic-routing": true,
+        "auto-merge-job": "absent from isolated controlled workflow",
+        "merge-state": "no PR/application merge involved",
+        "source": {
+          "source-id": "controlled-cancel.log",
+          "sha256": "fcb1c38cdd949ec0e4923ae1744af101a684845cc598c6bdd08ca9f731012e37"
+        },
+        "manual-cancellation": true
+      },
+      {
+        "scenario": "timeout",
+        "run-url": "https://github.com/minjungsung/.github/actions/runs/38680150551",
+        "head-sha": "a760b9ca52b4540425c80548d1db4d9a98272f06",
+        "conclusion": "cancelled",
+        "phase-evidence": "Real npm test entered; GitHub annotation: The job has exceeded the maximum execution time of 1m0s",
+        "synthetic-routing": true,
+        "auto-merge-job": "absent from isolated controlled workflow",
+        "merge-state": "no PR/application merge involved",
+        "source": {
+          "source-id": "controlled-timeout.log",
+          "sha256": "6a884202bb8dfdb9d409816024ce7e4c16d0ce992e7d4afb67bd3c6055dc9a1b"
+        },
+        "timeout-annotation": {
+          "check-run-id": 116242600798,
+          "message": "The job has exceeded the maximum execution time of 1m0s",
+          "source-id": "controlled-timeout-annotations.json",
+          "sha256": "fde4a5c3e149089355a57c9c0838939904bf0056c7977ecaa7510f3d9b8b4e68"
+        },
+        "manual-cancellation": false
+      },
+      {
+        "scenario": "matrix",
+        "run-url": "https://github.com/minjungsung/.github/actions/runs/38680154093",
+        "head-sha": "a760b9ca52b4540425c80548d1db4d9a98272f06",
+        "conclusion": "failure",
+        "phase-evidence": "Passing project succeeded and failing test project failed independently",
+        "synthetic-routing": true,
+        "auto-merge-job": "absent from isolated controlled workflow",
+        "merge-state": "no PR/application merge involved",
+        "source": {
+          "source-id": "controlled-matrix.log",
+          "sha256": "f682e66d8709e5575dc25e0c767250d54665ba6d1a47d5008082cb1c68e6ea80"
+        }
+      },
+      {
+        "scenario": "actionlint",
+        "run-url": "https://github.com/minjungsung/.github/actions/runs/38680158383",
+        "head-sha": "a760b9ca52b4540425c80548d1db4d9a98272f06",
+        "conclusion": "failure",
+        "phase-evidence": "Existing tracked invalid.yml line9 produced expression parse error",
+        "synthetic-routing": true,
+        "auto-merge-job": "absent from isolated controlled workflow",
+        "merge-state": "no PR/application merge involved",
+        "source": {
+          "source-id": "controlled-actionlint.log",
+          "sha256": "c58597fa017472fa7e15c5cd6caf440e301bc6875c86456f7a85a0412dd97e5b"
+        }
+      }
+    ],
+    "limitation": "Synthetic routing adapter/failure samples; do not establish real bot identity, fleet reconciliation or end-to-end auto-merge prevention"
   }
 }
