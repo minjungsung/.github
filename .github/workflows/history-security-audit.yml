@@ -1,0 +1,52 @@
+name: Git History Security Audit
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: history-security-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install checksum-verified history scanner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          scanner_dir=$(mktemp -d)
+          gh release download v8.30.1 --repo gitleaks/gitleaks \
+            --pattern gitleaks_8.30.1_linux_x64.tar.gz --dir "$scanner_dir"
+          python3 - "$scanner_dir" <<'PY'
+          import hashlib, sys, tarfile
+          from pathlib import Path
+          root = Path(sys.argv[1])
+          archive = root / 'gitleaks_8.30.1_linux_x64.tar.gz'
+          expected = '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb'
+          if hashlib.sha256(archive.read_bytes()).hexdigest() != expected:
+              raise SystemExit('Scanner checksum mismatch')
+          with tarfile.open(archive) as bundle:
+              member = bundle.getmember('gitleaks')
+              if not member.isfile(): raise SystemExit('Invalid scanner executable')
+              (root / 'gitleaks').write_bytes(bundle.extractfile(member).read())
+          PY
+          chmod 755 "$scanner_dir/gitleaks"
+          echo "$scanner_dir" >> "$GITHUB_PATH"
+      - name: Scan branch, tag and pull request history without executing target code
+        env:
+          GH_TOKEN: ${{ secrets.DEPENDENCY_MAINTENANCE_TOKEN }}
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          gh auth setup-git
+          python3 dependency-policy/scripts/audit_git_history.py --output evidence
+      - name: Preserve sanitized audit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: git-history-security-evidence
+          path: evidence
+          retention-days: 7
