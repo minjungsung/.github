@@ -11,11 +11,44 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+      - name: Start isolated enterprise credential relay
+        env:
+          COMPANY_MODEL_API_KEY: ${{ secrets.COMPANY_MODEL_API_KEY }}
+          COMPANY_MODEL_RESPONSES_ENDPOINT: ${{ secrets.COMPANY_MODEL_RESPONSES_ENDPOINT }}
+        run: |
+          python3 - <<'PYTHON'
+          import json, os, secrets, subprocess, time
+          from urllib.request import urlopen
+          local_key = secrets.token_hex(32)
+          print('::add-mask::' + local_key)
+          config = {'endpoint': os.environ['COMPANY_MODEL_RESPONSES_ENDPOINT'],
+                    'credential': os.environ['COMPANY_MODEL_API_KEY'], 'local-key': local_key}
+          # Root holds the real credential; the Action removes model sudo access.
+          process = subprocess.Popen(['sudo', '-n', 'python3', 'dependency-policy/scripts/model_gateway_relay.py'],
+                                     stdin=subprocess.PIPE, stdout=subprocess.DEVNULL,
+                                     stderr=subprocess.DEVNULL, start_new_session=True,
+                                     env={'PATH': '/usr/bin:/bin'})
+          process.stdin.write(json.dumps(config).encode())
+          process.stdin.close()
+          import socket
+          for attempt in range(30):
+              if process.poll() is not None:
+                  raise SystemExit('Enterprise credential relay failed to start')
+              try:
+                  with socket.create_connection(('127.0.0.1', 8766), timeout=1):
+                      break
+              except OSError:
+                  time.sleep(1)
+          else:
+              raise SystemExit('Enterprise credential relay did not become ready')
+          with open(os.environ['GITHUB_ENV'], 'a') as output:
+              output.write('MODEL_RELAY_KEY=' + local_key + '\n')
+          PYTHON
       - name: Verify cloud model execution without application code
         uses: openai/codex-action@1d82a3dba7c7988ec71ecae1ed5b8e8db96495c5
         with:
-          openai-api-key: ${{ secrets.COMPANY_MODEL_API_KEY }}
-          responses-api-endpoint: ${{ secrets.COMPANY_MODEL_RESPONSES_ENDPOINT }}
+          openai-api-key: ${{ env.MODEL_RELAY_KEY }}
+          responses-api-endpoint: http://127.0.0.1:8766/responses
           model: ${{ vars.SECURITY_REPAIR_MODEL }}
           codex-version: '0.162.1'
           permission-profile: ':read-only'
