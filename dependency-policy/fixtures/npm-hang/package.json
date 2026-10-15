@@ -1,0 +1,8 @@
+{
+  "name": "dependency-gate-controlled-hang",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node hang.cjs"
+  }
+}
