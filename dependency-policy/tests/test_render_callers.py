@@ -241,13 +241,13 @@ class RenderCallersTest(unittest.TestCase):
             self.assertEqual(result, 0)
             self.assertEqual(output.read_text().count(POLICY_SHA), 2)
 
-
-if __name__ == "__main__":
-    unittest.main()
-
     def test_postgres_opt_in_is_rendered_only_for_reviewed_repository(self):
         default = render_caller(self.repository(), POLICY_SHA)
         self.assertNotIn("postgres-required:", default)
         enabled = render_caller(replace(self.repository(), postgres_required=True), POLICY_SHA)
         self.assertIn("      postgres-required: true\n", enabled)
         self.assertEqual(default, enabled.replace("      postgres-required: true\n", ""))
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -493,6 +493,7 @@ def _merge_repository(
         projects=tuple(sorted(merged, key=lambda project: project.name)),
         deployment_workflows=discovered.deployment_workflows,
         auto_merge_enabled=reviewed.auto_merge_enabled and discovered.auto_merge_enabled,
+        postgres_required=reviewed.postgres_required,
     ), tuple(ambiguities)
 
 
@@ -572,6 +573,7 @@ def inventory_dict(inventory: Inventory) -> dict[str, Any]:
                 "default-branch": repository.default_branch,
                 "deployment-workflows": list(repository.deployment_workflows),
                 "auto-merge-enabled": repository.auto_merge_enabled,
+                **({"postgres-required": True} if repository.postgres_required else {}),
                 "projects": [_project_dict(project) for project in repository.projects],
             }
             for repository in inventory.repositories
