@@ -110,6 +110,18 @@ class WorkflowTest(unittest.TestCase):
         self.assertIn('NPM_CONFIG_USERCONFIG="$npm_user_config"', policy_ci)
         self.assertIn("grep -F ERESOLVE", policy_ci)
 
+    def test_hosted_npm_and_gradle_fixtures_verify_real_results_and_phases(self):
+        workflow = POLICY_CI_WORKFLOW.read_text()
+        self.assertIn(f"uses: {SETUP_JAVA}", workflow)
+        self.assertIn('gradle-8.14.3-bin.zip', workflow)
+        self.assertIn('bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531', workflow)
+        for fixture in ('npm-pass', 'npm-fail-test', 'npm-fail-build', 'gradle-pass', 'gradle-fail'):
+            self.assertIn(f'"{fixture}"', workflow)
+        self.assertIn('subprocess.run(', workflow)
+        self.assertIn('result.returncode != expected_code', workflow)
+        self.assertIn('expected_lines', workflow)
+        self.assertIn('controlled fixture failure', workflow)
+
     def test_installer_is_version_and_checksum_pinned(self):
         self.assertTrue(INSTALL_ACTIONLINT.is_file(), f"missing installer: {INSTALL_ACTIONLINT}")
         installer = INSTALL_ACTIONLINT.read_text()

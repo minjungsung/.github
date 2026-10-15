@@ -29,6 +29,21 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Set up Java for real Gradle fixtures
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install verified Gradle fixture runtime
+        run: |
+          archive="$RUNNER_TEMP/gradle-8.14.3-bin.zip"
+          curl --fail --location --silent --show-error \
+            https://services.gradle.org/distributions/gradle-8.14.3-bin.zip --output "$archive"
+          printf '%s  %s\n' bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531 "$archive" | sha256sum --check -
+          unzip -q "$archive" -d "$RUNNER_TEMP"
+          printf '%s\n' "$RUNNER_TEMP/gradle-8.14.3/bin" >> "$GITHUB_PATH"
+
       - name: Run policy unit and fixture tests
         env:
           PYTHONPATH: dependency-policy
@@ -79,6 +94,69 @@ jobs:
           grep -F ERESOLVE "$log"
           grep -F "install: \`npm install\` — FAIL" "$summary"
           grep -F 'result: FAIL' "$summary"
+
+      - name: Verify real npm and Gradle fixture phases
+        env:
+          PYTHONPATH: dependency-policy
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import subprocess
+          import sys
+          import tempfile
+
+          source = Path("dependency-policy/fixtures")
+          runner = Path("dependency-policy/scripts/run_project.py").resolve()
+          fixtures = [
+              ("npm-pass", "npm", 0, ["install", "test", "build"], None),
+              ("npm-fail-test", "npm", 1, ["install"], "test"),
+              ("npm-fail-build", "npm", 1, ["install", "test"], "build"),
+              ("gradle-pass", "gradle", 0, ["test"], None),
+              ("gradle-fail", "gradle", 1, [], "test"),
+          ]
+          commands = {
+              "npm": {"install": "npm install", "test": "npm test -- --watchAll=false", "build": "npm run build"},
+              "gradle": {"test": "./gradlew --no-daemon check"},
+          }
+          for name, ecosystem, expected_code, passing, failing in fixtures:
+              with tempfile.TemporaryDirectory() as directory:
+                  root = Path(directory)
+                  shutil.copytree(source / name, root / name)
+                  summary = root / "summary.md"
+                  npm_config = root / "empty-npmrc"
+                  npm_config.write_text("")
+                  environment = dict(os.environ, GITHUB_STEP_SUMMARY=str(summary), NPM_CONFIG_USERCONFIG=str(npm_config))
+                  project = {"name": name, "ecosystem": ecosystem, "path": name,
+                             "runtime-version": "20" if ecosystem == "npm" else "17",
+                             "manifest": "package.json" if ecosystem == "npm" else "build.gradle.kts",
+                             "timeout-minutes": 15}
+                  if ecosystem == "gradle":
+                      project["gradle-wrapper"] = "gradlew"
+                  result = subprocess.run([sys.executable, str(runner), "--project-json", json.dumps(project),
+                                           "--repository-root", str(root)], env=environment, capture_output=True, text=True)
+                  text = summary.read_text() if summary.exists() else ""
+                  expected_lines = [f"- {phase}: `{commands[ecosystem][phase]}` — PASS" for phase in passing]
+                  if failing:
+                      expected_lines.append(f"- {failing}: `{commands[ecosystem][failing]}` — FAIL")
+                  expected_lines.append("- result: FAIL" if failing else "- result: PASS")
+                  if ecosystem == "gradle":
+                      expected_lines.append("- install: SKIP — not configured")
+                      if not failing:
+                          expected_lines.append("- build: SKIP — not configured")
+                  if result.returncode != expected_code or any(line not in text.splitlines() for line in expected_lines):
+                      print(result.stdout, result.stderr, text)
+                      raise SystemExit(f"{name}: unexpected status or validation phase")
+                  if name == "gradle-fail" and "controlled fixture failure" not in result.stdout + result.stderr:
+                      print(result.stdout, result.stderr)
+                      raise SystemExit("Gradle failed for an unexpected reason")
+                  print(f"{name}: expected exit {expected_code}; phase assertions passed")
+                  print(text)
+                  with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as aggregate:
+                      aggregate.write(text + "\n")
+          PY
 
       - name: Install actionlint
         run: bash dependency-policy/scripts/install_actionlint.sh
