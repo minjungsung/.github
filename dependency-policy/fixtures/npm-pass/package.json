@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "node -e \"process.exit(0)\" --",
+    "build": "node -e \"process.exit(0)\""
+  }
+}

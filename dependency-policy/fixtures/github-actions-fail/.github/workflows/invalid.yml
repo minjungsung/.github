@@ -1,0 +1,9 @@
+name: Invalid fixture
+on:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ invalid( }}"
