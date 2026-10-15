@@ -333,6 +333,11 @@ def discover_repositories(
                 continue
 
             files_by_path = _tree_files(client.repository_tree(full_name, default_branch), full_name)
+            # Reviewed central policy test fixtures are not deployable applications.
+            # Keep the exclusion scoped to the exact policy repository coordinate.
+            if full_name == f'{DEFAULT_OWNER}/.github':
+                files_by_path = {path: sha for path, sha in files_by_path.items()
+                                 if not path.startswith('dependency-policy/fixtures/')}
             file_paths = set(files_by_path)
             projects, ambiguities = _discover_projects(file_paths)
             dependabot_config = (

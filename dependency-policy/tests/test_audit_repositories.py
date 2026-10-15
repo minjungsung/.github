@@ -9,6 +9,7 @@ import unittest
 from lib.github_client import GitHubClient
 from lib.models import Inventory, PolicyError, Project, Repository, load_inventory
 from scripts.audit_repositories import (
+    DEFAULT_OWNER,
     DiscoveredRepository,
     discover_repositories,
     main,
@@ -95,6 +96,28 @@ class AuditRepositoriesTest(unittest.TestCase):
                 {"name": default_branch} if default_branch is not None else None
             ),
         }
+
+    def test_only_central_policy_fixture_manifests_are_excluded(self):
+        central = self.repository_record('.github')
+        central['nameWithOwner'] = f'{DEFAULT_OWNER}/.github'
+        sibling = self.repository_record('application')
+        sibling['nameWithOwner'] = f'{DEFAULT_OWNER}/application'
+        fixture = self.tree_entry('dependency-policy/fixtures/negative/package.json', 'fixture')
+        app = self.tree_entry('application/package.json', 'app')
+        client = FakeGitHubClient([central, sibling],
+            {central['nameWithOwner']: [fixture], sibling['nameWithOwner']: [fixture]},
+            {(sibling['nameWithOwner'], 'fixture'): '{}', (central['nameWithOwner'], 'fixture'): '{}'})
+        discovered = discover_repositories(client, DEFAULT_OWNER)
+        policy = next(repo for repo in discovered if repo.name == '.github')
+        self.assertEqual([project.ecosystem for project in policy.projects], ['github-actions'])
+        reviewed = Repository('.github', 'main', (Project('github-actions', 'github-actions', '.', timeout_minutes=5),))
+        self.assertEqual(reconcile(Inventory(1, (reviewed,)), (policy,)).inventory.repository('.github'), reviewed)
+        application = next(repo for repo in discovered if repo.name == 'application')
+        self.assertEqual(application.projects[0].path, 'dependency-policy/fixtures/negative')
+        client._trees[central['nameWithOwner']].append(app)
+        client._blobs[(central['nameWithOwner'], 'app')] = '{}'
+        central_apps = next(repo for repo in discover_repositories(client, DEFAULT_OWNER) if repo.name == '.github')
+        self.assertEqual(central_apps.projects[0].path, 'application')
 
     def test_branchless_repositories_are_reported_without_aborting_discovery(self):
         client = FakeGitHubClient([
