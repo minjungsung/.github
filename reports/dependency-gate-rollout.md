@@ -27,7 +27,7 @@ The reviewed major-policy release is `0b9ee15e26f054586eeeab7601edebb9a32bfe57`.
 | KakaoBot-API | hosted-ci-pass-deployment-blocked | caller-pr-open / not-observed | Strict hosted Python3.12 requirements installation passed; test/build explicitly skipped because unconfigured. PR33 remains unmerged because Vercel deployment is blocked. |
 | kiro-skills | manual-unaccepted | caller-merged / applied-and-verified | Fail-closed manual caller retains all four audited projects. Bun is unsupported and script suppression remains an explicit application blocker; auto-merge disabled. |
 | Leethub | hosted-pass | caller-merged / applied-and-verified | Reviewed remediation PR42 merged after hosted strict CI passed; caller PR43 merged and required dependency-gate protection applied and verified. |
-| LingoCast | hosted-pass | caller-merged / applied-and-verified | Actual minor118 auto-merged. Major-policy123 merged after all CI and Vercel passed; fresh main gate verified. Corrective journal122 remains open. |
+| LingoCast | hosted-pass | caller-merged / applied-and-verified | Actual minor118 auto-merged. Major-policy123 merged after all CI and Vercel passed; fresh main gate verified. Corrective journal122 merged after all strict CI checks passed; optional deployment quota remains. |
 | medium | hosted-pass | caller-merged / applied-and-verified | Strict Python3.11 install and Pages publication passed; reviewed generated-file main push guard avoids detached-HEAD push and serializes writes. |
 | minjungsung | not-executed | caller-merged / applied-and-verified | Caller merged and required dependency-gate protection applied and verified. |
 | Nbody | not-executed | caller-merged / applied-and-verified | Caller merged and required dependency-gate protection applied and verified. |
@@ -46,10 +46,12 @@ Four reviewed fleet policy PRs merged normally with only authenticated optional 
 
 Eight repositories retain manual automatic-merge settings: Chatbot, TangoMBTI, Undead-Survivor, dongle-game, house-scanner-frontend, kiro-skills, shooting-game and visionRAG. Unsupported Bun/Unity validation and external model/runtime requirements remain explicit gaps. KakaoBot-API remains unenrolled. The requested universal repository coverage is incomplete.
 
-House-scanner and KakaoBot-API actual deployments fail; TangoMBTI's enforcing vulnerability audit fails on unpatched braces. Frontend-inner wiki48 merged after its native Vitest validation aligned; fresh latest-main CI passed. LingoCast corrective journal122 remains open, though policy123 supplied fresh current-main gate evidence.
+House-scanner and KakaoBot-API actual deployments fail; TangoMBTI's enforcing vulnerability audit fails on unpatched braces. Frontend-inner wiki48 merged after its native Vitest validation aligned; fresh latest-main CI passed. LingoCast corrective journal122 merged after all strict CI checks passed; optional Vercel quota remains deployment blocked.
 
 GitHub-token automatic merges do not trigger cascading push workflows. The actual major PR heads have successful strict checks, but the resulting JHU main commit still needs fresh validation before exact-main publication. Frontend-inner received fresh main CI through the reviewed wiki48 merge; a prior head's green checks do not establish a new main commit's result.
 
 Historical controlled timeout, authorized cancellation, partial matrix failure and malformed actionlint samples retain their observed failures. They are synthetic adapter evidence, separate from real bot identity and end-to-end merge prevention. The publication inventory retains64 source paths; complete fleet PR reconciliation and failed-update publication denial on every publishing workflow remain unproven.
 
 The JSON report preserves historical exact-head snapshots with explicit supersession markers, current major-promotion records, real automatic-merge outcomes, source hashes, original protection backups and remaining gaps. Acceptance-complete remains false.
+
+A subsequent refresh produced seven more actual major automatic merges across Leethub, Nbody, repo-template and senior_eltango. Reconciliation fix PR30 passed162 tests and now reads actual base protection instead of treating missing head checks as absent protection. Remaining open examples include Leethub32/39 with malformed lockfiles, Leethub30 with the GitHub App workflow permission restriction, and senior18 with optional Vercel quota. Successful automatic-merge PR heads do not establish cascading validation on new main commits.
