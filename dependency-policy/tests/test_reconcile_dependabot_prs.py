@@ -131,15 +131,18 @@ class ReconcileTests(unittest.TestCase):
         self.assertFalse(any(command[1:3] in [['pr', 'comment'], ['pr', 'close'], ['pr', 'merge']] for command in calls))
 
     def test_absent_required_checks_is_explicit_administrative_blocker(self):
-        for output, code, incomplete in (
-            ("no required checks reported on the 'main' branch\n", 0, False),
-            ("not valid JSON", 0, True),
-            ("no required checks reported on the 'main' branch\n", 2, True),
+        for output, stderr, code, incomplete in (
+            ("no required checks reported on the 'main' branch\n", "", 0, False),
+            ("", "no required checks reported on the 'dependabot/github_actions/actions/setup-python-7' branch\n", 1, False),
+            ("not valid JSON", "", 0, True),
+            ("", "unknown failure", 1, True),
+            ("", "no required checks reported on the 'main' branch\n", 2, True),
+            ("no required checks reported on the 'main' branch\n", "", 2, True),
         ):
             with self.subTest(output=output, code=code):
                 def runner(command):
                     if command[1:3] == ['pr', 'checks']:
-                        return subprocess.CompletedProcess(command, code, output, '')
+                        return subprocess.CompletedProcess(command, code, output, stderr)
                     if command[1:3] == ['pr', 'view']:
                         value = {'headRefOid': SHA, 'author': {'login': 'app/dependabot'}, 'mergeStateStatus': 'CLEAN'}
                     elif command[-1].startswith('users/'):
