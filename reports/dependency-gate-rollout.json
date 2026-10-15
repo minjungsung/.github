@@ -339,7 +339,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Actual Node20/Java21 validation and required protection passed. Reviewed metadata canary enabled actual grouped jsoup minor PR118 to pass all3 strict projects and auto-merge at exacthead7094f93e; merged5bd5fe28. Fleet promotion and production acceptance remain separate.",
+      "notes": "Actual minor PR118 passed all3 projects and auto-merged. Wiki PR121 was merged by ordinary automation before full CI; checks later passed. Required human-only journal PR122 is blocked by Vercel quota; fresh current-main gate proof remains missing.",
       "rollout-pr": "https://github.com/minjungsung/LingoCast/pull/117",
       "verified-default-branch-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
       "default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38677241401/job/116233561516",
@@ -409,7 +409,8 @@
         "local-tailwind-migration-commit": "494d179",
         "local-migration-status": "pending-review"
       },
-      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately",
+      "safeguard-pr": "https://github.com/minjungsung/TangoMBTI/pull/37"
     },
     {
       "repository": "Undead-Survivor",
@@ -608,7 +609,8 @@
         "status": "open",
         "external-blocker": "Vercel deployment blocked; diagnosis not available from GitHub check summary"
       },
-      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately",
+      "safeguard-pr": "https://github.com/minjungsung/house-scanner-frontend/pull/123"
     },
     {
       "repository": "introduction_to_algorithm",
@@ -786,14 +788,15 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "PR45 merged; default-branch CI/gate succeeded; required dependency-gate check bound to Actions App15368. Second apply was idempotent.",
+      "notes": "Strict Node20 baseline and metadata canary passed, required gate verified. Release PR47 merged after CI/Vercel with exact gate/lint prerequisites. Wiki guard PR48 latest head is blocked by24-hour Vercel quota.",
       "baseline-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38666261119",
       "baseline-head-sha": "ed6f15313506ebc9b0774b0633e7dac86a009406",
       "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
       "verified-default-branch-sha": "6c43c027984858f8931c1da59d2b86c052c62233",
       "default-branch-ci-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38678373113",
       "default-branch-gate-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38678373542",
-      "metadata-promotion-pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/46"
+      "metadata-promotion-pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/46",
+      "wiki-guard-pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/48"
     },
     {
       "repository": "repo-template",
@@ -5397,391 +5400,392 @@
     {
       "repository": "Algorithm",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Algorithm",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Chatbot",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "source-guard-present",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Chatbot",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Interview",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "source-guard-present",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Interview",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "KakaoBot",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "KakaoBot",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "KakaoBot-API",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "KakaoBot-API",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Leethub",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Leethub",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "LingoCast",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "guard-merged-early-checks-passed-retrospectively",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "LingoCast",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Nbody",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Nbody",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "TangoMBTI",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "TangoMBTI",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Undead-Survivor",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "Undead-Survivor",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "ai_algorithm_design_and_analysis",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "ai_algorithm_design_and_analysis",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "applied_generative_ai",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "applied_generative_ai",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "applied_machine_learning",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "applied_machine_learning",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "creating_ai_enabled_systems",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "creating_ai_enabled_systems",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "dongle-game",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "dongle-game",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "eltango",
       "workflow": ".github/workflows/init-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "eltango",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "eltango",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "hackdigest",
       "workflow": ".github/workflows/clear-cache.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "hackdigest",
       "workflow": ".github/workflows/daily-digest.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "hackdigest",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "hackdigest",
       "workflow": ".github/workflows/subscribers.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "house-scanner-frontend",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "house-scanner-frontend",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "introduction_to_algorithm",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "introduction_to_algorithm",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "jhu_software_concepts",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "source-guard-present",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "jhu_software_concepts",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "kiro-skills",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "kiro-skills",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "medium",
       "workflow": ".github/workflows/daily_publish.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "medium",
       "workflow": ".github/workflows/deploy_pages.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "medium",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "source-guard-present",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "medium",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "minjungsung",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "minjungsung",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "portfolio-backend",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "portfolio-backend",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "portfolio-frontend",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "portfolio-frontend",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "portfolio-frontend-inner",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-guard-pr-open-blocked",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "portfolio-frontend-inner",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "repo-template",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "senior_eltango",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "senior_eltango",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "shooting-game",
       "workflow": ".github/workflows/publish-wiki.yml",
-      "status": "wiki-guard-gap",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "shooting-game",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "visionRAG",
       "workflow": ".github/workflows/push-wiki.yml",
-      "status": "source-guard-present",
+      "status": "reviewed-fresh-validation-guard-merged",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     },
     {
       "repository": "visionRAG",
       "workflow": ".github/workflows/release.yml",
-      "status": "source-proof-under-review",
+      "status": "reviewed-release-or-special-publishing-guard",
       "scope": "Inventory is complete for recorded64 paths; structural guard detection is provisional and requires source review."
     }
   ],
   "acceptance-gaps": [
-    "Three default branches lack merged callers/required protection due to failed deployment/audit checks.",
-    "Newly discovered wiki fresh-validation guards remain under remediation.",
+    "Three default branches remain unenrolled because deployment/audit checks fail.",
+    "KakaoBot-API wiki guard remains unmerged due to deployment failure; frontend-inner wiki guard and Lingo required journal correction are blocked by24-hour Vercel build quota.",
+    "Lingo wiki PR121 was auto-merged before all checks by existing ordinary automation; its application checks later passed, but current main lacks newly triggered gate evidence.",
     "Failed-update publication denial has not been exercised for every publishing workflow."
   ],
   "metadata-policy-fleet-promotion": {
@@ -6805,5 +6809,1256 @@
       }
     ],
     "limitation": "Synthetic routing adapter/failure samples; do not establish real bot identity, fleet reconciliation or end-to-end auto-merge prevention"
+  },
+  "wiki-guard-wave": {
+    "source-id": "wiki-guard-main-proof.json",
+    "sha256": "f81ed5a8876efe1fdf3ffcb1d6408fb505c355ccdacddf23a47fe4983fb7cea0",
+    "records": [
+      {
+        "repository": "Algorithm",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/Algorithm/pull/8",
+        "merge-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Algorithm/actions/runs/38681409356/job/116246639360"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Algorithm/actions/runs/38681409356/job/116246608738"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Algorithm/actions/runs/38681409356/job/116246577804"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Algorithm/actions/runs/38681409356/job/116246576658"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Algorithm/actions/runs/38681409033/job/116246575440"
+          }
+        ]
+      },
+      {
+        "repository": "KakaoBot",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/KakaoBot/pull/9",
+        "merge-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+        "main-checks": [
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/KakaoBot/actions/runs/38681523287/job/116246930263"
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/KakaoBot/actions/runs/38681409266/job/116246627150"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/KakaoBot/actions/runs/38681409266/job/116246602176"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/KakaoBot/actions/runs/38681409266/job/116246577897"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/KakaoBot/actions/runs/38681409266/job/116246576411"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/KakaoBot/actions/runs/38681409057/job/116246575393"
+          }
+        ]
+      },
+      {
+        "repository": "KakaoBot-API",
+        "state": "OPEN",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/34"
+      },
+      {
+        "repository": "Leethub",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/Leethub/pull/45",
+        "merge-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+        "main-checks": [
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681527491/job/116246943403"
+          },
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681524907/job/116246934721"
+          },
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681524626/job/116246934034"
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681409225/job/116246633080"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681409225/job/116246607321"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681409225/job/116246577138"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681409225/job/116246576365"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38681408795/job/116246575168"
+          }
+        ]
+      },
+      {
+        "repository": "LingoCast",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/LingoCast/pull/121",
+        "merge-sha": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+        "main-checks": [
+          {
+            "name": "Resolve Copilot threads & enable auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/LingoCast/actions/runs/38681551086/job/116247014128"
+          },
+          {
+            "name": "Resolve Copilot threads & enable auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/LingoCast/actions/runs/38681455473/job/116246719837"
+          },
+          {
+            "name": "Resolve Copilot threads & enable auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/LingoCast/actions/runs/38681310078/job/116246268284"
+          }
+        ]
+      },
+      {
+        "repository": "Nbody",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/Nbody/pull/10",
+        "merge-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+        "main-checks": [
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38681526795/job/116246940754"
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38681413013/job/116246643141"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38681413013/job/116246612285"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38681413013/job/116246589600"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38681413013/job/116246587743"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38681412723/job/116246586784"
+          }
+        ]
+      },
+      {
+        "repository": "Undead-Survivor",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/Undead-Survivor/pull/7",
+        "merge-sha": "2681d748432c1fcb904c8cb78350ed8b2e0705d7",
+        "main-checks": [
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2681d748432c1fcb904c8cb78350ed8b2e0705d7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38681416402/job/116246626355"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "2681d748432c1fcb904c8cb78350ed8b2e0705d7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38681416402/job/116246599027"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "2681d748432c1fcb904c8cb78350ed8b2e0705d7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38681416402/job/116246597566"
+          }
+        ]
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/pull/8",
+        "merge-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38681417998/job/116246663132"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38681417998/job/116246632476"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38681417998/job/116246604056"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38681417998/job/116246602560"
+          }
+        ]
+      },
+      {
+        "repository": "applied_generative_ai",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/applied_generative_ai/pull/17",
+        "merge-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38681417717/job/116246660509"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38681417717/job/116246629821"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38681417717/job/116246602641"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38681417717/job/116246601659"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38681417384/job/116246600811"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38681417357/job/116246600407"
+          }
+        ]
+      },
+      {
+        "repository": "applied_machine_learning",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/applied_machine_learning/pull/7",
+        "merge-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38681422740/job/116246676620"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38681422740/job/116246644472"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38681422740/job/116246619183"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38681422740/job/116246617960"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38681422624/job/116246617502"
+          }
+        ]
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/creating_ai_enabled_systems/pull/7",
+        "merge-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38681424845/job/116246684580"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38681424845/job/116246659367"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38681424845/job/116246625448"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38681424845/job/116246624152"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38681424476/job/116246622537"
+          }
+        ]
+      },
+      {
+        "repository": "dongle-game",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/dongle-game/pull/7",
+        "merge-sha": "3674fe2e4b3385f985d6081d65014d46b99dbf62",
+        "main-checks": [
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "3674fe2e4b3385f985d6081d65014d46b99dbf62",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/dongle-game/actions/runs/38681427181/job/116246662747"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "3674fe2e4b3385f985d6081d65014d46b99dbf62",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/dongle-game/actions/runs/38681427181/job/116246632456"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "3674fe2e4b3385f985d6081d65014d46b99dbf62",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/dongle-game/actions/runs/38681427181/job/116246631460"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "3674fe2e4b3385f985d6081d65014d46b99dbf62",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/dongle-game/actions/runs/38681426811/job/116246629816"
+          }
+        ]
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/introduction_to_algorithm/pull/7",
+        "merge-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38681427548/job/116246682270"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38681427548/job/116246656957"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38681427548/job/116246633470"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38681427548/job/116246632385"
+          }
+        ]
+      },
+      {
+        "repository": "kiro-skills",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/kiro-skills/pull/8",
+        "merge-sha": "52957fa431cb8e9bb5d6e1e35707b13081f120c8",
+        "main-checks": [
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "52957fa431cb8e9bb5d6e1e35707b13081f120c8",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/kiro-skills/actions/runs/38681431360/job/116246669427"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "52957fa431cb8e9bb5d6e1e35707b13081f120c8",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/kiro-skills/actions/runs/38681431360/job/116246646287"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "52957fa431cb8e9bb5d6e1e35707b13081f120c8",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/kiro-skills/actions/runs/38681431360/job/116246645085"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "52957fa431cb8e9bb5d6e1e35707b13081f120c8",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/kiro-skills/actions/runs/38681430988/job/116246642870"
+          }
+        ]
+      },
+      {
+        "repository": "minjungsung",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/minjungsung/pull/9",
+        "merge-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+        "main-checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/minjungsung/actions/runs/38681433946/job/116246717280"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/minjungsung/actions/runs/38681433946/job/116246682991"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/minjungsung/actions/runs/38681433946/job/116246652884"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/minjungsung/actions/runs/38681433946/job/116246651771"
+          }
+        ]
+      },
+      {
+        "repository": "portfolio-backend",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/portfolio-backend/pull/41",
+        "merge-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+        "main-checks": [
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681555306/job/116247029533"
+          },
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681553776/job/116247025150"
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681437118/job/116246723865"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681437118/job/116246693782"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681437118/job/116246663996"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681437118/job/116246662521"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681436816/job/116246661172"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38681436774/job/116246661146"
+          }
+        ]
+      },
+      {
+        "repository": "portfolio-frontend",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/portfolio-frontend/pull/38",
+        "merge-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+        "main-checks": [
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681557384/job/116247035313"
+          },
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681555757/job/116247031269"
+          },
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681553482/job/116247024813"
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681437563/job/116246721721"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681437563/job/116246687264"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681437563/job/116246665165"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681437563/job/116246663628"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38681436975/job/116246661958"
+          }
+        ]
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "state": "OPEN",
+        "url": "https://github.com/minjungsung/portfolio-frontend-inner/pull/48"
+      },
+      {
+        "repository": "senior_eltango",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/27",
+        "merge-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+        "main-checks": [
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681560223/job/116247044021"
+          },
+          {
+            "name": "Dependabot",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681558691/job/116247039834"
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681441687/job/116246732982"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681441687/job/116246701329"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681441687/job/116246677327"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681441687/job/116246676048"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38681441427/job/116246675411"
+          }
+        ]
+      },
+      {
+        "repository": "shooting-game",
+        "state": "MERGED",
+        "url": "https://github.com/minjungsung/shooting-game/pull/7",
+        "merge-sha": "e4f7cd78fa6aae62572d002035d10476e4e0c66c",
+        "main-checks": [
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "e4f7cd78fa6aae62572d002035d10476e4e0c66c",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/shooting-game/actions/runs/38681441538/job/116246700095"
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "status": "completed",
+            "conclusion": "skipped",
+            "head-sha": "e4f7cd78fa6aae62572d002035d10476e4e0c66c",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/shooting-game/actions/runs/38681441538/job/116246676521"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "e4f7cd78fa6aae62572d002035d10476e4e0c66c",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/shooting-game/actions/runs/38681441538/job/116246675490"
+          },
+          {
+            "name": "check",
+            "status": "completed",
+            "conclusion": "success",
+            "head-sha": "e4f7cd78fa6aae62572d002035d10476e4e0c66c",
+            "app-id": 15368,
+            "url": "https://github.com/minjungsung/shooting-game/actions/runs/38681441318/job/116246674292"
+          }
+        ]
+      }
+    ],
+    "scope": "18 of20 reviewed wiki guard PRs merged;17 manual merges followed successful checks, LingoCast merged early via existing ordinary automation and checks passed afterwards. Main check evidence is separate."
+  },
+  "publication-guard-followups": [
+    {
+      "repository": "LingoCast",
+      "pr": "https://github.com/minjungsung/LingoCast/pull/122",
+      "status": "open-blocked-vercel-24-hour-build-quota",
+      "purpose": "Required journal correction and fresh main check after premature automation merge",
+      "human-only": true,
+      "application-checks": "all-passed-on-current-pr-head",
+      "remaining-check-failure": "Vercel deployment rate limited; retry in24hours"
+    },
+    {
+      "repository": "portfolio-frontend-inner",
+      "pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/48",
+      "status": "open-blocked-vercel-24-hour-build-quota",
+      "purpose": "Reviewed wiki guard; latest integrated head must pass deployment before merge",
+      "application-checks": "all-passed-on-current-pr-head",
+      "remaining-check-failure": "Vercel deployment rate limited; retry in24hours"
+    },
+    {
+      "repository": "KakaoBot-API",
+      "pr": "https://github.com/minjungsung/KakaoBot-API/pull/34",
+      "status": "open-blocked-vercel-deployment",
+      "purpose": "Reviewed wiki guard"
+    }
+  ],
+  "release-guard-followups": [
+    {
+      "repository": "kiro-skills",
+      "pr": "https://github.com/minjungsung/kiro-skills/pull/7",
+      "merge-sha": "1b553684fbbdae636026077dd93e9b133c97f122",
+      "status": "reviewed-and-merged",
+      "limitation": "Publishing validation uses all4 real projects and fails closed on unsupported Bun/scripts; no release dispatched."
+    },
+    {
+      "repository": "portfolio-frontend-inner",
+      "pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/47",
+      "merge-sha": "0b1e5c0b8c3d33be04286a1cb7f060d5a4e0214f",
+      "status": "reviewed-merged-main-ci-and-gate-pass",
+      "limitation": "Added exact trusted gate and fresh actionlint to existing strict install/test/build; actual v3 release pin preserved."
+    }
+  ],
+  "wiki-guard-summary": {
+    "wiki-paths": 29,
+    "guarded-wiki-paths": 25,
+    "remaining-source-gaps": [
+      {
+        "repository": "KakaoBot-API",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "9991feb2e0b6fbe0eb62164625d65fdd479b9efb67a720392964122ac492fb87",
+        "has-main-guard": false,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "TangoMBTI",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "df8738708b37610a4e9f67332593dce7c3579d882680ef2ef701a407a0df429b",
+        "has-main-guard": false,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "house-scanner-frontend",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "9991feb2e0b6fbe0eb62164625d65fdd479b9efb67a720392964122ac492fb87",
+        "has-main-guard": false,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "has-main-guard": true,
+        "has-validation-needs": false,
+        "has-suppression": true
+      }
+    ],
+    "wave-merged": 18,
+    "wave-manually-merged-after-all-checks": 17,
+    "wave-existing-automation-premature-merge": [
+      "LingoCast PR121"
+    ],
+    "wave-open": [
+      "KakaoBot-API PR34: Vercel failure",
+      "portfolio-frontend-inner PR48: Vercel build quota failure"
+    ],
+    "journal-followup": "LingoCast PR122 human-only, held by Vercel build quota failure",
+    "publication-dispatched": false,
+    "production-acceptance": false
+  },
+  "wiki-source-structure": {
+    "source-id": "dependency-gate-wiki-guard-classification.json",
+    "sha256": "51be327a6363f3294778c3c4673fb92c152e05efbbe3c6345c9ccb763bd18168",
+    "records": [
+      {
+        "repository": "Algorithm",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "b2b4e87a1ccbc5be50e87d87e1a671f65e70459d4b20a8d0e4abc6932c6c7f1a",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "Chatbot",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "0265784bfce63eaf9bcba79994edeed191cfd83d974f37dccc532df8b0f71022",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "Interview",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "8b45b085efa2b2b3987156c76596ae2142368b23619b8057ad795633d195c3e8",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "KakaoBot",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "b0cb7d0f56e59d2084bd5dcaf665c57bad5f8dc42c72f1c99f1c678a91cc48e9",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "KakaoBot-API",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "9991feb2e0b6fbe0eb62164625d65fdd479b9efb67a720392964122ac492fb87",
+        "has-main-guard": false,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "Leethub",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "76ce4d5a94c8327b541a17737fcb37321a405631bcd999de3e87730a1481378c",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "LingoCast",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "007da5efc7db96820fb6191013d1d6c30521bffeb42f3efc3198d1f9a436c406",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "Nbody",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "b2b4e87a1ccbc5be50e87d87e1a671f65e70459d4b20a8d0e4abc6932c6c7f1a",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "TangoMBTI",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "df8738708b37610a4e9f67332593dce7c3579d882680ef2ef701a407a0df429b",
+        "has-main-guard": false,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "Undead-Survivor",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "b0cb7d0f56e59d2084bd5dcaf665c57bad5f8dc42c72f1c99f1c678a91cc48e9",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "b2b4e87a1ccbc5be50e87d87e1a671f65e70459d4b20a8d0e4abc6932c6c7f1a",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "applied_generative_ai",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "007da5efc7db96820fb6191013d1d6c30521bffeb42f3efc3198d1f9a436c406",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "applied_machine_learning",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "007da5efc7db96820fb6191013d1d6c30521bffeb42f3efc3198d1f9a436c406",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "007da5efc7db96820fb6191013d1d6c30521bffeb42f3efc3198d1f9a436c406",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "dongle-game",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "b0cb7d0f56e59d2084bd5dcaf665c57bad5f8dc42c72f1c99f1c678a91cc48e9",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "eltango",
+        "path": ".github/workflows/init-wiki.yml",
+        "source-sha256": "7a138f304a74feec98fe723581dd06098820af9c05c3d462d2c9dd6e27cdb1b9",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "eltango",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "907635e2a989cce03485fd37a97feb459bb7a7e5ba3f07e178d7003d2725cbb3",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "house-scanner-frontend",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "9991feb2e0b6fbe0eb62164625d65fdd479b9efb67a720392964122ac492fb87",
+        "has-main-guard": false,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "b2b4e87a1ccbc5be50e87d87e1a671f65e70459d4b20a8d0e4abc6932c6c7f1a",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "3d03d65b9bf582600d0d4af551edcf323d47f00b0c5148de6aa22ffcf0ebe515",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "kiro-skills",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "e576f1d57cd28a822bded627ac63a7ffde1ec29b68bd2d30d69c45a00e3ed68d",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "medium",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "44671709aa1c6e1ef0b45456d11e5d0ae2b690c2ca0876d1eed77ddb907fe438",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "minjungsung",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "007da5efc7db96820fb6191013d1d6c30521bffeb42f3efc3198d1f9a436c406",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "portfolio-backend",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "b2b4e87a1ccbc5be50e87d87e1a671f65e70459d4b20a8d0e4abc6932c6c7f1a",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "portfolio-frontend",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "76ce4d5a94c8327b541a17737fcb37321a405631bcd999de3e87730a1481378c",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "87966f1bad3c01a40ae868a4b672aa12a6025457f5468a0f9f5e2871e8f8987f",
+        "has-main-guard": true,
+        "has-validation-needs": false,
+        "has-suppression": true
+      },
+      {
+        "repository": "senior_eltango",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "b2b4e87a1ccbc5be50e87d87e1a671f65e70459d4b20a8d0e4abc6932c6c7f1a",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "shooting-game",
+        "path": ".github/workflows/publish-wiki.yml",
+        "source-sha256": "b0cb7d0f56e59d2084bd5dcaf665c57bad5f8dc42c72f1c99f1c678a91cc48e9",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      },
+      {
+        "repository": "visionRAG",
+        "path": ".github/workflows/push-wiki.yml",
+        "source-sha256": "a93014c6fbb6d8557d8ccad8b6bd4d240ce4c6b9ce423da5214b558b1bbfdbfb",
+        "has-main-guard": true,
+        "has-validation-needs": true,
+        "has-suppression": false
+      }
+    ],
+    "guarded-path-count": 25,
+    "total-wiki-path-count": 29,
+    "limitation": "Source structure and reviewed PRs; no actual publishing dispatch performed."
+  },
+  "final-validation": {
+    "unit-tests": 160,
+    "conclusion": "passed",
+    "source-id": "dependency-gate-post-guard-tests.log",
+    "sha256": "abc46a04b2605f40e08d91cda3421d80fd4ebc2cf922ba11fbce298bbab199b0"
   }
 }
