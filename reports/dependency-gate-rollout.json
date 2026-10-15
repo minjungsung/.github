@@ -1,0 +1,1404 @@
+{
+  "schema-version": 1,
+  "status": "in-progress",
+  "acceptance-complete": false,
+  "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+  "active-repository-count": 33,
+  "central-merged-prs": [
+    {
+      "number": 2,
+      "url": "https://github.com/minjungsung/.github/pull/2"
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/minjungsung/.github/pull/3"
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/minjungsung/.github/pull/4"
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/minjungsung/.github/pull/5",
+      "merge-sha-prefix": "cf65"
+    },
+    {
+      "number": 6,
+      "url": "https://github.com/minjungsung/.github/pull/6",
+      "merge-sha-prefix": "ef9375"
+    },
+    {
+      "number": 7,
+      "url": "https://github.com/minjungsung/.github/pull/7",
+      "merge-sha-prefix": "0ce8"
+    },
+    {
+      "number": 8,
+      "url": "https://github.com/minjungsung/.github/pull/8",
+      "merge-sha-prefix": "3b7095"
+    },
+    {
+      "number": 9,
+      "url": "https://github.com/minjungsung/.github/pull/9",
+      "merge-sha": "83f181030ef7208baf55f4e708a90ba0f4307d98"
+    }
+  ],
+  "canary": {
+    "repository": "portfolio-frontend-inner",
+    "remediation-pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/44",
+    "remediation-merge-sha": "2219d0139a8ab8126526a392fd85be92bfea430b",
+    "caller-pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/45",
+    "caller-pr-status": "merged",
+    "protection-status": "applied-and-idempotence-verified",
+    "caller-merge-sha": "b2a291befc31a15aadb012912031c636c105079a",
+    "default-branch-ci-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377170",
+    "default-branch-ci-conclusion": "success",
+    "default-branch-gate-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377500",
+    "default-branch-gate-conclusion": "success",
+    "required-check": {
+      "context": "dependency-gate",
+      "app-id": 15368
+    },
+    "protection-preserved": {
+      "required-pull-request-reviews": null,
+      "enforce-admins": false,
+      "required-signatures": false
+    },
+    "protection-backup": {
+      "location": "reports/protection-backups/<owner>-portfolio-frontend-inner.json",
+      "status": "preserved-original-snapshot"
+    },
+    "protection-prior-failed-attempt": {
+      "status": "failed-before-mutation",
+      "http-status": 422,
+      "reason": "API requires checks or contexts, not both; backup preserved"
+    }
+  },
+  "controlled-evidence": [
+    {
+      "scenario": "ordinary",
+      "run-url": "https://github.com/minjungsung/.github/actions/runs/38666692450",
+      "conclusion": "success",
+      "evidence": "successful no-op",
+      "synthetic-routing": true
+    },
+    {
+      "scenario": "npm-pass",
+      "run-url": "https://github.com/minjungsung/.github/actions/runs/38666695715",
+      "conclusion": "success",
+      "evidence": "install/test/build pass",
+      "synthetic-routing": true
+    },
+    {
+      "scenario": "npm-peer-conflict",
+      "run-url": "https://github.com/minjungsung/.github/actions/runs/38666698802",
+      "conclusion": "failure",
+      "evidence": "ERESOLVE install failure",
+      "synthetic-routing": true
+    },
+    {
+      "scenario": "npm-fail-test",
+      "run-url": "https://github.com/minjungsung/.github/actions/runs/38666702115",
+      "conclusion": "failure",
+      "evidence": "process.exit(1) test failure after install",
+      "synthetic-routing": true
+    },
+    {
+      "scenario": "npm-fail-build",
+      "run-url": "https://github.com/minjungsung/.github/actions/runs/38666705114",
+      "conclusion": "failure",
+      "evidence": "build process.exit(1) after install/test",
+      "synthetic-routing": true
+    },
+    {
+      "scenario": "python-requirements-fail",
+      "run-url": "https://github.com/minjungsung/.github/actions/runs/38666707787",
+      "conclusion": "failure",
+      "evidence": "nonexistent distribution fails install",
+      "synthetic-routing": true
+    }
+  ],
+  "sources": [
+    {
+      "source-id": "live-evidence.json",
+      "sha256": "ca6bc93d539e989986f46efedb41a1fe9418af78a29ff0d29c14bf5acd9fa9ba",
+      "retention": "Necessary evidence embedded in this report; hashes identify original local source snapshots"
+    },
+    {
+      "source-id": "task10-npm-baselines.json",
+      "sha256": "d9f1ad83f01c30122a598613c3ed7157240c7d85ecd4d0ba1c247db14cc1628f",
+      "retention": "Necessary evidence embedded in this report; hashes identify original local source snapshots"
+    },
+    {
+      "source-id": "task-10-inventory-ci-review.md",
+      "sha256": "7e9fb96cd0acc6ad7cd16984cd2aa884874483658e7f05aaa59de1e7baea411f",
+      "retention": "Necessary evidence embedded in this report; hashes identify original local source snapshots"
+    }
+  ],
+  "repositories": [
+    {
+      "repository": ".github",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Central caller merged and required dependency-gate protection verified.",
+      "rollout-pr": "https://github.com/minjungsung/.github/pull/6",
+      "rollout-head-sha": "4c1a18c84bad8d552791d669df043658d608a9e9"
+    },
+    {
+      "repository": "Algorithm",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/Algorithm/pull/6",
+      "rollout-head-sha": "d33fc3029e3ef8c63e71c2926323e8bc2d2e59fa",
+      "caller-merge-sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+      "default-branch-gate-run": "https://github.com/minjungsung/Algorithm/actions/runs/38670568062/job/116212494133",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "Chatbot",
+      "classification": "supported",
+      "ecosystems": [
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "failed",
+      "notes": "Strict Python3.12 requirements installation failed: TensorFlow2.12.1 has no compatible wheel; candidate constraints and missing runtime assets remain unresolved.",
+      "candidate-source-references": [
+        {
+          "source-id": "Chatbot-candidate-plan.md",
+          "sha256": "1eacf34e242f135d78bece60d66879fb0deee847b03de3992bdcfb1629d780a3",
+          "retention": "Reviewed candidate planning evidence; not deployed validation"
+        },
+        {
+          "source-id": "readiness-report.md",
+          "sha256": "68b5921c82e312c6b034b7ef6208909c9a3980ec0d7ed672afa770b4a95aba3b",
+          "retention": "Reviewed candidate planning evidence; not deployed validation"
+        }
+      ],
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ]
+    },
+    {
+      "repository": "Interview",
+      "classification": "supported",
+      "ecosystems": [
+        "npm",
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "No repository-specific acceptance evidence recorded"
+    },
+    {
+      "repository": "KakaoBot",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/KakaoBot/pull/6",
+      "rollout-head-sha": "8be1096201e4e8fa496c26efd90ba3493d63a27a",
+      "caller-merge-sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+      "default-branch-gate-run": "https://github.com/minjungsung/KakaoBot/actions/runs/38670581632/job/116212540823",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "KakaoBot-API",
+      "classification": "supported",
+      "ecosystems": [
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-pr-open",
+      "enforcement-status": "not-observed",
+      "baseline-status": "hosted-ci-pass-deployment-blocked",
+      "notes": "Strict hosted Python3.12 requirements installation passed; test/build explicitly skipped because unconfigured. PR33 remains unmerged because Vercel deployment is blocked.",
+      "rollout-pr": "https://github.com/minjungsung/KakaoBot-API/pull/33",
+      "hosted-validation": {
+        "status": "success",
+        "runtime": "Python3.12",
+        "coverage": "requirements installation; test/build not configured",
+        "deployment-status": "Vercel blocked",
+        "head-sha": "82dabca9548212d719f47c2d02cc402b7a56809b",
+        "ci-run": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38671382979",
+        "ci-conclusion": "success",
+        "gate-run": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38671383356",
+        "gate-conclusion": "success"
+      },
+      "rollout-head-sha": "82dabca9548212d719f47c2d02cc402b7a56809b"
+    },
+    {
+      "repository": "Leethub",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass",
+      "notes": "Reviewed remediation PR42 merged after hosted strict CI passed; caller PR43 merged and required dependency-gate protection applied and verified.",
+      "baseline-sha": "e0f21607f59858835fccbc800c7845f4b42610e9",
+      "baseline-runtime-match": false,
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ],
+      "remediation": {
+        "local-commit": "4d05d274481258b8688990adb09f6fa111a9e746",
+        "status": "merged-after-independent-review-and-hosted-ci",
+        "validation": "strict install/clean install, real authorization test1/1 and production build pass locally",
+        "number": 42,
+        "url": "https://github.com/minjungsung/Leethub/pull/42",
+        "merge-sha-prefix": "d9f82d1",
+        "hosted-ci-conclusion": "success",
+        "ci-run": "https://github.com/minjungsung/Leethub/actions/runs/38671435653",
+        "runtime": "Node20",
+        "ci-conclusion": "success"
+      },
+      "caller-merge-sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+      "rollout-pr": "https://github.com/minjungsung/Leethub/pull/43",
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "LingoCast",
+      "classification": "supported",
+      "ecosystems": [
+        "gradle",
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "Static web command added; actual project baseline enforcement not yet observed"
+    },
+    {
+      "repository": "Nbody",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/Nbody/pull/7",
+      "rollout-head-sha": "3501d651e2ea180d9f3278a17903f09cc157c3d4",
+      "caller-merge-sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+      "default-branch-gate-run": "https://github.com/minjungsung/Nbody/actions/runs/38670592051/job/116212578813",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "TangoMBTI",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "hosted-ci-pass-audit-failed",
+      "notes": "PR remains unmerged: unpatched braces GHSA-vfj7-8cjw-p6xm in framework lint dependencies; Tailwind4 migration builds locally but does not clear audit.",
+      "baseline-sha": "6d974e9b7d122de7fb459dd6dd6db610306b8d05",
+      "baseline-runtime-match": false,
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "pass",
+          "exit_code": 0
+        },
+        {
+          "phase": "test",
+          "status": "skip"
+        },
+        {
+          "phase": "build",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ],
+      "remediation": {
+        "number": 32,
+        "url": "https://github.com/minjungsung/TangoMBTI/pull/32",
+        "ci-run": "https://github.com/minjungsung/TangoMBTI/actions/runs/38669937948",
+        "ci-conclusion": "success",
+        "audit-run": "https://github.com/minjungsung/TangoMBTI/actions/runs/38669937929",
+        "audit-conclusion": "failure",
+        "local-tailwind-migration-commit": "494d179",
+        "local-migration-status": "pending-review"
+      },
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "Undead-Survivor",
+      "classification": "manual",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": false,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/Undead-Survivor/pull/6",
+      "rollout-head-sha": "24bc48eba60c9494ef0a393440db9f353a2fe2d2",
+      "caller-merge-sha": "b5ca0e0964ad27196b11de032160310eb680bad3",
+      "default-branch-gate-run": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38670600659/job/116212602027",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "ai_algorithm_design_and_analysis",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/pull/6",
+      "rollout-head-sha": "2ad4d70d4958329ba9e3cd750db14573ae9deee6",
+      "caller-merge-sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+      "default-branch-gate-run": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38670611592/job/116212643842",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "applied_generative_ai",
+      "classification": "supported",
+      "ecosystems": [
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged; CI and gate succeeded; protection applied and verified.",
+      "caller-merge-sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+      "default-branch-ci-run": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671383789",
+      "default-branch-gate-run": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671384103"
+    },
+    {
+      "repository": "applied_machine_learning",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/applied_machine_learning/pull/5",
+      "rollout-head-sha": "df2c69ce96ab9c53b70a926f7f3dddde07807119",
+      "caller-merge-sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+      "default-branch-gate-run": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38670622401/job/116212678349",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "course-manager",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/course-manager/pull/1",
+      "rollout-head-sha": "9345a7f0ef0a4a7a4b95dd65f439aaf15342952a",
+      "caller-merge-sha": "82edaf7c1c777042a20302b916c36194654752a5",
+      "default-branch-gate-run": "https://github.com/minjungsung/course-manager/actions/runs/38670560145/job/116212472777",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "creating_ai_enabled_systems",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/creating_ai_enabled_systems/pull/5",
+      "rollout-head-sha": "0e5fac3ef8279fd9cf745c64a3c9849d6108aa44",
+      "caller-merge-sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+      "default-branch-gate-run": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38670634540/job/116212708933",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "dongle-game",
+      "classification": "manual",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": false,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/dongle-game/pull/6",
+      "rollout-head-sha": "42c6252b1475a003fbb20c5bb76abdfc3e837a25",
+      "caller-merge-sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+      "default-branch-gate-run": "https://github.com/minjungsung/dongle-game/actions/runs/38670645123/job/116212742278",
+      "default-branch-gate-conclusion": "success"
+    },
+    {
+      "repository": "eltango",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "remediation-merged",
+      "notes": "Caller merged after hosted checks; required dependency-gate protection applied and verified.",
+      "baseline-sha": "0c462ba5d715e3700131c4d3403fe9cec0840483",
+      "baseline-runtime-match": false,
+      "baseline-phases": [],
+      "remediation": {
+        "number": 26,
+        "url": "https://github.com/minjungsung/eltango/pull/26",
+        "ci-run": "https://github.com/minjungsung/eltango/actions/runs/38669927789",
+        "ci-conclusion": "success",
+        "merge-sha-prefix": "f799bfa"
+      },
+      "rollout-pr": "https://github.com/minjungsung/eltango/pull/28",
+      "rollout-head-sha-prefix": "c39f2e",
+      "caller-merge-sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "hackdigest",
+      "classification": "supported",
+      "ecosystems": [
+        "npm",
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "Worker test script explicitly exits1; unresolved baseline blocker"
+    },
+    {
+      "repository": "house-scanner-frontend",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "hosted-ci-pass-deployment-blocked",
+      "notes": "Strict hosted Node20 CI passed; PR remains unmerged because Vercel deployment is blocked.",
+      "baseline-sha": "ccf1b1ce8d70afd1c1f99d36f001b43eb614602b",
+      "baseline-runtime-match": false,
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ],
+      "remediation": {
+        "number": 122,
+        "url": "https://github.com/minjungsung/house-scanner-frontend/pull/122",
+        "ci-run": "https://github.com/minjungsung/house-scanner-frontend/actions/runs/38670195314",
+        "ci-conclusion": "success",
+        "status": "open",
+        "external-blocker": "Vercel deployment blocked; diagnosis not available from GitHub check summary"
+      },
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "introduction_to_algorithm",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/introduction_to_algorithm/pull/5",
+      "rollout-head-sha": "a721232d87fa4238c8d73c8ca9aaf09f0d32d43c",
+      "caller-merge-sha": "42af8778b240308c779f69a930c8808a338e266a",
+      "default-branch-gate-run": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38670655936/job/116212775998"
+    },
+    {
+      "repository": "jhu_software_concepts",
+      "classification": "supported",
+      "ecosystems": [
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "No repository-specific acceptance evidence recorded"
+    },
+    {
+      "repository": "kiro-skills",
+      "classification": "manual",
+      "ecosystems": [
+        "npm",
+        "python-requirements"
+      ],
+      "auto-merge-enabled": false,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "Bun adapter unavailable; source script suppression requires manual review"
+    },
+    {
+      "repository": "medium",
+      "classification": "supported",
+      "ecosystems": [
+        "python-requirements"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "No repository-specific acceptance evidence recorded"
+    },
+    {
+      "repository": "minjungsung",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/minjungsung/pull/7",
+      "rollout-head-sha": "bde10bc2b273353536ca0e01c9689c11dc961fcd",
+      "caller-merge-sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+      "default-branch-gate-run": "https://github.com/minjungsung/minjungsung/actions/runs/38670665381/job/116212805036"
+    },
+    {
+      "repository": "portfolio-backend",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "remediation-merged",
+      "notes": "Reviewed remediation and caller merged; required dependency-gate protection applied and verified.",
+      "baseline-sha": "95e513845c1ef4b27fa130c8c20c1c00f336c3c9",
+      "baseline-runtime-match": false,
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ],
+      "remediation": {
+        "number": 37,
+        "url": "https://github.com/minjungsung/portfolio-backend/pull/37",
+        "ci-run": "https://github.com/minjungsung/portfolio-backend/actions/runs/38669919030",
+        "ci-conclusion": "success",
+        "merge-sha": "93e3679bf26cd3ff12da367eb4d97af00d127d9f"
+      },
+      "rollout-pr": "https://github.com/minjungsung/portfolio-backend/pull/39",
+      "rollout-head-sha-prefix": "661431",
+      "caller-merge-sha": "27ae833c82fc371d113bc740d26394249f68c272",
+      "default-branch-gate-run": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040738/job/116214014249",
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "portfolio-frontend",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "remediation-merged",
+      "notes": "Reviewed remediation and caller merged; required dependency-gate protection applied and verified.",
+      "baseline-sha": "3b41df2122a0cfe5d8478ff05af73e0b0e24302d",
+      "baseline-runtime-match": false,
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ],
+      "remediation": {
+        "number": 35,
+        "merge-sha-prefix": "686621"
+      },
+      "rollout-pr": "https://github.com/minjungsung/portfolio-frontend/pull/36",
+      "rollout-head-sha-prefix": "2aa29fa",
+      "caller-merge-sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+      "default-branch-gate-run": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671163041/job/116214398461",
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "portfolio-frontend-inner",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass",
+      "notes": "PR45 merged; default-branch CI/gate succeeded; required dependency-gate check bound to Actions App15368. Second apply was idempotent.",
+      "baseline-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38666261119",
+      "baseline-head-sha": "ed6f15313506ebc9b0774b0633e7dac86a009406"
+    },
+    {
+      "repository": "repo-template",
+      "classification": "supported",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/repo-template/pull/4",
+      "rollout-head-sha": "7005b94e8059d7f416a3e770f2cd01a0e6e9d53a",
+      "caller-merge-sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+      "default-branch-gate-run": "https://github.com/minjungsung/repo-template/actions/runs/38670674367/job/116212836795"
+    },
+    {
+      "repository": "senior_eltango",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "remediation-merged",
+      "notes": "Reviewed remediation and caller merged; required dependency-gate protection applied and verified.",
+      "baseline-sha": "43beef2e56d26205822a1d01b3dc0133b84a08bd",
+      "baseline-runtime-match": true,
+      "baseline-phases": [
+        {
+          "phase": "install",
+          "status": "fail",
+          "exit_code": 1
+        }
+      ],
+      "remediation": {
+        "number": 24,
+        "merge-sha-prefix": "56dd"
+      },
+      "rollout-pr": "https://github.com/minjungsung/senior_eltango/pull/25",
+      "rollout-head-sha-prefix": "8f9dca",
+      "caller-merge-sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+      "default-branch-gate-run": "https://github.com/minjungsung/senior_eltango/actions/runs/38671169282/job/116214423885",
+      "baseline-evidence-scope": "Historical initial local baseline; later remediation evidence is recorded separately"
+    },
+    {
+      "repository": "shooting-game",
+      "classification": "manual",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "auto-merge-enabled": false,
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "not-executed",
+      "notes": "Caller merged and required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/shooting-game/pull/6",
+      "rollout-head-sha": "4d081097a4381a8cedfaffb42c27898f77cb294b",
+      "caller-merge-sha": "91aab2560160e737610e2271c20ae387fae54f50",
+      "default-branch-gate-run": "https://github.com/minjungsung/shooting-game/actions/runs/38670684669/job/116212865619"
+    },
+    {
+      "repository": "visionRAG",
+      "classification": "manual",
+      "ecosystems": [
+        "python-pyproject",
+        "python-requirements"
+      ],
+      "auto-merge-enabled": false,
+      "rollout-status": "not-rolled-out",
+      "enforcement-status": "not-observed",
+      "baseline-status": "not-executed",
+      "notes": "Reviewed extras configured; auto-merge disabled pending actual baseline validation"
+    },
+    {
+      "repository": "TangoDJ",
+      "classification": "supported",
+      "ecosystems": [
+        "npm"
+      ],
+      "auto-merge-enabled": true,
+      "baseline-status": "hosted-pass",
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "notes": "Audited Node24 project; source CI and caller PR2 merged. Default-branch strict CI and gate passed; required dependency-gate protection applied and verified.",
+      "rollout-pr": "https://github.com/minjungsung/TangoDJ/pull/2",
+      "rollout-head-sha": "49aacaff121eb246a58c4d2bc0231a55e9f24a29",
+      "remediation": {
+        "source-merge-sha": "b363243abc875af71005509a79ff724835a84801",
+        "inventory-merge-sha": "83f181030ef7208baf55f4e708a90ba0f4307d98"
+      },
+      "caller-merge-sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+      "default-branch-ci-run": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659092",
+      "default-branch-ci-conclusion": "success",
+      "default-branch-gate-run": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659674",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
+    }
+  ],
+  "limitations": [
+    "Controlled runs use synthetic routing; they do not establish real Dependabot PR identity or fleet enforcement.",
+    "A successful ordinary/default-push no-op proves caller execution, not application validation.",
+    "Six initial npm baseline checks used Node24 instead of reviewedNode20; failing baselines are blockers pending runtime-specific remediation.",
+    "Other agents are preparing compatibility fixes; unreviewed or unpublished fixes are not acceptance evidence.",
+    "Open PR and required-check/protection status must be refreshed before final acceptance."
+  ],
+  "inventoried-repository-count": 33,
+  "unclassified-active-repositories": [],
+  "central-protection-status": "applied-and-verified",
+  "source-snapshots": [
+    {
+      "source-id": "merged-results.json",
+      "sha256": "39d03d1c015948bf623d106d5c377676d757032997b1aa1dc9e03cad1804f4b3",
+      "retention": "Snapshot facts embedded; source is mutable and may advance after this report"
+    },
+    {
+      "source-id": "enforced-results.json",
+      "sha256": "a848ebf1deaa8008837e7326f089b4d3462c3c4156a6e128090abbf91656a162",
+      "retention": "Snapshot facts embedded; source is mutable and may advance after this report"
+    },
+    {
+      "source-id": "enforced-results.json-refresh",
+      "sha256": "4ea1b2a5371b4488998f7c0be8395d02e86b13f31f3605b3a066c5c8d79214fe",
+      "retention": "Latest mutable snapshot mapped into report"
+    },
+    {
+      "source-id": "npm-enforced-results.json",
+      "sha256": "2b4746777d59636b6fd5833e3447e35d013ba5643d70ace0bee4c8287c8223cd",
+      "retention": "Snapshot facts embedded"
+    },
+    {
+      "source-id": "Chatbot-summary.md",
+      "sha256": "68cb4a4d0ea154b72a6218a151deb2d5429873353986c790ee979282e50635c6",
+      "retention": "Local requirements-install evidence embedded; hosted results recorded separately"
+    },
+    {
+      "source-id": "KakaoBot-API-summary.md",
+      "sha256": "0f91aed3a6f5e36335ac3603dfa706feed5af296ce933da7d1b9d070ba3c0d78",
+      "retention": "Local requirements-install evidence embedded; hosted results recorded separately"
+    }
+  ],
+  "protection-backups": [
+    {
+      "location": "reports/protection-backups/minjungsung-.github.json",
+      "sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-Algorithm.json",
+      "sha256": "4472adc9716036bf43080d378715c2d3119f58d767b8f34e72ee0aa76ad1e274"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-KakaoBot.json",
+      "sha256": "b48e7e5a8d73b914366009dc377e0f2be9a88ba20571f62c02f23a66990cbd8b"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-Leethub.json",
+      "sha256": "80a9d24e0544e2e17c768221974c19d800d8a9c440ec5b6a3a2efc154b4f88e8"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-Nbody.json",
+      "sha256": "2be7b017469683826783be49f959f177f2c19d164290d799af27172f94438571"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-TangoDJ.json",
+      "sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-Undead-Survivor.json",
+      "sha256": "317e7abe6a21051953d12c31fd44af38630f2b7eb515de320284dde01c0e3709"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-ai_algorithm_design_and_analysis.json",
+      "sha256": "c16f68fa1e0c697c3f31ca80b3b50ce9e143be58a2470cd345c09a9bfd25ad31"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-applied_generative_ai.json",
+      "sha256": "c3cc107312536899925550e6c3678c35cddc12842db03e22fd33566c2be4650f"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-applied_machine_learning.json",
+      "sha256": "facb8e603f3a59ab6ffa553defb35b91032f1c3d8571d56b146c6633c8fad4dd"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-course-manager.json",
+      "sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-creating_ai_enabled_systems.json",
+      "sha256": "8d63dca67de301e96f22b8c431acb71c5d95e495037e49b59a9fbeb2cf3a2fa2"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-dongle-game.json",
+      "sha256": "345b285da90fa90d9adf1999929526f3015cdcd78e7a91bcfe202399e1588450"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-eltango.json",
+      "sha256": "03b5b2de864f6af03ebaf342099b8c294a7605801464bb0488aaf6eb138ee40e"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-introduction_to_algorithm.json",
+      "sha256": "f1cba484a0af381274363e34b6c228e7071b53d226d88f06f513f5547444bef5"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-minjungsung.json",
+      "sha256": "1ce03e3320d901f197ea85cbfdcaf23367d234182f90cf282d8d27c5a92bdcb4"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-portfolio-backend.json",
+      "sha256": "85f1d45ab732f18d87972fd14d640da8eac0aab23562be9366af9efc53d7fecc"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-portfolio-frontend-inner.json",
+      "sha256": "effc1a0b03d1c8fb209400fb298ffa64eb5bb5ef433b98595fdf011cc63e62c7"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-portfolio-frontend.json",
+      "sha256": "899ac2c67b45eaae69bd473b452234f86cb2c22cd5ce12b335d47709241810e7"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-repo-template.json",
+      "sha256": "e899f257d5150d8d265693ee0e3fab97b727c2d14335e18aea9b499e3a42f997"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-senior_eltango.json",
+      "sha256": "be93100c330e643ac62a3922c4c2c920b9f03a6551d12f0de793a05469cb1bd1"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-shooting-game.json",
+      "sha256": "97f9b2ddbe4a6156d1bff9358270660f3936d0baa178f7437f78460a2fdad10e"
+    }
+  ],
+  "observed-protected-repository-count": 22,
+  "real-dependabot-major-evidence": {
+    "repository": "repo-template",
+    "number": 2,
+    "head-sha-prefix": "008901f",
+    "gate-run": "https://github.com/minjungsung/repo-template/actions/runs/38670842929",
+    "gate-conclusion": "success",
+    "verified-update-type": "major",
+    "auto-merge-request": null,
+    "limitation": "Evidence applies only to the recorded exact PR head"
+  },
+  "dependabot-reconciliation": {
+    "source-id": "dependency-gate-pr-reconciliation-current.json",
+    "sha256": "502da73b0942d57665ede4ac51264aed689a7ce9798904a9578e5af8fd4211ff",
+    "records": [
+      {
+        "evidence": {
+          "body_sha256": "d89125b081a0aaf8cb3cbe158a7b4354355a01639532eb1db9f0139ede476f2c",
+          "head_sha": "909882302caf9eabf3e9e31593dc2c05e1637c01",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "909882302caf9eabf3e9e31593dc2c05e1637c01",
+        "number": 31,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Chatbot/pull/31"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5fda6bfa46d4b70f9ecdabe17f21390189c7ee7d5318d1424bb1f45127bc4a3a",
+          "head_sha": "fcb864ca7a290b01b8cdb5f3f649b1699f2900e6",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "fcb864ca7a290b01b8cdb5f3f649b1699f2900e6",
+        "number": 32,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Chatbot/pull/32"
+      },
+      {
+        "evidence": {
+          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
+          "head_sha": "93dae1f3fe9a4f11269307e36667921866bb5085",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "93dae1f3fe9a4f11269307e36667921866bb5085",
+        "number": 33,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Chatbot/pull/33"
+      },
+      {
+        "evidence": null,
+        "head_sha": "45bd9fa43432890204bac35a63bbc4bdf98a86a4",
+        "number": 43,
+        "reason": "PR discovery incomplete: GitHub CLI command failed with exit code 1",
+        "state": "incomplete-discovery",
+        "url": "https://github.com/minjungsung/Chatbot/pull/43"
+      },
+      {
+        "evidence": {
+          "body_sha256": "e6f736d42b9dcd74ed2c19c8e7423af630bce421bf7f44eaeff891bbfaa57839",
+          "head_sha": "c02273edd90c692e542d66d9971dede37658cd44",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "c02273edd90c692e542d66d9971dede37658cd44",
+        "number": 46,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/46"
+      },
+      {
+        "evidence": {
+          "body_sha256": "3a2ba6f59c69a28f6697744d3d59be05d647ce26f62ef9b1648e134fe235f87d",
+          "head_sha": "bad7e2131b51949d66554b77c807551973ce82c1",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "bad7e2131b51949d66554b77c807551973ce82c1",
+        "number": 50,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/50"
+      },
+      {
+        "evidence": {
+          "body_sha256": "0563a51437d3783e79b6e67068d03fcf4969ee86ef02b6e9ac937259151d8218",
+          "head_sha": "f1646dcdf51b7affe8cf456d677ef27a7db19602",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "f1646dcdf51b7affe8cf456d677ef27a7db19602",
+        "number": 51,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/51"
+      },
+      {
+        "evidence": {
+          "body_sha256": "0bb382be082d06b28d831933e9699111d1fd45b1505ec650806db5aec1d15c1f",
+          "head_sha": "18dad35d793c9af685ed2acdd89e98622d6523b8",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "18dad35d793c9af685ed2acdd89e98622d6523b8",
+        "number": 62,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Chatbot/pull/62"
+      },
+      {
+        "evidence": {
+          "body_sha256": "0a6a05d2455e200fa01e6498f4ba1ae672be2755100d2d29856fe41ed2559968",
+          "head_sha": "713118a03bbc079af17720d95c560869a86a72e4",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "713118a03bbc079af17720d95c560869a86a72e4",
+        "number": 63,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/63"
+      },
+      {
+        "evidence": {
+          "body_sha256": "1d5a72eb4262f57bbfda7c81aa40150d1129804a99b0c36f397102864a122433",
+          "head_sha": "15a97283439c207f527e4725391d492097840476",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "15a97283439c207f527e4725391d492097840476",
+        "number": 67,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/67"
+      },
+      {
+        "evidence": {
+          "body_sha256": "f81435bc2f58dd1eb0a46bb410dd3078f87248dd740c4039b47cc63afbb6409c",
+          "head_sha": "9e0ba13f7671f47e07450aa72e6f5eee039a55cf",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "9e0ba13f7671f47e07450aa72e6f5eee039a55cf",
+        "number": 68,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/68"
+      },
+      {
+        "evidence": {
+          "body_sha256": "4efc24b62fae361026dc90bdaf512d8c96e411febb75d395b52cb5e47023416f",
+          "head_sha": "5b63ad23d5d88e39f0afa4fea0546fc92ef90e96",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "5b63ad23d5d88e39f0afa4fea0546fc92ef90e96",
+        "number": 69,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/69"
+      },
+      {
+        "evidence": {
+          "body_sha256": "ba850cbd550f7567eec7652eefb7fbc5227825319b71d2acd65bd3d53735385f",
+          "head_sha": "3bbf9a4c3468f2690518e8f7010d60ea3cbe015a",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "3bbf9a4c3468f2690518e8f7010d60ea3cbe015a",
+        "number": 72,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Chatbot/pull/72"
+      },
+      {
+        "evidence": {
+          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
+          "head_sha": "8ed382df59a016fd4c3f8f74c623d1e38ce82441",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "8ed382df59a016fd4c3f8f74c623d1e38ce82441",
+        "number": 25,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/25"
+      },
+      {
+        "evidence": {
+          "body_sha256": "d89125b081a0aaf8cb3cbe158a7b4354355a01639532eb1db9f0139ede476f2c",
+          "head_sha": "f78b22fbdf00ee1e89a67d289429b4c8d873e708",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "f78b22fbdf00ee1e89a67d289429b4c8d873e708",
+        "number": 26,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/26"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5fda6bfa46d4b70f9ecdabe17f21390189c7ee7d5318d1424bb1f45127bc4a3a",
+          "head_sha": "b404cfdd01885e97a51a6868c2dcb47dc99d1ed3",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "b404cfdd01885e97a51a6868c2dcb47dc99d1ed3",
+        "number": 28,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/28"
+      },
+      {
+        "evidence": {
+          "body_sha256": "781240c7ad659ed9865550cb9408b66b0f0b1daa5617a9b33b72d673d3c7f8c1",
+          "head_sha": "1b2a81dd72043decc1af95ea4d4bc4c01d1a3701",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "1b2a81dd72043decc1af95ea4d4bc4c01d1a3701",
+        "number": 29,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/29"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
+          "head_sha": "5570732f20410a81491195cb872bd995a491e748",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "5570732f20410a81491195cb872bd995a491e748",
+        "number": 29,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Leethub/pull/29"
+      },
+      {
+        "evidence": {
+          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
+          "head_sha": "124dc8a0f875c0b7dbb5b6975c51ad043def67b5",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "124dc8a0f875c0b7dbb5b6975c51ad043def67b5",
+        "number": 30,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Leethub/pull/30"
+      },
+      {
+        "evidence": {
+          "body_sha256": "6c41b1038a913230ed186a04eb3dfcc027efeaeefc0f0efc647f98d65d6dc8b2",
+          "head_sha": "61e9e21f22f91353f98fc71c5f5a101c8bb2dae0",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "61e9e21f22f91353f98fc71c5f5a101c8bb2dae0",
+        "number": 31,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Leethub/pull/31"
+      },
+      {
+        "evidence": {
+          "body_sha256": "845707e084e0addb67b81d3b9a1b08828aca9fd8b71a64626383344af48c6d31",
+          "head_sha": "c4d7edf483939f25faf981576220fc710a67010b",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "c4d7edf483939f25faf981576220fc710a67010b",
+        "number": 32,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Leethub/pull/32"
+      },
+      {
+        "evidence": {
+          "body_sha256": "920ba06679791edb2a1862261ed9198461326c38395d365c017ea117ba45a414",
+          "head_sha": "585ad1559c811cb1053c6ff5b4f20e730871d8e9",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "585ad1559c811cb1053c6ff5b4f20e730871d8e9",
+        "number": 33,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Leethub/pull/33"
+      },
+      {
+        "evidence": {
+          "body_sha256": "396f7bd1dab8f708d6b23324edfbad314f3ee2c4e9c7ce45a7578384007acf12",
+          "head_sha": "c9a29cebf5f1bbd9c6f1f27dea3c8d185517900b",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "c9a29cebf5f1bbd9c6f1f27dea3c8d185517900b",
+        "number": 39,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/Leethub/pull/39"
+      },
+      {
+        "evidence": {
+          "body_sha256": "632c069bb9adb15fb2f0ddca1db329b3d59845e2c731a7aec124f9f3344f6296",
+          "head_sha": "e20186a2516f110cfc8572b0ebcfa44f577b6796",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "e20186a2516f110cfc8572b0ebcfa44f577b6796",
+        "number": 21,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/eltango/pull/21"
+      },
+      {
+        "evidence": null,
+        "head_sha": "bcc547d813b1164ffb3440735ac6ebedf57875ee",
+        "number": 23,
+        "reason": "PR discovery incomplete: GitHub CLI command failed with exit code 1",
+        "state": "incomplete-discovery",
+        "url": "https://github.com/minjungsung/eltango/pull/23"
+      },
+      {
+        "evidence": {
+          "body_sha256": "4e6a5a18a74d7e8359a74c8c3be9e1dcb9b9d03fedfaac1d11f50120ee623b59",
+          "head_sha": "46825c3ed8102a93a0545f9bd124fc7f852b5b1a",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "46825c3ed8102a93a0545f9bd124fc7f852b5b1a",
+        "number": 24,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/eltango/pull/24"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
+          "head_sha": "31d0d7b74921229bbb1f21fe415237d912f215da",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "31d0d7b74921229bbb1f21fe415237d912f215da",
+        "number": 25,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/eltango/pull/25"
+      },
+      {
+        "evidence": {
+          "body_sha256": "b3ee833e38095e3444b1ad2980b7822417ff876797ff255878ea9d5842e29acd",
+          "head_sha": "8baf9d6a8228cebdfbc947a88c2939b4ab0675dd",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "8baf9d6a8228cebdfbc947a88c2939b4ab0675dd",
+        "number": 24,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/hackdigest/pull/24"
+      },
+      {
+        "evidence": {
+          "body_sha256": "58573c76a3a6bd41438d9ab2a7e8f3ba83e90cd561cd4973bd02fb5135ab4b80",
+          "head_sha": "008901f676a406092c5440e23333217fdbfddbfb",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "008901f676a406092c5440e23333217fdbfddbfb",
+        "number": 2,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/repo-template/pull/2"
+      },
+      {
+        "evidence": {
+          "body_sha256": "ba3648feaf77adf61d63c8a60f2c1f12e8f5a56ceee54f6c61e435e74ace1857",
+          "head_sha": "e7c20da0de4981808ed938f76570e49e627ff163",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "e7c20da0de4981808ed938f76570e49e627ff163",
+        "number": 3,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/repo-template/pull/3"
+      },
+      {
+        "evidence": {
+          "body_sha256": "58573c76a3a6bd41438d9ab2a7e8f3ba83e90cd561cd4973bd02fb5135ab4b80",
+          "head_sha": "d1efaa10aed60ed363ecfae13d11d425aefe30c6",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "d1efaa10aed60ed363ecfae13d11d425aefe30c6",
+        "number": 16,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/16"
+      },
+      {
+        "evidence": {
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "bfe685c73116e24369bf0227ed07f6d8f051ca0e",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "bfe685c73116e24369bf0227ed07f6d8f051ca0e",
+        "number": 18,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/18"
+      },
+      {
+        "evidence": {
+          "body_sha256": "0afa4c4d8d342e61510081efb38f40d337c755dffd7343da0066db477f56e80c",
+          "head_sha": "8304cd7ab4fcb671b42d788db15b0aa921b11d6d",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "8304cd7ab4fcb671b42d788db15b0aa921b11d6d",
+        "number": 19,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/19"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
+          "head_sha": "c5e9cd8ab6faa6655ca7ebae529040a2b805443a",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "c5e9cd8ab6faa6655ca7ebae529040a2b805443a",
+        "number": 21,
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/21"
+      },
+      {
+        "evidence": null,
+        "head_sha": "8c4585a3b52aef3d92c7885e3951f905709d229c",
+        "number": 17,
+        "reason": "PR discovery incomplete: GitHub CLI command failed with exit code 1",
+        "state": "incomplete-discovery",
+        "url": "https://github.com/minjungsung/visionRAG/pull/17"
+      },
+      {
+        "evidence": {
+          "body_sha256": "a0dbd4ed635b002cf58acb1a4654b69895bc33b14ea662785a00554a90f194e1",
+          "head_sha": "15104befa4aee3e003be9a18c0fcf78799ec0008",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "15104befa4aee3e003be9a18c0fcf78799ec0008",
+        "number": 49,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/visionRAG/pull/49"
+      },
+      {
+        "evidence": {
+          "body_sha256": "25dce19c98a3f1e73b87fdffcc9353fbbfdeaeb82b70b99a97e24113ef4d5af1",
+          "head_sha": "3fc37f30c42a082fbc2e99c53cdb2dbe7e7c4e95",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "3fc37f30c42a082fbc2e99c53cdb2dbe7e7c4e95",
+        "number": 50,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/visionRAG/pull/50"
+      },
+      {
+        "evidence": {
+          "body_sha256": "30ff3fbc7f5ddb84a7e1f14679e1366aa78ca82d767999cfeb9d49eae7664eb8",
+          "head_sha": "abe214b4bf25dc9a499c1a7e124c9f89fea31d40",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "abe214b4bf25dc9a499c1a7e124c9f89fea31d40",
+        "number": 51,
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/visionRAG/pull/51"
+      }
+    ],
+    "acceptance": "incomplete; no verified patch/minor terminal-state claim"
+  },
+  "live-inventory-audit": {
+    "source-id": "dependency-gate-live-audit-current.json",
+    "sha256": "fc62c217afac8d5ba9736be38fb76c4a1ed097756f7dcc5fb48ba60efa3658a0",
+    "exit-code": 0,
+    "result": {
+      "active-repositories": 33,
+      "ambiguities": [],
+      "archived": [],
+      "unclassified": []
+    },
+    "limitation": "Inventory classification audit only; does not establish fleet enforcement or Dependabot reconciliation"
+  }
+}
