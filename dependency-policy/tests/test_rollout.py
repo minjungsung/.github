@@ -233,6 +233,20 @@ class RolloutTest(unittest.TestCase):
             with self.assertRaisesRegex(PolicyError, 'absent'):
                 self.run_rollout(FakeRunner(legacy=None), Path(temp), '--reviewed-legacy-sha256', 'a' * 64)
 
+    def test_reviewed_hash_rejects_existing_caller_only_pr(self):
+        pr = {'url': 'https://github.com/minjungsung/Algorithm/pull/1',
+              'baseRefName': 'main', 'headRefName': BRANCH, 'headRefOid': SHA}
+        class CallerOnly(FakeRunner):
+            def __call__(self, command):
+                result = super().__call__(command)
+                if command[0] == 'git' and command[3:5] == ['diff', '--name-only']:
+                    result.stdout = CALLER + '\n'
+                return result
+        with TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(PolicyError, 'does not delete'):
+                self.run_rollout(CallerOnly(prs=[pr], legacy=None), Path(temp),
+                                 '--reviewed-legacy-sha256', 'a' * 64)
+
     def test_sha_validation_happens_before_commands(self):
         runner = FakeRunner()
         with TemporaryDirectory() as temp, self.assertRaises(ValueError):

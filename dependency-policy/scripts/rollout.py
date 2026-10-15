@@ -156,6 +156,8 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
         files = set(git('diff', '--name-only', f'origin/{repository.default_branch}...{head}').splitlines())
         if not files or not files <= {CALLER, LEGACY} or git('show', f'{head}:{CALLER}') != generated or git('ls-tree', '--name-only', head, '--', LEGACY).strip():
             raise PolicyError('existing rollout PR differs from requested policy; review before rerun')
+        if args.reviewed_legacy_sha256 and LEGACY not in files:
+            raise PolicyError('reviewed legacy hash supplied but existing PR does not delete legacy workflow')
         if LEGACY in files:
             base = git('merge-base', f'origin/{repository.default_branch}', head).strip()
             if re.fullmatch(r'[0-9a-f]{40}', base) is None or not reviewed_legacy(blob_bytes(base)):
