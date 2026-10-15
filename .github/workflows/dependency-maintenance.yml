@@ -62,3 +62,11 @@ jobs:
                       for pr in repo['pull-requests']:
                           summary.write(f"  - PR {pr['number']}: {pr['status']}\n")
           PY
+      - name: Preserve maintenance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dependency-maintenance-evidence
+          path: maintenance-evidence.json
+          if-no-files-found: error
+          retention-days: 30

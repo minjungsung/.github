@@ -53,4 +53,36 @@ class MaintenanceTests(unittest.TestCase):
         self.assertEqual(result['repositories'][0]['alert-status'],'unavailable')
         self.assertEqual(result['mutations'],[])
 
+
+class TrustedMergeTests(unittest.TestCase):
+    def inputs(self):
+        detail=pr(mergeable=True, body='Bumps package from 1.0.0 to 2.0.0.\n')
+        checks=[check('dependency-gate'),check('validate-dependencies / validate-projects (root, npm)'),check('ci')]
+        protection={'checks':[{'context':'dependency-gate','app_id':15368}]}
+        return detail, checks, [], protection, 1
+
+    def test_workflow_permission_failure_does_not_replace_application_checks(self):
+        from scripts.maintain_dependencies import merge_eligibility
+        args=list(self.inputs());args[1].append(check('dependabot-auto-merge',conclusion='failure'))
+        self.assertTrue(merge_eligibility(*args)[0])
+        args[1][2]['conclusion']='failure'
+        self.assertFalse(merge_eligibility(*args)[0])
+
+    def test_optional_quota_is_allowed_but_required_quota_is_blocked(self):
+        from scripts.maintain_dependencies import merge_eligibility
+        args=list(self.inputs());args[2]=[{'context':'Vercel','state':'failure','description':'Deployment rate limited — retry in 24 hours.'}]
+        self.assertTrue(merge_eligibility(*args)[0])
+        args[3]['checks'].append({'context':'Vercel','app_id':None})
+        self.assertFalse(merge_eligibility(*args)[0])
+
+    def test_incomplete_matrix_unknown_metadata_and_absent_protection_block(self):
+        from scripts.maintain_dependencies import merge_eligibility
+        for mutation in ['matrix','metadata','protection','stale']:
+            args=list(self.inputs())
+            if mutation=='matrix':args[4]=2
+            if mutation=='metadata':args[0]['body']='Updates dependencies'
+            if mutation=='protection':args[3]={'checks':[]}
+            if mutation=='stale':args[0]['mergeable_state']='behind'
+            self.assertFalse(merge_eligibility(*args)[0])
+
 if __name__ == '__main__': unittest.main()
