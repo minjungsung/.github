@@ -1,0 +1,64 @@
+name: Dependency Maintenance
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dependency-maintenance
+  cancel-in-progress: false
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out trusted policy
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Require fleet authentication
+        env:
+          APP_ID: ${{ vars.DEPENDENCY_APP_ID }}
+          APP_KEY: ${{ secrets.DEPENDENCY_APP_PRIVATE_KEY }}
+          MAINTENANCE_TOKEN: ${{ secrets.DEPENDENCY_MAINTENANCE_TOKEN }}
+        run: |
+          if [ -z "$MAINTENANCE_TOKEN" ] && { [ -z "$APP_ID" ] || [ -z "$APP_KEY" ]; }; then
+            echo '::error::Fleet credentials are missing. Configure a repository-scoped GitHub App installation or a dedicated maintenance token.'
+            exit 1
+          fi
+      - name: Create short-lived installation token
+        id: app-token
+        if: vars.DEPENDENCY_APP_ID != ''
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ vars.DEPENDENCY_APP_ID }}
+          private-key: ${{ secrets.DEPENDENCY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - name: Reconcile active repositories and refresh stale updates
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.DEPENDENCY_MAINTENANCE_TOKEN }}
+          POLICY_OWNER: ${{ github.repository_owner }}
+          PYTHONPATH: dependency-policy
+        run: |
+          python3 dependency-policy/scripts/maintain_dependencies.py \
+            --owner "$POLICY_OWNER" --output maintenance-evidence.json --apply
+      - name: Record coverage and unresolved security alerts
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path('maintenance-evidence.json')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              if not p.exists():
+                  summary.write('Fleet maintenance did not produce evidence; authentication or discovery failed.\n')
+              else:
+                  report = json.loads(p.read_text())
+                  summary.write('# Dependency maintenance\n\n')
+                  summary.write(f"Coverage complete: {report['coverage-complete']}\n\n")
+                  for repo in report['repositories']:
+                      summary.write(f"- {repo['repository']}: policy={repo.get('policy-status')}, open alerts={len(repo['alerts'])}, alert access={repo.get('alert-status', 'available')}\n")
+                      for pr in repo['pull-requests']:
+                          summary.write(f"  - PR {pr['number']}: {pr['status']}\n")
+          PY

@@ -1,0 +1,17 @@
+{
+  "name": "Dependency Maintenance",
+  "url": "https://github.com",
+  "public": false,
+  "hook_attributes": {"active": false},
+  "default_permissions": {
+    "metadata": "read",
+    "contents": "write",
+    "pull_requests": "write",
+    "workflows": "write",
+    "actions": "write",
+    "checks": "read",
+    "statuses": "read",
+    "vulnerability_alerts": "read"
+  },
+  "default_events": []
+}
