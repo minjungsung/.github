@@ -157,6 +157,10 @@
         },
         "auto-merge-enabled": {
           "type": "boolean"
+        },
+        "postgres-required": {
+          "type": "boolean",
+          "default": false
         }
       }
     }

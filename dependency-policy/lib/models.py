@@ -40,6 +40,7 @@ class Repository:
     projects: tuple[Project, ...]
     deployment_workflows: tuple[str, ...] = ()
     auto_merge_enabled: bool = True
+    postgres_required: bool = False
 
 
 @dataclass(frozen=True)
@@ -72,7 +73,7 @@ PROJECT_FIELDS = {
 }
 REPOSITORY_FIELDS = {
     "name", "default-branch", "projects", "deployment-workflows",
-    "auto-merge-enabled",
+    "auto-merge-enabled", "postgres-required",
 }
 REQUIRED_BY_ECOSYSTEM = {
     "npm": {"runtime-version", "manifest"},
@@ -151,12 +152,16 @@ def _parse_repository(value: dict[str, Any], index: int) -> Repository:
     auto_merge = value.get("auto-merge-enabled", True)
     if not isinstance(auto_merge, bool):
         raise PolicyError(f"{context}: auto-merge-enabled must be boolean")
+    postgres_required = value.get("postgres-required", False)
+    if type(postgres_required) is not bool:
+        raise PolicyError(f"{context}: postgres-required must be boolean")
     return Repository(
         name=name,
         default_branch=default_branch,
         projects=projects,
         deployment_workflows=tuple(deployments),
         auto_merge_enabled=auto_merge,
+        postgres_required=postgres_required,
     )
 
 
