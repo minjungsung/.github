@@ -18,7 +18,10 @@
     {
       "name": "Algorithm",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -53,7 +56,8 @@
       "name": "Interview",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
       "projects": [
@@ -80,7 +84,8 @@
       "name": "KakaoBot",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
       "projects": [
@@ -95,7 +100,10 @@
     {
       "name": "KakaoBot-API",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -112,7 +120,8 @@
       "name": "Leethub",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
       "projects": [
@@ -130,7 +139,10 @@
     {
       "name": "LingoCast",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -166,7 +178,10 @@
     {
       "name": "Nbody",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -200,6 +215,7 @@
       "name": "TangoMBTI",
       "default-branch": "main",
       "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
         ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": false,
@@ -219,7 +235,8 @@
       "name": "Undead-Survivor",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": false,
       "projects": [
@@ -234,7 +251,10 @@
     {
       "name": "ai_algorithm_design_and_analysis",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -248,7 +268,10 @@
     {
       "name": "applied_generative_ai",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -264,7 +287,10 @@
     {
       "name": "applied_machine_learning",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -293,7 +319,10 @@
     {
       "name": "creating_ai_enabled_systems",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -308,7 +337,8 @@
       "name": "dongle-game",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": false,
       "projects": [
@@ -323,7 +353,11 @@
     {
       "name": "eltango",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/init-wiki.yml",
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -372,6 +406,7 @@
       "name": "house-scanner-frontend",
       "default-branch": "main",
       "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
         ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": false,
@@ -390,7 +425,10 @@
     {
       "name": "introduction_to_algorithm",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -404,7 +442,10 @@
     {
       "name": "jhu_software_concepts",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -538,7 +579,10 @@
     {
       "name": "kiro-skills",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": false,
       "projects": [
         {
@@ -580,7 +624,9 @@
       "default-branch": "main",
       "deployment-workflows": [
         ".github/workflows/daily_publish.yml",
-        ".github/workflows/deploy_pages.yml"
+        ".github/workflows/deploy_pages.yml",
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
       "projects": [
@@ -597,7 +643,10 @@
     {
       "name": "minjungsung",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -611,7 +660,10 @@
     {
       "name": "portfolio-backend",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -629,7 +681,8 @@
       "name": "portfolio-frontend",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
       "projects": [
@@ -646,7 +699,10 @@
     {
       "name": "portfolio-frontend-inner",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -663,7 +719,9 @@
     {
       "name": "repo-template",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -677,7 +735,10 @@
     {
       "name": "senior_eltango",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -694,7 +755,8 @@
       "name": "shooting-game",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
+        ".github/workflows/publish-wiki.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": false,
       "projects": [
@@ -709,7 +771,10 @@
     {
       "name": "visionRAG",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
       "auto-merge-enabled": false,
       "projects": [
         {
