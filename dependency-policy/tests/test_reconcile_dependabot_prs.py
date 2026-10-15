@@ -44,6 +44,16 @@ class ReconcileTests(unittest.TestCase):
             self.assertEqual(main(['--owner', 'example', '--check'], client=Fake(), inventory=Inventory(1, ())), 1)
         self.assertEqual(json.loads(output.getvalue())[0]['state'], 'unreviewed-repository')
 
+    def test_major_updates_require_all_validation_and_policy_checks(self):
+        for change, value, expected in [('auto_merge_enabled', False, 'manual-repository'),
+                                         ('repository_policy_known', False, 'unreviewed-repository'),
+                                         ('required_checks_pass', False, 'investigate-checks'),
+                                         ('behind', True, 'request-rebase')]:
+            pr = passing(); pr.update(update_type='major'); pr[change] = value
+            self.assertEqual(classify_pr(pr).state, expected)
+        pr = passing(); pr['update_type'] = 'major'; pr['gate']['conclusion'] = 'failure'
+        self.assertEqual(classify_pr(pr).state, 'remediate')
+
     def test_canonical_dependabot_version_evidence_is_conservative(self):
         for version, expected in [('1.0.1', 'patch'), ('1.1.0', 'minor'), ('2.0.0', 'major'), ('1.0.0-beta', None)]:
             detail = {'user': {'login': 'dependabot[bot]'}, 'body': f'Bumps package from 1.0.0 to {version}.\n'}
@@ -77,7 +87,7 @@ class ReconcileTests(unittest.TestCase):
         self.assertIn('repository PR discovery incomplete', records[0]['discovery_error'])
 
     def test_passing_patch_minor_are_eligible(self):
-        for update in ('patch', 'minor'):
+        for update in ('patch', 'minor', 'major'):
             pr = passing(); pr['update_type'] = update
             self.assertEqual(classify_pr(pr).state, 'merge-eligible')
 
@@ -94,7 +104,7 @@ class ReconcileTests(unittest.TestCase):
         self.assertEqual(classify_pr(pr).state, 'await-current-checks')
 
     def test_major_unknown_and_external_blocker(self):
-        for update, expected in [('major', 'manual-major'), (None, 'manual-unknown')]:
+        for update, expected in [(None, 'manual-unknown')]:
             pr = passing(); pr['update_type'] = update
             self.assertEqual(classify_pr(pr).state, expected)
         pr = passing(); pr['external_blocker'] = 'required review approval'

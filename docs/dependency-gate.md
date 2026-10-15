@@ -8,7 +8,7 @@ Do not add permissive installation flags, ignore failed dependency checks, or sk
 
 Tests and builds run only where an applicable command was inventoried. The job summary explicitly reports omitted tests/builds; an omission does not establish application correctness. Add missing commands through inventory review. Unsupported application validation disables automatic merging until reviewed support exists.
 
-Only Dependabot patch/minor updates may enable auto-merge after successful validation. Major and other update types require manual review. After a Dependabot rebase, validation runs for the new head SHA. Use Dependabot's rebase command when necessary; review the new results before merging, and rerun failed infrastructure jobs on that current head instead of relying on an older successful commit.
+Verified Dependabot patch, minor, and major updates may enable auto-merge after successful strict validation in repositories whose reviewed policy enables automatic merging. Unknown update metadata remains manual. Repositories with automatic merging disabled remain manual until their actual validation support and policy are reviewed. After a Dependabot rebase, validation runs for the new head SHA. Use Dependabot's rebase command when necessary; review the new results before merging, and rerun failed infrastructure jobs on that current head instead of relying on an older successful commit.
 
 ## Generate and publish rollout PRs
 

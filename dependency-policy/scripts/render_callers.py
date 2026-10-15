@@ -36,7 +36,8 @@ AUTO_MERGE_JOB = """
       - name: Approve and enable auto-merge
         if: >-
           steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch' ||
-          steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor'
+          steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' ||
+          steps.dependabot-metadata.outputs.update-type == 'version-update:semver-major'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
@@ -46,7 +47,8 @@ AUTO_MERGE_JOB = """
       - name: Require manual review for other update types
         if: >-
           steps.dependabot-metadata.outputs.update-type != 'version-update:semver-patch' &&
-          steps.dependabot-metadata.outputs.update-type != 'version-update:semver-minor'
+          steps.dependabot-metadata.outputs.update-type != 'version-update:semver-minor' &&
+          steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major'
         env:
           UPDATE_TYPE: ${{ steps.dependabot-metadata.outputs.update-type }}
         run: |
