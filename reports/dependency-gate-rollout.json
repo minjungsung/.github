@@ -41,6 +41,26 @@
       "number": 9,
       "url": "https://github.com/minjungsung/.github/pull/9",
       "merge-sha": "83f181030ef7208baf55f4e708a90ba0f4307d98"
+    },
+    {
+      "number": 10,
+      "url": "https://github.com/minjungsung/.github/pull/10"
+    },
+    {
+      "number": 11,
+      "url": "https://github.com/minjungsung/.github/pull/11"
+    },
+    {
+      "number": 12,
+      "url": "https://github.com/minjungsung/.github/pull/12"
+    },
+    {
+      "number": 13,
+      "url": "https://github.com/minjungsung/.github/pull/13"
+    },
+    {
+      "number": 14,
+      "url": "https://github.com/minjungsung/.github/pull/14"
     }
   ],
   "canary": {
@@ -173,11 +193,11 @@
       "ecosystems": [
         "python-requirements"
       ],
-      "auto-merge-enabled": true,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "failed",
-      "notes": "Strict Python3.12 requirements installation failed: TensorFlow2.12.1 has no compatible wheel; candidate constraints and missing runtime assets remain unresolved.",
+      "auto-merge-enabled": false,
+      "rollout-status": "manual-caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-model-compatibility-pass",
+      "notes": "Reviewed constrained Python3.12 dependency graph, pip check and actual CNN/HDF5 plus SBERT same-process tests passed on Linux. Native import order fixed. Manual caller/release/wiki guards and required dependency gate verified on exactmain. Missing production config, vocabulary and model assets remain unaccepted.",
       "candidate-source-references": [
         {
           "source-id": "Chatbot-candidate-plan.md",
@@ -196,7 +216,18 @@
           "status": "fail",
           "exit_code": 1
         }
-      ]
+      ],
+      "remediation-pr": "https://github.com/minjungsung/Chatbot/pull/73",
+      "rollout-pr": "https://github.com/minjungsung/Chatbot/pull/74",
+      "verified-default-branch-sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+      "default-branch-ci-run": "https://github.com/minjungsung/Chatbot/actions/runs/38676767794",
+      "default-branch-ci-conclusion": "success",
+      "default-branch-gate-run": "https://github.com/minjungsung/Chatbot/actions/runs/38676768029",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
     },
     {
       "repository": "Interview",
@@ -206,10 +237,18 @@
         "python-requirements"
       ],
       "auto-merge-enabled": true,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "No repository-specific acceptance evidence recorded"
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass",
+      "notes": "Strict Node20 install/test/build, Python3.12 and actual Ruff checks passed. Reviewed caller, wiki and release guards merged; exact-main required gate verified.",
+      "rollout-pr": "https://github.com/minjungsung/Interview/pull/33",
+      "verified-default-branch-sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+      "default-branch-gate-run": "https://github.com/minjungsung/Interview/actions/runs/38676570323/job/116231469643",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
     },
     {
       "repository": "KakaoBot",
@@ -297,10 +336,22 @@
         "npm"
       ],
       "auto-merge-enabled": true,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "Static web command added; actual project baseline enforcement not yet observed"
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass",
+      "notes": "Actual Node20/Java21 validation and required protection passed. Reviewed metadata canary enabled actual grouped jsoup minor PR118 to pass all3 strict projects and auto-merge at exacthead7094f93e; merged5bd5fe28. Fleet promotion and production acceptance remain separate.",
+      "rollout-pr": "https://github.com/minjungsung/LingoCast/pull/117",
+      "verified-default-branch-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
+      "default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38677241401/job/116233561516",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      },
+      "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+      "metadata-canary-pr": "https://github.com/minjungsung/LingoCast/pull/120",
+      "metadata-canary-status": "actual-minor-auto-merge-proven",
+      "prior-default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38675147610/job/116226967377"
     },
     {
       "repository": "Nbody",
@@ -511,10 +562,18 @@
         "python-requirements"
       ],
       "auto-merge-enabled": true,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "Worker test script explicitly exits1; unresolved baseline blocker"
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass",
+      "notes": "Strict Node24 worker install, five actual request regressions and build plus Python3.12 install passed. Main-only digest/subscriber and tag release verification guards reviewed.",
+      "rollout-pr": "https://github.com/minjungsung/hackdigest/pull/25",
+      "verified-default-branch-sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+      "default-branch-gate-run": "https://github.com/minjungsung/hackdigest/actions/runs/38675140022/job/116226941621",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
     },
     {
       "repository": "house-scanner-frontend",
@@ -569,10 +628,12 @@
         "python-requirements"
       ],
       "auto-merge-enabled": true,
-      "rollout-status": "not-rolled-out",
+      "rollout-status": "service-aware-caller-pending",
       "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "No repository-specific acceptance evidence recorded"
+      "baseline-status": "hosted-pass",
+      "notes": "Clean remediation PR58 passed all15 strict matrix entries and existing tests, including disposable PostgreSQL integration tests. Central service support is under review before caller rollout.",
+      "remediation-pr": "https://github.com/minjungsung/jhu_software_concepts/pull/58",
+      "remediation-merge-sha": "00a9d10b540c639df9f4e033cae85963e9b31476"
     },
     {
       "repository": "kiro-skills",
@@ -582,10 +643,18 @@
         "python-requirements"
       ],
       "auto-merge-enabled": false,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "Bun adapter unavailable; source script suppression requires manual review"
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "manual-unaccepted",
+      "notes": "Fail-closed manual caller retains all four audited projects. Bun is unsupported and script suppression remains an explicit application blocker; auto-merge disabled.",
+      "rollout-pr": "https://github.com/minjungsung/kiro-skills/pull/6",
+      "verified-default-branch-sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+      "default-branch-gate-run": "https://github.com/minjungsung/kiro-skills/actions/runs/38675055555/job/116226688476",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
     },
     {
       "repository": "medium",
@@ -594,10 +663,18 @@
         "python-requirements"
       ],
       "auto-merge-enabled": true,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "No repository-specific acceptance evidence recorded"
+      "rollout-status": "caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass",
+      "notes": "Strict Python3.11 install and Pages publication passed; reviewed generated-file main push guard avoids detached-HEAD push and serializes writes.",
+      "rollout-pr": "https://github.com/minjungsung/medium/pull/8",
+      "verified-default-branch-sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+      "default-branch-gate-run": "https://github.com/minjungsung/medium/actions/runs/38675016483/job/116226554542",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
     },
     {
       "repository": "minjungsung",
@@ -762,10 +839,21 @@
         "python-requirements"
       ],
       "auto-merge-enabled": false,
-      "rollout-status": "not-rolled-out",
-      "enforcement-status": "not-observed",
-      "baseline-status": "not-executed",
-      "notes": "Reviewed extras configured; auto-merge disabled pending actual baseline validation"
+      "rollout-status": "manual-caller-merged",
+      "enforcement-status": "applied-and-verified",
+      "baseline-status": "hosted-pass-manual",
+      "notes": "All3 strict projects passed, including original extras and87 actual tests. Main CI/DVC/Docker build and smoke passed. Manual caller/wiki/release guards and requiredgate verified; external GPU/OCR behavior remains manual.",
+      "rollout-pr": "https://github.com/minjungsung/visionRAG/pull/52",
+      "caller-merge-sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+      "verified-default-branch-sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+      "default-branch-ci-run": "https://github.com/minjungsung/visionRAG/actions/runs/38676835137",
+      "default-branch-ci-conclusion": "success",
+      "default-branch-gate-run": "https://github.com/minjungsung/visionRAG/actions/runs/38676835544",
+      "default-branch-gate-conclusion": "success",
+      "required-check": {
+        "context": "dependency-gate",
+        "app-id": 15368
+      }
     },
     {
       "repository": "TangoDJ",
@@ -796,11 +884,11 @@
     }
   ],
   "limitations": [
-    "Controlled runs use synthetic routing; they do not establish real Dependabot PR identity or fleet enforcement.",
-    "A successful ordinary/default-push no-op proves caller execution, not application validation.",
-    "Six initial npm baseline checks used Node24 instead of reviewedNode20; failing baselines are blockers pending runtime-specific remediation.",
-    "Other agents are preparing compatibility fixes; unreviewed or unpublished fixes are not acceptance evidence.",
-    "Open PR and required-check/protection status must be refreshed before final acceptance."
+    "Synthetic fixture runs do not establish real bot identity or fleet enforcement.",
+    "Ordinary/default-push no-op proves caller execution, not application validation.",
+    "Pending renderer release promotion leaves intentional full-SHA fleet version differences.",
+    "Failed deployments, enforced vulnerability audit, missing assets and unsupported ecosystems remain explicit blockers.",
+    "Latest live inventory check returned1 despite zero classification ambiguities; serialized drift must be resolved."
   ],
   "inventoried-repository-count": 33,
   "unclassified-active-repositories": [],
@@ -835,6 +923,21 @@
       "source-id": "KakaoBot-API-summary.md",
       "sha256": "0f91aed3a6f5e36335ac3603dfa706feed5af296ce933da7d1b9d070ba3c0d78",
       "retention": "Local requirements-install evidence embedded; hosted results recorded separately"
+    },
+    {
+      "source-id": "dependency-gate-live-enforcement-next.json",
+      "sha256": "b2a606c25b96f2f65660e218e5699f1532f0fd8576c7d09d6c20baa4ae04057a",
+      "retention": "Necessary snapshot facts embedded; mutable source may advance"
+    },
+    {
+      "source-id": "dependency-gate-pr-reconciliation-next.json",
+      "sha256": "eca8b4f685671f9135a96232f76fa47c3e4a354f8eb4b2f1419bed36ccac538c",
+      "retention": "Necessary snapshot facts embedded; mutable source may advance"
+    },
+    {
+      "source-id": "LingoCast-real-minor-evidence.json",
+      "sha256": "e729d6cc030f5bd80099d3c903a786d7576b1c203ecb9accee6043d93347cbf2",
+      "retention": "Actual exact-head metadata, gate, project and automatic merge facts embedded"
     }
   ],
   "protection-backups": [
@@ -847,12 +950,24 @@
       "sha256": "4472adc9716036bf43080d378715c2d3119f58d767b8f34e72ee0aa76ad1e274"
     },
     {
+      "location": "reports/protection-backups/minjungsung-Chatbot.json",
+      "sha256": "d1a1044ff30a0fec8daf55367bcee270da2b8d6d4723e86aa839489d0ed84a2d"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-Interview.json",
+      "sha256": "237499ba3e54f4a2fb5987b31ae1ea84f89f39ed8706d89d26b183c7768898c4"
+    },
+    {
       "location": "reports/protection-backups/minjungsung-KakaoBot.json",
       "sha256": "b48e7e5a8d73b914366009dc377e0f2be9a88ba20571f62c02f23a66990cbd8b"
     },
     {
       "location": "reports/protection-backups/minjungsung-Leethub.json",
       "sha256": "80a9d24e0544e2e17c768221974c19d800d8a9c440ec5b6a3a2efc154b4f88e8"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-LingoCast.json",
+      "sha256": "340f35ecf8b104f1e1e32889c8f67d6e693e5849fa2e7a806acf114d14cf54d4"
     },
     {
       "location": "reports/protection-backups/minjungsung-Nbody.json",
@@ -895,8 +1010,20 @@
       "sha256": "03b5b2de864f6af03ebaf342099b8c294a7605801464bb0488aaf6eb138ee40e"
     },
     {
+      "location": "reports/protection-backups/minjungsung-hackdigest.json",
+      "sha256": "a7efaec8c53047385c47eba240bd1a20b3331b626dad7165d01d77154999126f"
+    },
+    {
       "location": "reports/protection-backups/minjungsung-introduction_to_algorithm.json",
       "sha256": "f1cba484a0af381274363e34b6c228e7071b53d226d88f06f513f5547444bef5"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-kiro-skills.json",
+      "sha256": "6c369e95ea83af5427585e9f3777f1824bff227925e7c4df41ff291b020fb77e"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-medium.json",
+      "sha256": "ae9a77f4df50b6d8bd9feb4a72c31f670d8a92799c438a251f00b5cb7eaf8915"
     },
     {
       "location": "reports/protection-backups/minjungsung-minjungsung.json",
@@ -925,9 +1052,13 @@
     {
       "location": "reports/protection-backups/minjungsung-shooting-game.json",
       "sha256": "97f9b2ddbe4a6156d1bff9358270660f3936d0baa178f7437f78460a2fdad10e"
+    },
+    {
+      "location": "reports/protection-backups/minjungsung-visionRAG.json",
+      "sha256": "56ee573f769d60d769588b70439bbc2630071becf28b9f3e4667bf4696613572"
     }
   ],
-  "observed-protected-repository-count": 22,
+  "observed-protected-repository-count": 29,
   "real-dependabot-major-evidence": {
     "repository": "repo-template",
     "number": 2,
@@ -939,28 +1070,28 @@
     "limitation": "Evidence applies only to the recorded exact PR head"
   },
   "dependabot-reconciliation": {
-    "source-id": "dependency-gate-pr-reconciliation-current.json",
-    "sha256": "502da73b0942d57665ede4ac51264aed689a7ce9798904a9578e5af8fd4211ff",
+    "source-id": "dependency-gate-pr-reconciliation-next.json",
+    "sha256": "eca8b4f685671f9135a96232f76fa47c3e4a354f8eb4b2f1419bed36ccac538c",
     "records": [
       {
         "evidence": {
-          "body_sha256": "d89125b081a0aaf8cb3cbe158a7b4354355a01639532eb1db9f0139ede476f2c",
-          "head_sha": "909882302caf9eabf3e9e31593dc2c05e1637c01",
+          "body_sha256": "55a400bbe5ce44ff30761196d9b98568f7f870f8595ed9ea51506eb08ff52ebe",
+          "head_sha": "4520f38b93a9467931282901c13b7e7dfda698e7",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "909882302caf9eabf3e9e31593dc2c05e1637c01",
+        "head_sha": "4520f38b93a9467931282901c13b7e7dfda698e7",
         "number": 31,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
+        "reason": "Major updates require manual review",
+        "state": "manual-major",
         "url": "https://github.com/minjungsung/Chatbot/pull/31"
       },
       {
         "evidence": {
-          "body_sha256": "5fda6bfa46d4b70f9ecdabe17f21390189c7ee7d5318d1424bb1f45127bc4a3a",
-          "head_sha": "fcb864ca7a290b01b8cdb5f3f649b1699f2900e6",
+          "body_sha256": "0afa4c4d8d342e61510081efb38f40d337c755dffd7343da0066db477f56e80c",
+          "head_sha": "d6faee2289a5355c0027feefa5e57e80faaaa5f0",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "fcb864ca7a290b01b8cdb5f3f649b1699f2900e6",
+        "head_sha": "d6faee2289a5355c0027feefa5e57e80faaaa5f0",
         "number": 32,
         "reason": "Verified patch/minor metadata is unavailable",
         "state": "manual-unknown",
@@ -979,120 +1110,16 @@
         "url": "https://github.com/minjungsung/Chatbot/pull/33"
       },
       {
-        "evidence": null,
-        "head_sha": "45bd9fa43432890204bac35a63bbc4bdf98a86a4",
-        "number": 43,
-        "reason": "PR discovery incomplete: GitHub CLI command failed with exit code 1",
-        "state": "incomplete-discovery",
-        "url": "https://github.com/minjungsung/Chatbot/pull/43"
-      },
-      {
         "evidence": {
-          "body_sha256": "e6f736d42b9dcd74ed2c19c8e7423af630bce421bf7f44eaeff891bbfaa57839",
-          "head_sha": "c02273edd90c692e542d66d9971dede37658cd44",
+          "body_sha256": "fed7777e1bbf79f188e53ca9d0d0cd65b047bb6db637570be391109b889a4fe5",
+          "head_sha": "f5467dbf9c5572fe7ca9ee499a29140beff8f2ab",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "c02273edd90c692e542d66d9971dede37658cd44",
-        "number": 46,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/46"
-      },
-      {
-        "evidence": {
-          "body_sha256": "3a2ba6f59c69a28f6697744d3d59be05d647ce26f62ef9b1648e134fe235f87d",
-          "head_sha": "bad7e2131b51949d66554b77c807551973ce82c1",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "bad7e2131b51949d66554b77c807551973ce82c1",
-        "number": 50,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/50"
-      },
-      {
-        "evidence": {
-          "body_sha256": "0563a51437d3783e79b6e67068d03fcf4969ee86ef02b6e9ac937259151d8218",
-          "head_sha": "f1646dcdf51b7affe8cf456d677ef27a7db19602",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "f1646dcdf51b7affe8cf456d677ef27a7db19602",
+        "head_sha": "f5467dbf9c5572fe7ca9ee499a29140beff8f2ab",
         "number": 51,
         "reason": "Major updates require manual review",
         "state": "manual-major",
         "url": "https://github.com/minjungsung/Chatbot/pull/51"
-      },
-      {
-        "evidence": {
-          "body_sha256": "0bb382be082d06b28d831933e9699111d1fd45b1505ec650806db5aec1d15c1f",
-          "head_sha": "18dad35d793c9af685ed2acdd89e98622d6523b8",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "18dad35d793c9af685ed2acdd89e98622d6523b8",
-        "number": 62,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
-        "url": "https://github.com/minjungsung/Chatbot/pull/62"
-      },
-      {
-        "evidence": {
-          "body_sha256": "0a6a05d2455e200fa01e6498f4ba1ae672be2755100d2d29856fe41ed2559968",
-          "head_sha": "713118a03bbc079af17720d95c560869a86a72e4",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "713118a03bbc079af17720d95c560869a86a72e4",
-        "number": 63,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/63"
-      },
-      {
-        "evidence": {
-          "body_sha256": "1d5a72eb4262f57bbfda7c81aa40150d1129804a99b0c36f397102864a122433",
-          "head_sha": "15a97283439c207f527e4725391d492097840476",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "15a97283439c207f527e4725391d492097840476",
-        "number": 67,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/67"
-      },
-      {
-        "evidence": {
-          "body_sha256": "f81435bc2f58dd1eb0a46bb410dd3078f87248dd740c4039b47cc63afbb6409c",
-          "head_sha": "9e0ba13f7671f47e07450aa72e6f5eee039a55cf",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "9e0ba13f7671f47e07450aa72e6f5eee039a55cf",
-        "number": 68,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/68"
-      },
-      {
-        "evidence": {
-          "body_sha256": "4efc24b62fae361026dc90bdaf512d8c96e411febb75d395b52cb5e47023416f",
-          "head_sha": "5b63ad23d5d88e39f0afa4fea0546fc92ef90e96",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "5b63ad23d5d88e39f0afa4fea0546fc92ef90e96",
-        "number": 69,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/69"
-      },
-      {
-        "evidence": {
-          "body_sha256": "ba850cbd550f7567eec7652eefb7fbc5227825319b71d2acd65bd3d53735385f",
-          "head_sha": "3bbf9a4c3468f2690518e8f7010d60ea3cbe015a",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "3bbf9a4c3468f2690518e8f7010d60ea3cbe015a",
-        "number": 72,
-        "reason": "Major updates require manual review",
-        "state": "manual-major",
-        "url": "https://github.com/minjungsung/Chatbot/pull/72"
       },
       {
         "evidence": {
@@ -1145,10 +1172,10 @@
       {
         "evidence": {
           "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
-          "head_sha": "5570732f20410a81491195cb872bd995a491e748",
+          "head_sha": "e72dbec77671a74d3ef062a68ef63ac878b13942",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "5570732f20410a81491195cb872bd995a491e748",
+        "head_sha": "e72dbec77671a74d3ef062a68ef63ac878b13942",
         "number": 29,
         "reason": "Major updates require manual review",
         "state": "manual-major",
@@ -1156,11 +1183,11 @@
       },
       {
         "evidence": {
-          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
-          "head_sha": "124dc8a0f875c0b7dbb5b6975c51ad043def67b5",
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "6d0f39d0802338841a1858659897da848306f7d9",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "124dc8a0f875c0b7dbb5b6975c51ad043def67b5",
+        "head_sha": "6d0f39d0802338841a1858659897da848306f7d9",
         "number": 30,
         "reason": "Verified patch/minor metadata is unavailable",
         "state": "manual-unknown",
@@ -1169,10 +1196,10 @@
       {
         "evidence": {
           "body_sha256": "6c41b1038a913230ed186a04eb3dfcc027efeaeefc0f0efc647f98d65d6dc8b2",
-          "head_sha": "61e9e21f22f91353f98fc71c5f5a101c8bb2dae0",
+          "head_sha": "3b27483d1b65eee09dbf482e0a6c5b21c4866f84",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "61e9e21f22f91353f98fc71c5f5a101c8bb2dae0",
+        "head_sha": "3b27483d1b65eee09dbf482e0a6c5b21c4866f84",
         "number": 31,
         "reason": "Verified patch/minor metadata is unavailable",
         "state": "manual-unknown",
@@ -1216,31 +1243,35 @@
       },
       {
         "evidence": {
-          "body_sha256": "632c069bb9adb15fb2f0ddca1db329b3d59845e2c731a7aec124f9f3344f6296",
-          "head_sha": "e20186a2516f110cfc8572b0ebcfa44f577b6796",
+          "body_sha256": "58573c76a3a6bd41438d9ab2a7e8f3ba83e90cd561cd4973bd02fb5135ab4b80",
+          "head_sha": "a8dc91055dbe05046c9ca42f3c194e206976e0bc",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "e20186a2516f110cfc8572b0ebcfa44f577b6796",
+        "head_sha": "a8dc91055dbe05046c9ca42f3c194e206976e0bc",
         "number": 21,
         "reason": "Verified patch/minor metadata is unavailable",
         "state": "manual-unknown",
         "url": "https://github.com/minjungsung/eltango/pull/21"
       },
       {
-        "evidence": null,
-        "head_sha": "bcc547d813b1164ffb3440735ac6ebedf57875ee",
+        "evidence": {
+          "body_sha256": "0afa4c4d8d342e61510081efb38f40d337c755dffd7343da0066db477f56e80c",
+          "head_sha": "620b2bc236a0de41e847a8254eccaadeb8cb5173",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "620b2bc236a0de41e847a8254eccaadeb8cb5173",
         "number": 23,
-        "reason": "PR discovery incomplete: GitHub CLI command failed with exit code 1",
-        "state": "incomplete-discovery",
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
         "url": "https://github.com/minjungsung/eltango/pull/23"
       },
       {
         "evidence": {
-          "body_sha256": "4e6a5a18a74d7e8359a74c8c3be9e1dcb9b9d03fedfaac1d11f50120ee623b59",
-          "head_sha": "46825c3ed8102a93a0545f9bd124fc7f852b5b1a",
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "203a250462072661a5b0ade2a9cf95cbb109265f",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "46825c3ed8102a93a0545f9bd124fc7f852b5b1a",
+        "head_sha": "203a250462072661a5b0ade2a9cf95cbb109265f",
         "number": 24,
         "reason": "Verified patch/minor metadata is unavailable",
         "state": "manual-unknown",
@@ -1249,26 +1280,14 @@
       {
         "evidence": {
           "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
-          "head_sha": "31d0d7b74921229bbb1f21fe415237d912f215da",
+          "head_sha": "0697e9136d7d9300034c7669f84d9c88feb8814b",
           "source": "authenticated-dependabot-canonical-body"
         },
-        "head_sha": "31d0d7b74921229bbb1f21fe415237d912f215da",
+        "head_sha": "0697e9136d7d9300034c7669f84d9c88feb8814b",
         "number": 25,
         "reason": "Major updates require manual review",
         "state": "manual-major",
         "url": "https://github.com/minjungsung/eltango/pull/25"
-      },
-      {
-        "evidence": {
-          "body_sha256": "b3ee833e38095e3444b1ad2980b7822417ff876797ff255878ea9d5842e29acd",
-          "head_sha": "8baf9d6a8228cebdfbc947a88c2939b4ab0675dd",
-          "source": "authenticated-dependabot-canonical-body"
-        },
-        "head_sha": "8baf9d6a8228cebdfbc947a88c2939b4ab0675dd",
-        "number": 24,
-        "reason": "Verified patch/minor metadata is unavailable",
-        "state": "manual-unknown",
-        "url": "https://github.com/minjungsung/hackdigest/pull/24"
       },
       {
         "evidence": {
@@ -1343,11 +1362,15 @@
         "url": "https://github.com/minjungsung/senior_eltango/pull/21"
       },
       {
-        "evidence": null,
+        "evidence": {
+          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
+          "head_sha": "8c4585a3b52aef3d92c7885e3951f905709d229c",
+          "source": "authenticated-dependabot-canonical-body"
+        },
         "head_sha": "8c4585a3b52aef3d92c7885e3951f905709d229c",
         "number": 17,
-        "reason": "PR discovery incomplete: GitHub CLI command failed with exit code 1",
-        "state": "incomplete-discovery",
+        "reason": "Verified patch/minor metadata is unavailable",
+        "state": "manual-unknown",
         "url": "https://github.com/minjungsung/visionRAG/pull/17"
       },
       {
@@ -1387,18 +1410,3647 @@
         "url": "https://github.com/minjungsung/visionRAG/pull/51"
       }
     ],
-    "acceptance": "incomplete; no verified patch/minor terminal-state claim"
+    "limitation": "Conservative canonical-body metadata leaves grouped updates manual-unknown; no patch/minor eligibility claim."
   },
   "live-inventory-audit": {
-    "source-id": "dependency-gate-live-audit-current.json",
+    "source-id": "dependency-gate-live-audit-next.json",
     "sha256": "fc62c217afac8d5ba9736be38fb76c4a1ed097756f7dcc5fb48ba60efa3658a0",
-    "exit-code": 0,
+    "exit-code": 1,
     "result": {
       "active-repositories": 33,
       "ambiguities": [],
       "archived": [],
       "unclassified": []
     },
-    "limitation": "Inventory classification audit only; does not establish fleet enforcement or Dependabot reconciliation"
+    "limitation": "Reviewed publishing workflow lists were dropped by heuristic rediscovery for Chatbot and hackdigest despite existing guarded files. Preservation fix under review; check exits1 and acceptance remains incomplete."
+  },
+  "live-enforcement": {
+    "source-id": "dependency-gate-live-enforcement-next.json",
+    "repositories": [
+      {
+        "repository": ".github",
+        "head-sha": "ad949ba53623d2b86af22565537d28324864e305",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/.github/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/.github/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/.github/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/.github/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/.github/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "ad949ba53623d2b86af22565537d28324864e305",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/.github/actions/runs/38675355771/job/116227646155",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "ad949ba53623d2b86af22565537d28324864e305",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/.github/actions/runs/38675355771/job/116227611210",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "ad949ba53623d2b86af22565537d28324864e305",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/.github/actions/runs/38675355771/job/116227584931",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "ad949ba53623d2b86af22565537d28324864e305",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/.github/actions/runs/38675355771/job/116227583602",
+            "app-id": 15368
+          },
+          {
+            "name": "Policy CI",
+            "head_sha": "ad949ba53623d2b86af22565537d28324864e305",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/.github/actions/runs/38675355606/job/116227582909",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "507a03e895556d497779466a3a41dfbc6bfdebe132b87b073d01f625ba42b114"
+      },
+      {
+        "repository": "Algorithm",
+        "head-sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/Algorithm/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/Algorithm/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/Algorithm/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/Algorithm/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/Algorithm/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Algorithm/actions/runs/38670568062/job/116212531277",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Algorithm/actions/runs/38670568062/job/116212494133",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Algorithm/actions/runs/38670568062/job/116212472384",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Algorithm/actions/runs/38670568062/job/116212471297",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "cb3f2eeb1b5c473470df64bf08850495fd880660",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Algorithm/actions/runs/38670567648/job/116212469641",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "Chatbot",
+        "head-sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/Chatbot/branches/main/protection",
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/Chatbot/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/Chatbot/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependency-gate",
+            "head_sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Chatbot/actions/runs/38676768029/job/116232067614",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Chatbot/actions/runs/38676768029/job/116232045288",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Chatbot/actions/runs/38676768029/job/116232043611",
+            "app-id": 15368
+          },
+          {
+            "name": "model-compatibility",
+            "head_sha": "99a59d891cbeed7752ff2bc0ed1a1ac71597f472",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/Chatbot/actions/runs/38676767794/job/116232042908",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "8bd98f6a96a15c4411c77def7a7bf09761157774eaca823538484aff499afe80"
+      },
+      {
+        "repository": "Interview",
+        "head-sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/Interview/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/Interview/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/Interview/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/Interview/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/Interview/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676697638/job/116231827626",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676694238/job/116231817851",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676694001/job/116231816177",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676692043/job/116231810430",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676570323/job/116231499649",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676570323/job/116231469643",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676580335/job/116231469242",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676570323/job/116231439365",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676570323/job/116231438327",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676570142/job/116231437522",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (Interview-Flow-node, npm, Interview-Flow, 20, package.json, package-lock.json, 15)",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676569952/job/116231437075",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (Interview-Ben-python-requirements, python-requirements, Interview-Ben, 3.12, requiremen...",
+            "head_sha": "983221dc7d51e1bb068cf0759889dc0ea0d0ec03",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Interview/actions/runs/38676569952/job/116231436755",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "5a2d5e7f7feea44b44a2c7e98a5e504372057d540c2a29b5b646187eae428777"
+      },
+      {
+        "repository": "KakaoBot",
+        "head-sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/KakaoBot/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/KakaoBot/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/KakaoBot/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/KakaoBot/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/KakaoBot/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "failure",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38675137718/job/116226907906",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38675137344/job/116226906639",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38670581632/job/116212575472",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38670581632/job/116212540823",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38670581632/job/116212516244",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38670581632/job/116212514960",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "92d7cc67c0d6f89c815c3dee0557134ee02bba2f",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot/actions/runs/38670581251/job/116212513404",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "KakaoBot-API",
+        "head-sha": "1e431912b1ba34fad076698c475aba80909d030e",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/KakaoBot-API/branches/main/protection",
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/KakaoBot-API/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/KakaoBot-API/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "1e431912b1ba34fad076698c475aba80909d030e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38519154687/job/115704629502",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "1e431912b1ba34fad076698c475aba80909d030e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38519150833/job/115704616039",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "1e431912b1ba34fad076698c475aba80909d030e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38519022261/job/115704211298",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "1e431912b1ba34fad076698c475aba80909d030e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38519020069/job/115704204978",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "1e431912b1ba34fad076698c475aba80909d030e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38383833020/job/115250571985",
+            "app-id": 15368
+          },
+          {
+            "name": "update-pip-graph",
+            "head_sha": "1e431912b1ba34fad076698c475aba80909d030e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/KakaoBot-API/actions/runs/38383746705/job/115250298724",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": null
+      },
+      {
+        "repository": "Leethub",
+        "head-sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/Leethub/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/Leethub/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/Leethub/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/Leethub/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/Leethub/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672206808/job/116217709214",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672205076/job/116217703141",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672182946/job/116217636782",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672091662/job/116217406346",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "failure",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672101419/job/116217376506",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672091662/job/116217372942",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672091662/job/116217342459",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672091662/job/116217341226",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "2b82ce03b7acca4132578a6a16bb1fedf124ded4",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Leethub/actions/runs/38672091067/job/116217339438",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1"
+      },
+      {
+        "repository": "LingoCast",
+        "head-sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/LingoCast/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/LingoCast/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/LingoCast/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/LingoCast/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/LingoCast/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Resolve Copilot threads & enable auto-merge",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675424306/job/116227801163",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147610/job/116226992617",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147610/job/116226967377",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147610/job/116226936925",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147610/job/116226935314",
+            "app-id": 15368
+          },
+          {
+            "name": "scripts/verify.sh",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147196/job/116226934143",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (spring-gradle, gradle, spring, 21, build.gradle.kts, gradlew, 30)",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147033/job/116226933623",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (worker-node, npm, worker, 20, package.json, package-lock.json, 15)",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147033/job/116226933605",
+            "app-id": 15368
+          },
+          {
+            "name": "Resolve Copilot threads & enable auto-merge",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147100/job/116226933499",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (root-node, npm, ., 20, package.json, package-lock.json, bash scripts/verify.sh --web, 15)",
+            "head_sha": "701541701693d6826e80d2713720da9cf49b5ce1",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/LingoCast/actions/runs/38675147033/job/116226933248",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "189f0d8807c2acd40fa5dff8bcda72ae3fd334065935ec1ae51481a0b7c8570d"
+      },
+      {
+        "repository": "Nbody",
+        "head-sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/Nbody/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/Nbody/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/Nbody/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/Nbody/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/Nbody/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Nbody/actions/runs/38670592051/job/116212606557",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Nbody/actions/runs/38670592051/job/116212578813",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Nbody/actions/runs/38670592051/job/116212550637",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Nbody/actions/runs/38670592051/job/116212549486",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "d68c87c2ecd66c3ba3ff48d4140c3543f5bd941d",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Nbody/actions/runs/38670591445/job/116212547553",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "TangoDJ",
+        "head-sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/TangoDJ/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/TangoDJ/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/TangoDJ/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/TangoDJ/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/TangoDJ/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659674/job/116219175977",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659674/job/116219151374",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659674/job/116219126302",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659674/job/116219125286",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659167/job/116219123229",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "949ed5cecbd2c438c4a802e16c14871950b698ff",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/TangoDJ/actions/runs/38672659092/job/116219123213",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "79f9dad8e6e8bdab0de63130b713bea3a97a1dcce77b7a07829b0652e6da20a9"
+      },
+      {
+        "repository": "TangoMBTI",
+        "head-sha": "44096f79c963d50600b7ad54b574a968954c4c6d",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/TangoMBTI/branches/main/protection",
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/TangoMBTI/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/TangoMBTI/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "44096f79c963d50600b7ad54b574a968954c4c6d",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/TangoMBTI/actions/runs/38672116345/job/116217422544",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "44096f79c963d50600b7ad54b574a968954c4c6d",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/TangoMBTI/actions/runs/38672087223/job/116217331011",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": null
+      },
+      {
+        "repository": "Undead-Survivor",
+        "head-sha": "b5ca0e0964ad27196b11de032160310eb680bad3",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/Undead-Survivor/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/Undead-Survivor/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/Undead-Survivor/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/Undead-Survivor/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/Undead-Survivor/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependency-gate",
+            "head_sha": "b5ca0e0964ad27196b11de032160310eb680bad3",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38670600659/job/116212602027",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "b5ca0e0964ad27196b11de032160310eb680bad3",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38670600659/job/116212577196",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "b5ca0e0964ad27196b11de032160310eb680bad3",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/Undead-Survivor/actions/runs/38670600659/job/116212576074",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "8e7cd88de9acaaa6a30df7992909301d2f437f49b41c2fc603cbc0bf46bba010"
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "head-sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/ai_algorithm_design_and_analysis/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/ai_algorithm_design_and_analysis/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/ai_algorithm_design_and_analysis/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/ai_algorithm_design_and_analysis/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/ai_algorithm_design_and_analysis/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38670611592/job/116212677355",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38670611592/job/116212643842",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38670611592/job/116212611468",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "1f73d8862b3423c6be7a6c247a28d555b2079e77",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38670611592/job/116212609890",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "applied_generative_ai",
+        "head-sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/applied_generative_ai/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/applied_generative_ai/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/applied_generative_ai/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/applied_generative_ai/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/applied_generative_ai/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671890446/job/116216754591",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671890446/job/116216721016",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671890446/job/116216691398",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671890446/job/116216689616",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671890100/job/116216689145",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "520e3a58887297ce8025b0fbf3dfcf9df3d5da25",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38671889971/job/116216688220",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "8fbad06989f2bf5009886fc040482b9106c178447016a4f4f38761915034ee99"
+      },
+      {
+        "repository": "applied_machine_learning",
+        "head-sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/applied_machine_learning/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/applied_machine_learning/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/applied_machine_learning/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/applied_machine_learning/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/applied_machine_learning/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38670622401/job/116212710140",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38670622401/job/116212678349",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38670622401/job/116212646210",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38670622401/job/116212644482",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "6ae869e543e7dcc9160ea38512c3d5f25584691c",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38670622088/job/116212643300",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "course-manager",
+        "head-sha": "82edaf7c1c777042a20302b916c36194654752a5",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/course-manager/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/course-manager/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/course-manager/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/course-manager/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/course-manager/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "82edaf7c1c777042a20302b916c36194654752a5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/course-manager/actions/runs/38670560145/job/116212506726",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "82edaf7c1c777042a20302b916c36194654752a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/course-manager/actions/runs/38670560145/job/116212472777",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "82edaf7c1c777042a20302b916c36194654752a5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/course-manager/actions/runs/38670560145/job/116212446058",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "82edaf7c1c777042a20302b916c36194654752a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/course-manager/actions/runs/38670560145/job/116212444731",
+            "app-id": 15368
+          },
+          {
+            "name": "test",
+            "head_sha": "82edaf7c1c777042a20302b916c36194654752a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/course-manager/actions/runs/38670559802/job/116212443106",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "f2f67e44559c50147f7031566995870fc483400db00cc6050e515ecbabb8ad51"
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "head-sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/creating_ai_enabled_systems/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/creating_ai_enabled_systems/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/creating_ai_enabled_systems/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/creating_ai_enabled_systems/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/creating_ai_enabled_systems/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38670634540/job/116212733300",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38670634540/job/116212708933",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38670634540/job/116212684389",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38670634540/job/116212682499",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "99b9a9d7e02cf0291a51b443aa74d4d8c68c02b2",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38670634191/job/116212680961",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "dongle-game",
+        "head-sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/dongle-game/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/dongle-game/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/dongle-game/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/dongle-game/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/dongle-game/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependency-gate",
+            "head_sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/dongle-game/actions/runs/38670645123/job/116212742278",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/dongle-game/actions/runs/38670645123/job/116212717956",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/dongle-game/actions/runs/38670645123/job/116212716680",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "b86fb1c53fb59005e277c3fb8285aa29e523e4b8",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/dongle-game/actions/runs/38670644670/job/116212714905",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "8e7cd88de9acaaa6a30df7992909301d2f437f49b41c2fc603cbc0bf46bba010"
+      },
+      {
+        "repository": "eltango",
+        "head-sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/eltango/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/eltango/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/eltango/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/eltango/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/eltango/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672218862/job/116217746826",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672218171/job/116217743270",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672218325/job/116217743122",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672214446/job/116217733219",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672098013/job/116217429654",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672098013/job/116217396973",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672098013/job/116217364410",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672098013/job/116217363105",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "89f2ed0b52c0604b6b00da38b3ff404aceb1dd47",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/eltango/actions/runs/38672097681/job/116217361938",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1"
+      },
+      {
+        "repository": "hackdigest",
+        "head-sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/hackdigest/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/hackdigest/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/hackdigest/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/hackdigest/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/hackdigest/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675252731/job/116227268453",
+            "app-id": 15368
+          },
+          {
+            "name": "test-digest / digest",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116227139368",
+            "app-id": 15368
+          },
+          {
+            "name": "test-digest / security-scan",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116227110152",
+            "app-id": 15368
+          },
+          {
+            "name": "deploy",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675138407/job/116227041153",
+            "app-id": 15368
+          },
+          {
+            "name": "report-build-status",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675138407/job/116227041108",
+            "app-id": 15368
+          },
+          {
+            "name": "test-digest / verify-publication / validate (worker-node, npm, worker, 24, package.json, package-lock.json, npm test, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116227037698",
+            "app-id": 15368
+          },
+          {
+            "name": "test-digest / verify-publication / validate (root-python-requirements, python-requirements, ., 3.12, requirements.txt, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116227037648",
+            "app-id": 15368
+          },
+          {
+            "name": "clear-cache",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116226987116",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675140022/job/116226973789",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675140022/job/116226941621",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675140022/job/116226912894",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675140022/job/116226911729",
+            "app-id": 15368
+          },
+          {
+            "name": "ci / validate (root-python-requirements, python-requirements, ., 3.12, requirements.txt, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139769/job/116226911075",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (worker-node, npm, worker, 24, package.json, package-lock.json, npm test, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139699/job/116226910991",
+            "app-id": 15368
+          },
+          {
+            "name": "build",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675138407/job/116226910693",
+            "app-id": 15368
+          },
+          {
+            "name": "ci / validate (worker-node, npm, worker, 24, package.json, package-lock.json, npm test, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139769/job/116226910606",
+            "app-id": 15368
+          },
+          {
+            "name": "secrets-scan",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139635/job/116226910594",
+            "app-id": 15368
+          },
+          {
+            "name": "frontend-scan",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139635/job/116226910585",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (root-python-requirements, python-requirements, ., 3.12, requirements.txt, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139699/job/116226910584",
+            "app-id": 15368
+          },
+          {
+            "name": "bandit",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139635/job/116226910579",
+            "app-id": 15368
+          },
+          {
+            "name": "verify-publication / validate (root-python-requirements, python-requirements, ., 3.12, requirements.txt, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116226910448",
+            "app-id": 15368
+          },
+          {
+            "name": "actionlint",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139635/job/116226910445",
+            "app-id": 15368
+          },
+          {
+            "name": "verify-publication / validate (worker-node, npm, worker, 24, package.json, package-lock.json, npm test, 15)",
+            "head_sha": "3031d6bb105bdb8f70a6eef739c17fa2dda76a63",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/hackdigest/actions/runs/38675139602/job/116226910192",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "a62ba304644a19579fb6cbcda07c65a676f6cc1651a31787cc3eb0f064047332"
+      },
+      {
+        "repository": "house-scanner-frontend",
+        "head-sha": "ccf1b1ce8d70afd1c1f99d36f001b43eb614602b",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/house-scanner-frontend/branches/main/protection",
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/house-scanner-frontend/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/house-scanner-frontend/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [],
+        "checks-api-exit": 0,
+        "caller-sha256": null
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "head-sha": "42af8778b240308c779f69a930c8808a338e266a",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/introduction_to_algorithm/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/introduction_to_algorithm/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/introduction_to_algorithm/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/introduction_to_algorithm/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/introduction_to_algorithm/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "42af8778b240308c779f69a930c8808a338e266a",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38670655936/job/116212802941",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "42af8778b240308c779f69a930c8808a338e266a",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38670655936/job/116212775998",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "42af8778b240308c779f69a930c8808a338e266a",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38670655936/job/116212752395",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "42af8778b240308c779f69a930c8808a338e266a",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38670655936/job/116212751069",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "head-sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/jhu_software_concepts/branches/main/protection",
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/jhu_software_concepts/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/jhu_software_concepts/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "update-pip-graph",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676619359/job/116231586979",
+            "app-id": 15368
+          },
+          {
+            "name": "pytest",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676612086/job/116231562394",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_6-python-requirements, python-requirements, module_6, 3.11, requirements.txt, 15...",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562239",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_8-python-requirements, python-requirements, module_8, 3.12, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562228",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_5-python-requirements, python-requirements, module_5, 3.11, requirements.txt, 15...",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562183",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_2-python-requirements, python-requirements, module_2, 3.11, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562177",
+            "app-id": 15368
+          },
+          {
+            "name": "lint-test-graph-snyk",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676612028/job/116231562166",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_13-python-requirements, python-requirements, module_13, 3.12, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562165",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_6-src-web-python-requirements, python-requirements, module_6/src/web, 3.11, requ...",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562151",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_11-python-requirements, python-requirements, module_11, 3.11, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562122",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_4-python-requirements, python-requirements, module_4, 3.11, requirements.txt, 15...",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562113",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_6-src-worker-python-requirements, python-requirements, module_6/src/worker, 3.11...",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562096",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_3-python-requirements, python-requirements, module_3, 3.11, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562073",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_7-python-requirements, python-requirements, module_7, 3.11, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562070",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (root-python-requirements, python-requirements, ., 3.12, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562057",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_10-python-requirements, python-requirements, module_10, 3.11, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562053",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_12-python-requirements, python-requirements, module_12, 3.12, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231562050",
+            "app-id": 15368
+          },
+          {
+            "name": "lint-and-test",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611950/job/116231561741",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (module_1-python-requirements, python-requirements, module_1, 3.11, requirements.txt, 15)",
+            "head_sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38676611892/job/116231561724",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": null
+      },
+      {
+        "repository": "kiro-skills",
+        "head-sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/kiro-skills/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/kiro-skills/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/kiro-skills/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/kiro-skills/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/kiro-skills/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependency-gate",
+            "head_sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/kiro-skills/actions/runs/38675055555/job/116226688476",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/kiro-skills/actions/runs/38675055555/job/116226655699",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/kiro-skills/actions/runs/38675055555/job/116226654334",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "9624f6c2d3838df50fad2c1efdf7e8399e17c87b",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/kiro-skills/actions/runs/38675055106/job/116226653328",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "2b03a4ea56181e8406095776dcd97f8ecf2ee4617f63c52f3dfe65c24b9e440a"
+      },
+      {
+        "repository": "medium",
+        "head-sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/medium/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/medium/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/medium/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/medium/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/medium/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "deploy",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675016091/job/116226628200",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675016483/job/116226580570",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675016483/job/116226554542",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675016483/job/116226531115",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675016483/job/116226529632",
+            "app-id": 15368
+          },
+          {
+            "name": "verify-publication / validate (root-python-requirements, python-requirements, ., 3.11, requirements.txt, 15)",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675016091/job/116226528597",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (root-python-requirements, python-requirements, ., 3.11, requirements.txt, 15)",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675015972/job/116226528247",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "29f480a8f36f195de7523b369cd85a5866687d6e",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/medium/actions/runs/38675015924/job/116226527644",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "0d51e4a310aba2853e7aef6941a8f565128e6a48bc936c987773409a4a2ca227"
+      },
+      {
+        "repository": "minjungsung",
+        "head-sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/minjungsung/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/minjungsung/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/minjungsung/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/minjungsung/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/minjungsung/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "generate",
+            "head_sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/minjungsung/actions/runs/38673679155/job/116222313857",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/minjungsung/actions/runs/38670665381/job/116212835275",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/minjungsung/actions/runs/38670665381/job/116212805036",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/minjungsung/actions/runs/38670665381/job/116212782696",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "4483fbd00d3e5759de2cbe69ee118c1c72a73547",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/minjungsung/actions/runs/38670665381/job/116212781414",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "portfolio-backend",
+        "head-sha": "27ae833c82fc371d113bc740d26394249f68c272",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/portfolio-backend/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-backend/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/portfolio-backend/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-backend/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-backend/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671161217/job/116214371325",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671159453/job/116214365682",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671156143/job/116214353297",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040738/job/116214044008",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "failure",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671052887/job/116214024209",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040738/job/116214014249",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040738/job/116213985983",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040738/job/116213984535",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040486/job/116213983471",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "27ae833c82fc371d113bc740d26394249f68c272",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-backend/actions/runs/38671040404/job/116213983439",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1"
+      },
+      {
+        "repository": "portfolio-frontend",
+        "head-sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/portfolio-frontend/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-frontend/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/portfolio-frontend/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-frontend/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-frontend/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671282432/job/116214761322",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671280066/job/116214753561",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671278263/job/116214747524",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671163041/job/116214430859",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671163041/job/116214398461",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671163041/job/116214374704",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671163041/job/116214373450",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "527575362c12fea453e14e092bec3b1a28510dfb",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38671162529/job/116214372141",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "c21b6f5d36578431ba11c449e4c5a79668dcc4663bc8cea9b0854764394f5c87"
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "head-sha": "b2a291befc31a15aadb012912031c636c105079a",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/portfolio-frontend-inner/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-frontend-inner/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/portfolio-frontend-inner/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-frontend-inner/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/portfolio-frontend-inner/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668490813/job/116205798510",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377500/job/116205495308",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "failure",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668393920/job/116205490411",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377500/job/116205465733",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377500/job/116205435123",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377500/job/116205434198",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "b2a291befc31a15aadb012912031c636c105079a",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38668377170/job/116205432856",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "eca8672e660c3176c46a658d226ed22c5ac2472107297e52221fc3d2f0a26bb1"
+      },
+      {
+        "repository": "repo-template",
+        "head-sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/repo-template/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/repo-template/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/repo-template/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/repo-template/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/repo-template/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670790767/job/116213182488",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670674367/job/116212862672",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670674367/job/116212836795",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670674367/job/116212810959",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670674367/job/116212809458",
+            "app-id": 15368
+          },
+          {
+            "name": "TruffleHog Scan",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670674073/job/116212808796",
+            "app-id": 15368
+          },
+          {
+            "name": "Gitleaks Scan",
+            "head_sha": "80fe0d9ec1bc161014aa96506df83cfef22ad1a5",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/repo-template/actions/runs/38670674073/job/116212808591",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "00f111ce615e20611b39014d9b58c0b62048956212a67ae9b98c7a9fb87ca12e"
+      },
+      {
+        "repository": "senior_eltango",
+        "head-sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/senior_eltango/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/senior_eltango/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/senior_eltango/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/senior_eltango/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/senior_eltango/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "Dependabot",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671288036/job/116214777755",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671288082/job/116214777239",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671284713/job/116214767468",
+            "app-id": 15368
+          },
+          {
+            "name": "Dependabot",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671284882/job/116214767460",
+            "app-id": 15368
+          },
+          {
+            "name": "dependabot-auto-merge",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671169282/job/116214447646",
+            "app-id": 15368
+          },
+          {
+            "name": "dependency-gate",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671169282/job/116214423885",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671169282/job/116214394517",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671169282/job/116214393324",
+            "app-id": 15368
+          },
+          {
+            "name": "ci",
+            "head_sha": "bb2d75b878ffcd3649a3ab264211eea680a71fa7",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/senior_eltango/actions/runs/38671168903/job/116214392079",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "cf5beefc294486ca6e3d545470c1f8c4f4f6f8803841638a88db90f7eb64057d"
+      },
+      {
+        "repository": "shooting-game",
+        "head-sha": "91aab2560160e737610e2271c20ae387fae54f50",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/shooting-game/branches/main/protection",
+          "required_status_checks": {
+            "url": "https://api.github.com/repos/minjungsung/shooting-game/branches/main/protection/required_status_checks",
+            "strict": false,
+            "contexts": [
+              "dependency-gate"
+            ],
+            "contexts_url": "https://api.github.com/repos/minjungsung/shooting-game/branches/main/protection/required_status_checks/contexts",
+            "checks": [
+              {
+                "context": "dependency-gate",
+                "app_id": 15368
+              }
+            ]
+          },
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/shooting-game/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/shooting-game/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "dependency-gate",
+            "head_sha": "91aab2560160e737610e2271c20ae387fae54f50",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/shooting-game/actions/runs/38670684669/job/116212865619",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "91aab2560160e737610e2271c20ae387fae54f50",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/shooting-game/actions/runs/38670684669/job/116212844851",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "91aab2560160e737610e2271c20ae387fae54f50",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/shooting-game/actions/runs/38670684669/job/116212843749",
+            "app-id": 15368
+          },
+          {
+            "name": "check",
+            "head_sha": "91aab2560160e737610e2271c20ae387fae54f50",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/minjungsung/shooting-game/actions/runs/38670684447/job/116212841926",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "8e7cd88de9acaaa6a30df7992909301d2f437f49b41c2fc603cbc0bf46bba010"
+      },
+      {
+        "repository": "visionRAG",
+        "head-sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+        "protection": {
+          "url": "https://api.github.com/repos/minjungsung/visionRAG/branches/main/protection",
+          "required_signatures": {
+            "url": "https://api.github.com/repos/minjungsung/visionRAG/branches/main/protection/required_signatures",
+            "enabled": false
+          },
+          "enforce_admins": {
+            "url": "https://api.github.com/repos/minjungsung/visionRAG/branches/main/protection/enforce_admins",
+            "enabled": false
+          },
+          "required_linear_history": {
+            "enabled": false
+          },
+          "allow_force_pushes": {
+            "enabled": false
+          },
+          "allow_deletions": {
+            "enabled": false
+          },
+          "block_creations": {
+            "enabled": false
+          },
+          "required_conversation_resolution": {
+            "enabled": false
+          },
+          "lock_branch": {
+            "enabled": false
+          },
+          "allow_fork_syncing": {
+            "enabled": false
+          }
+        },
+        "protection-api-exit": 0,
+        "checks": [
+          {
+            "name": "validate-dependencies / validate-projects",
+            "head_sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+            "status": "completed",
+            "conclusion": "skipped",
+            "html_url": "https://github.com/minjungsung/visionRAG/actions/runs/38676835544/job/116232260308",
+            "app-id": 15368
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "head_sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/visionRAG/actions/runs/38676835544/job/116232258810",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (root-python-pyproject, python-pyproject, ., 3.12, pyproject.toml, python3 -m venv --cle...",
+            "head_sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/visionRAG/actions/runs/38676835167/job/116232257390",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (root-python-requirements, python-requirements, ., 3.12, requirements.txt, python3 -m ve...",
+            "head_sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+            "status": "queued",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/visionRAG/actions/runs/38676835167/job/116232257250",
+            "app-id": 15368
+          },
+          {
+            "name": "lint-and-test",
+            "head_sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/visionRAG/actions/runs/38676835137/job/116232257127",
+            "app-id": 15368
+          },
+          {
+            "name": "validate (spaces-python-requirements, python-requirements, spaces, 3.12, requirements.txt, 15)",
+            "head_sha": "9a840d4cacb342b7489f42332a5650ce0f03dde8",
+            "status": "in_progress",
+            "conclusion": null,
+            "html_url": "https://github.com/minjungsung/visionRAG/actions/runs/38676835167/job/116232257090",
+            "app-id": 15368
+          }
+        ],
+        "checks-api-exit": 0,
+        "caller-sha256": "396c72f5eff0b718b4305239542055f9e173d12af10f4cb164a75d7d63a1ded8"
+      }
+    ],
+    "scope": "Exact default branch SHA and API protection/check snapshot; ordinary no-op success is not application validation."
+  },
+  "policy-release-rollout": {
+    "released-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+    "status": "real-minor-canary-passed",
+    "canary-pr": "https://github.com/minjungsung/LingoCast/pull/120",
+    "limitation": "LingoCast has promoted912a; other callers retain53eef. Latest renderer byte drift remains pending explicit version promotion.",
+    "canary-status": "merged-and-actual-minor-auto-merge-proven",
+    "canary-merge-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
+    "real-bot-head": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+    "default-fleet-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+    "exceptions": {
+      "LingoCast": "912a4df6333443b9f8a012275627d971a8218a03"
+    }
+  },
+  "real-dependabot-minor-evidence": {
+    "repository": "minjungsung/LingoCast",
+    "pr": 118,
+    "url": "https://github.com/minjungsung/LingoCast/pull/118",
+    "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+    "metadata-action-sha": "25dd0e34f4fe68f24cc83900b1fe3fe149efef98",
+    "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+    "merge-sha": "5bd5fe28f784cc552635bbc2ad47321fe521ba01",
+    "merged-at": "2026-10-15T03:41:31Z",
+    "dependency": {
+      "name": "org.jsoup:jsoup",
+      "previous-version": "1.17.2",
+      "new-version": "1.23.2",
+      "update-type": "version-update:semver-minor",
+      "group": "maven"
+    },
+    "gate": {
+      "name": "dependency-gate",
+      "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+      "conclusion": "success",
+      "app-id": 15368,
+      "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116234451029"
+    },
+    "auto-merge-job": {
+      "run-id": 38677298115,
+      "job-id": 116234521695,
+      "conclusion": "success",
+      "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116234521695"
+    },
+    "project-checks": [
+      {
+        "name": "validate-dependencies / validate-projects (worker-node, npm, worker, 20, package.json, package-lock.json, 15)",
+        "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116233710280"
+      },
+      {
+        "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, bash scripts/verify.sh...",
+        "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116233710260"
+      },
+      {
+        "name": "validate-dependencies / validate-projects (spring-gradle, gradle, spring, 21, build.gradle.kts, gradlew, 30)",
+        "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116233709971"
+      }
+    ],
+    "verification-skips": false,
+    "manual-merge-performed": false,
+    "fresh-caller-sha256": "49d769a7b6cabd2405e74457ec5761729b1d0df5b01065de47a546e12a94cea9",
+    "sources": [
+      {
+        "reference": "LingoCast118-checks.json",
+        "sha256": "e9d29934047dffb95cd3a8e2e62557591ba475d8ae2b48bb47270f2b12ecddf0"
+      },
+      {
+        "reference": "LingoCast118-metadata-auto-merge.log",
+        "sha256": "80fb105aab1698324f98467b7b091d1260efd589169f6476c1c0c7c44dda47ae"
+      },
+      {
+        "reference": "LingoCast118-merged.json",
+        "sha256": "53adfd2a9e84fa3256adeb57bca9b76af3804fb9cec2387f099271230bba6bab"
+      },
+      {
+        "reference": "dependency-gate-lingocast118-message.txt",
+        "sha256": "58fef17bae3467fc2ec574ff5088ccdde7f6b3ff63500daa39023cda3caa9cb2"
+      }
+    ],
+    "scope": "One actual minor dependency PR proved trusted validation, metadata classification and automatic merge. Fleet rollout, patch evidence, major/unknown manual behavior and production acceptance remain separate."
   }
 }
