@@ -155,6 +155,19 @@ class WorkflowTest(unittest.TestCase):
             with self.subTest(mutable_ref=mutable_ref):
                 self.assertNotIn(mutable_ref, workflows)
 
+    def test_controlled_failures_keep_real_hang_matrix_and_lint_commands(self):
+        workflow = (ROOT / ".github/workflows/controlled-fixture-validation.yml").read_text()
+        for scenario in ("npm-timeout", "npm-cancel", "multi-project-fail", "actionlint-fail"):
+            self.assertIn(f"if: inputs.scenario == '{scenario}'", workflow)
+        self.assertIn('"timeout-minutes":1', workflow)
+        self.assertIn('"test-command":"npm test"', workflow)
+        self.assertIn('"test-command":"actionlint .github/workflows/invalid.yml"', workflow)
+        self.assertIn('"name":"npm-pass"', workflow)
+        self.assertIn('"name":"npm-fail-test"', workflow)
+        self.assertNotIn("continue-on-error", workflow)
+        self.assertNotIn("pull_request:", workflow)
+        self.assertNotIn("auto-merge", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()
