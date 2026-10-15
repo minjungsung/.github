@@ -70,6 +70,18 @@ class RunProjectTest(unittest.TestCase):
         self.assertIn("build", text)
         self.assertEqual(text.count("PASS"), 4)
 
+    def test_npm_subprocess_environment_neutralizes_resolution_bypasses(self):
+        root = self.copy_fixture('npm-pass')
+        runner = FakeRunner()
+        result = run_project(self.project_json(), root, runner=runner,
+                             environ={'NPM_CONFIG_LEGACY_PEER_DEPS': 'true', 'npm_config_force': 'true'})
+        self.assertEqual(result, 0)
+        for _, kwargs in runner.calls:
+            self.assertNotIn('NPM_CONFIG_LEGACY_PEER_DEPS', kwargs['env'])
+            self.assertEqual(kwargs['env']['npm_config_legacy_peer_deps'], 'false')
+            self.assertEqual(kwargs['env']['npm_config_force'], 'false')
+            self.assertEqual(kwargs['env']['npm_config_strict_peer_deps'], 'true')
+
     def test_stops_on_first_failing_phase_and_returns_its_code(self):
         root = self.copy_fixture("npm-fail-test")
         failing = ("npm", "test", "--", "--watchAll=false")
@@ -159,7 +171,7 @@ class RunProjectTest(unittest.TestCase):
 
         self.assertEqual(result, 0)
         self.assertNotIn("shell", runner.calls[0][1])
-        self.assertTrue(runner.calls[1][1]["shell"])
+        self.assertEqual(runner.calls[1][0][:5], ("bash", "-e", "-o", "pipefail", "-c"))
 
     def test_executable_lookup_error_fails_closed_with_summary(self):
         root = self.copy_fixture("npm-no-scripts")

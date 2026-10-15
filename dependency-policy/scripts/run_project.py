@@ -67,9 +67,17 @@ def run_project(
             _append_summary(environment, f"- {phase}: SKIP — not configured")
             continue
         display = _display(command)
-        kwargs = {"cwd": root, "check": True}
+        child_environment = dict(os.environ)
+        child_environment.update(environment)
+        if project.ecosystem == 'npm':
+            for key in list(child_environment):
+                if key.lower() in {'npm_config_legacy_peer_deps', 'npm_config_force', 'npm_config_strict_peer_deps'}:
+                    del child_environment[key]
+            child_environment.update(npm_config_legacy_peer_deps='false', npm_config_force='false',
+                                     npm_config_strict_peer_deps='true')
+        kwargs = {"cwd": root, "check": True, "env": child_environment}
         if isinstance(command, str):
-            kwargs["shell"] = True
+            command = ("bash", "-e", "-o", "pipefail", "-c", command)
         try:
             runner(command, **kwargs)
         except subprocess.CalledProcessError as error:

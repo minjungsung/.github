@@ -24,10 +24,11 @@ CURRENT = {
 
 class FakeAPI:
     def __init__(self):
-        self.pages = [[{'name': CHECK_CONTEXT, 'head_sha': SHA, 'status': 'completed', 'conclusion': 'success'}]]
+        self.pages = [[{'name': CHECK_CONTEXT, 'head_sha': SHA, 'status': 'completed', 'conclusion': 'success', 'app': {'id': 15368, 'slug': 'github-actions', 'owner': {'login': 'github'}}}]]
         self.current = copy.deepcopy(CURRENT)
         self.caller = render_caller(REPO, PIN)
         self.branch = 'main'
+        self.branch_sha = SHA
         self.mutations = []
         self.backup = None
         self.read_pages = []
@@ -38,6 +39,9 @@ class FakeAPI:
 
     def default_branch(self, repository):
         return self.branch
+
+    def branch_head(self, repository, branch):
+        return self.branch_sha
 
     def protection(self, repository, branch):
         return copy.deepcopy(self.current)
@@ -73,6 +77,33 @@ class ProtectionTests(unittest.TestCase):
         with redirect_stdout(output):
             result = main(['--owner', 'example', '--repository', 'sample', '--sha', SHA, *extra], client=self.api, inventory_path=self.inventory, backup_directory=self.api.backup.parent)
         return result, json.loads(output.getvalue())
+
+    def test_reject_untrusted_check_app(self):
+        good = copy.deepcopy(self.api.pages[0][0])
+        for app in (None, {'id': 99, 'slug': 'unrelated'}, {'id': 15368, 'slug': 'github-actions', 'owner': {'login': 'other'}}):
+            self.api.pages[0][0] = dict(good, app=app)
+            with self.assertRaises(PolicyError):
+                find_check_context(self.api, 'example/sample', SHA)
+
+    def test_apply_binds_actions_app_and_rejects_stale_commit(self):
+        self.api.branch_sha = 'c' * 40
+        with self.assertRaises(PolicyError):
+            self.run_cli('--apply', '--policy-sha', PIN)
+        self.assertFalse(self.api.backup.exists())
+        self.api.branch_sha = SHA
+        self.run_cli('--apply', '--policy-sha', PIN)
+        self.assertIn({'context': CHECK_CONTEXT, 'app_id': 15368}, self.api.mutations[0]['checks'])
+
+    def test_existing_gate_binding_is_updated_to_observed_app(self):
+        for previous in (-1, 44):
+            current = copy.deepcopy(CURRENT)
+            current['required_status_checks']['checks'].append({'context': CHECK_CONTEXT, 'app_id': previous})
+            after = plan_required_check(current, CHECK_CONTEXT, 15368)
+            self.assertIn({'context': CHECK_CONTEXT, 'app_id': 15368}, after['required_status_checks']['checks'])
+            self.assertEqual(after['required_status_checks']['checks'][0], CURRENT['required_status_checks']['checks'][0])
+        current = copy.deepcopy(CURRENT)
+        current['required_status_checks']['contexts'].append(CHECK_CONTEXT)
+        self.assertIn({'context': CHECK_CONTEXT, 'app_id': 15368}, plan_required_check(current, CHECK_CONTEXT, 15368)['required_status_checks']['checks'])
 
     def test_default_backup_directory_is_repository_root(self):
         self.assertEqual(BACKUP_DIRECTORY, POLICY_ROOT.parent / 'reports' / 'protection-backups')
@@ -215,7 +246,7 @@ class ProtectionTests(unittest.TestCase):
 
     def test_existing_context_only_in_checks_is_idempotent(self):
         current = copy.deepcopy(CURRENT)
-        current['required_status_checks']['checks'].append({'context': CHECK_CONTEXT, 'app_id': 44})
+        current['required_status_checks']['checks'].append({'context': CHECK_CONTEXT, 'app_id': 15368})
         self.assertEqual(plan_required_check(current, CHECK_CONTEXT), current)
 
 

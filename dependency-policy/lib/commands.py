@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 import json
+import configparser
+import tomllib
 from pathlib import Path
 import shlex
 from typing import Any
@@ -28,9 +30,17 @@ class CommandPlan:
     skips: tuple[str, ...]
 
 
-def reject_forbidden(command: str) -> None:
-    normalized = " ".join(command.lower().split())
-    searchable = f" {normalized}"
+def reject_forbidden(command: str, *, shell_syntax: bool = False) -> None:
+    if shell_syntax:
+        lexer = shlex.shlex(command, posix=False, punctuation_chars=';&|')
+        lexer.whitespace_split = True
+        try:
+            tokens = list(lexer)
+        except ValueError as error:
+            raise PolicyError('invalid shell command quoting') from error
+        if any(token in {'||', ';', '|', '&', ';;'} for token in tokens):
+            raise PolicyError('command contains forbidden failure-swallowing shell syntax')
+    searchable = ' ' + ' '.join(command.lower().split())
     for fragment in FORBIDDEN_FRAGMENTS:
         if fragment in searchable:
             raise PolicyError(f"command contains forbidden fragment: {fragment.strip()}")
@@ -67,12 +77,45 @@ def _npm_commands(project: Project, root: Path) -> tuple[Command, Command, Comma
     scripts = manifest.get("scripts", {})
     if not isinstance(scripts, dict):
         raise PolicyError(f"invalid npm manifest scripts: {project.manifest}")
+    npmrc = root / '.npmrc'
+    if npmrc.is_file():
+        for line in npmrc.read_text().splitlines():
+            key, separator, value = line.partition('=')
+            key = key.strip().lower().replace('_', '-')
+            if separator and ((key in {'legacy-peer-deps', 'force'} and value.strip().lower() not in {'false', '0'}) or
+                              (key == 'strict-peer-deps' and value.strip().lower() in {'false', '0'})):
+                raise PolicyError('npmrc contains a dependency-resolution bypass')
+    for name in ('test', 'build', 'pretest', 'posttest', 'prebuild', 'postbuild'):
+        if name in scripts:
+            if not isinstance(scripts[name], str):
+                raise PolicyError('npm manifest script must be a string')
+            reject_forbidden(scripts[name], shell_syntax=True)
     test: Command = ("npm", "test", "--", "--watchAll=false") if "test" in scripts else None
     build: Command = ("npm", "run", "build") if "build" in scripts else None
     return install, test, build
 
 
 def _has_python_tests(root: Path) -> bool:
+    pyproject = root / 'pyproject.toml'
+    if pyproject.is_file():
+        try:
+            data = tomllib.loads(pyproject.read_text())
+            tool = data.get('tool', {})
+            if not isinstance(tool, dict) or not isinstance(tool.get('pytest', {}), dict):
+                raise PolicyError('invalid pytest configuration')
+            if 'ini_options' in tool.get('pytest', {}):
+                return True
+        except tomllib.TOMLDecodeError as error:
+            raise PolicyError('invalid pyproject configuration') from error
+    setup = root / 'setup.cfg'
+    if setup.is_file():
+        parser = configparser.ConfigParser()
+        try:
+            parser.read(setup)
+        except configparser.Error as error:
+            raise PolicyError('invalid pytest configuration') from error
+        if parser.has_section('tool:pytest'):
+            return True
     if any((root / name).is_file() for name in ("pytest.ini", "tox.ini")):
         return True
     if (root / "tests").is_dir():
@@ -84,6 +127,8 @@ def _python_commands(project: Project, root: Path) -> tuple[Command, Command, Co
     manifest_path = _configured_file(root, project.manifest, "manifest")
     quoted_manifest = shlex.quote(str(manifest_path.relative_to(root.resolve())))
     has_tests = _has_python_tests(root)
+    if (root / VENV_DIRECTORY).is_symlink():
+        raise PolicyError('virtual environment directory must not be a symlink')
     create_venv = f"python3 -m venv --clear {VENV_DIRECTORY}"
     if project.ecosystem == "python-requirements":
         install_project = f"{VENV_PYTHON} -m pip install -r {quoted_manifest}"
@@ -117,7 +162,7 @@ def plan_commands(project: Project, root: Path) -> CommandPlan:
 
     for command in (project.install_command, project.test_command, project.build_command):
         if command is not None:
-            reject_forbidden(command)
+            reject_forbidden(command, shell_syntax=True)
 
     if project.ecosystem == "npm":
         install, test, build = _npm_commands(project, root)

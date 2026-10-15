@@ -42,6 +42,35 @@ class CommandsTest(unittest.TestCase):
         self.assertEqual(plan.build, ("npm", "run", "build"))
         self.assertEqual(plan.skips, ())
 
+    def test_rejects_npmrc_and_script_failure_bypasses(self):
+        for files in ({'package.json': '{}', '.npmrc': 'legacy-peer-deps=true\n'},
+                      {'package.json': json.dumps({'scripts': {'test': 'false || true'}})},
+                      {'package.json': json.dumps({'scripts': {'build': 'false; echo success'}})}):
+            root = self.make_root(files)
+            with self.assertRaises(PolicyError):
+                plan_commands(self.project('npm'), root)
+
+    def test_shell_swallowing_rejected_but_literals_and_and_sequences_allowed(self):
+        for command in ('false || :', 'false; echo done', 'false | true'):
+            with self.assertRaises(PolicyError):
+                reject_forbidden(command, shell_syntax=True)
+        for command in ("printf 'literal || and ; text'", 'python -m venv env && env/bin/python -m pip install .'):
+            reject_forbidden(command, shell_syntax=True)
+
+    def test_python_configured_pytest_paths_are_detected(self):
+        for config, text in [('pyproject.toml', '[tool.pytest.ini_options]\ntestpaths=["spec"]\n'),
+                             ('setup.cfg', '[tool:pytest]\ntestpaths=spec\n')]:
+            root = self.make_root({config: text, 'requirements.txt': '', 'spec/test_example.py': 'assert False'})
+            plan = plan_commands(self.project('python-requirements', manifest='requirements.txt'), root)
+            self.assertIsNotNone(plan.test)
+
+    def test_python_venv_symlink_rejected_without_deleting_target(self):
+        root = self.make_root({'requirements.txt': '', 'outside/evidence': 'preserve'})
+        (root / '.dependency-gate-venv').symlink_to(root / 'outside', target_is_directory=True)
+        with self.assertRaises(PolicyError):
+            plan_commands(self.project('python-requirements', manifest='requirements.txt'), root)
+        self.assertEqual((root / 'outside/evidence').read_text(), 'preserve')
+
     def test_uses_npm_install_when_no_lockfile_is_configured(self):
         root = self.make_root({"package.json": json.dumps({"scripts": {}})})
         plan = plan_commands(self.project("npm"), root)

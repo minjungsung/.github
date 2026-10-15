@@ -42,6 +42,13 @@ class ProtectionClient(GitHubClient):
             raise PolicyError('repository has no default branch')
         return branch
 
+    def branch_head(self, repository: str, branch: str) -> str:
+        value = _object(self._json(['gh', 'api', f'repos/{repository}/branches/{quote(branch, safe="")}']))
+        sha = _object(value.get('commit')).get('sha')
+        if not isinstance(sha, str) or SHA_PATTERN.fullmatch(sha) is None:
+            raise PolicyError('default branch must have an immutable commit SHA')
+        return sha
+
     def protection(self, repository: str, branch: str) -> dict | None:
         result = self._runner(['gh', 'api', f'repos/{repository}/branches/{quote(branch, safe="")}/protection'])
         try:
@@ -80,7 +87,7 @@ class ProtectionClient(GitHubClient):
             return _object(self._json(['gh', 'api', '--method', method, f'repos/{repository}/branches/{quote(branch, safe="")}/protection{suffix}', '--input', str(path)]))
 
 
-def find_check_context(client: ProtectionClient, repository: str, sha: str) -> str:
+def find_check_context(client: ProtectionClient, repository: str, sha: str, *, with_app: bool = False):
     if SHA_PATTERN.fullmatch(sha) is None:
         raise PolicyError('commit SHA must be exactly 40 lowercase hexadecimal characters')
     matches = []
@@ -104,10 +111,13 @@ def find_check_context(client: ProtectionClient, repository: str, sha: str) -> s
     match = matches[0]
     if match.get('head_sha') != sha or match.get('status') != 'completed' or match.get('conclusion') != 'success':
         raise PolicyError('canary check must be completed successfully on the exact commit SHA')
-    return CHECK_CONTEXT
+    app = match.get('app')
+    if not isinstance(app, dict) or app.get('slug') != 'github-actions' or type(app.get('id')) is not int or app.get('id') <= 0 or not isinstance(app.get('owner'), dict) or app['owner'].get('login') != 'github':
+        raise PolicyError('required check must originate from the GitHub Actions app')
+    return (CHECK_CONTEXT, app['id']) if with_app else CHECK_CONTEXT
 
 
-def plan_required_check(current: dict | None, context: str) -> dict:
+def plan_required_check(current: dict | None, context: str, app_id: int = 15368) -> dict:
     after = copy.deepcopy(_object(current)) if current is not None else {
         'enforce_admins': False, 'required_pull_request_reviews': None, 'restrictions': None,
     }
@@ -125,8 +135,13 @@ def plan_required_check(current: dict | None, context: str) -> dict:
         bound_contexts = {item['context'] for item in checks}
         required['checks'] = [
             *checks,
-            *({'context': name, 'app_id': -1} for name in [*contexts, context] if name not in bound_contexts),
+            *({'context': name, 'app_id': app_id if name == context else -1} for name in [*contexts, context] if name not in bound_contexts),
         ]
+    if context in contexts and not any(check['context'] == context for check in required.get('checks', [])):
+        required['checks'] = [*required.get('checks', []), {'context': context, 'app_id': app_id}]
+    for check in required.get('checks', []):
+        if check['context'] == context:
+            check['app_id'] = app_id
     return after
 
 
@@ -189,14 +204,16 @@ def main(argv: Sequence[str] | None = None, *, client: ProtectionClient | None =
         raise PolicyError('apply requires an immutable 40-character policy SHA')
     api = client or ProtectionClient()
     full_name = f'{args.owner}/{repository.name}'
-    context = find_check_context(api, full_name, args.sha)
+    context, app_id = find_check_context(api, full_name, args.sha, with_app=True)
     branch = api.default_branch(full_name)
     if branch != repository.default_branch:
         raise PolicyError('live default branch differs from reviewed inventory')
-    if args.apply and api.caller_text(full_name, branch) != render_caller(repository, args.policy_sha):
+    if args.apply and api.branch_head(full_name, branch) != args.sha:
+        raise PolicyError('successful check SHA must be the current default branch commit')
+    if args.apply and api.caller_text(full_name, args.sha) != render_caller(repository, args.policy_sha):
         raise PolicyError('default branch caller does not match the rendered immutable policy pin')
     before = api.protection(full_name, branch)
-    after = plan_required_check(before, context)
+    after = plan_required_check(before, context, app_id)
     put_payload = protection_payload(after) if before is None or before.get('required_status_checks') is None else None
     print(json.dumps({'before': before, 'after': after}, indent=2, sort_keys=True))
     if not args.apply or before == after:
