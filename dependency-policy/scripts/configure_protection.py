@@ -19,7 +19,8 @@ from scripts.audit_repositories import DEFAULT_OWNER
 POLICY_ROOT = Path(__file__).resolve().parents[1]
 INVENTORY_PATH = POLICY_ROOT / 'repositories.json'
 BACKUP_DIRECTORY = POLICY_ROOT.parent / 'reports' / 'protection-backups'
-CHECK_CONTEXT = 'Dependency Gate / dependency-gate'
+# Observed check-runs API name; the UI also displays the workflow prefix.
+CHECK_CONTEXT = 'dependency-gate'
 SHA_PATTERN = re.compile(r'[0-9a-f]{40}')
 NAME_PATTERN = re.compile(r'[A-Za-z0-9_.-]+')
 
@@ -107,7 +108,7 @@ def find_check_context(client: ProtectionClient, repository: str, sha: str, *, w
             raise PolicyError('incomplete check-runs pagination')
         page += 1
     if len(matches) != 1:
-        raise PolicyError('expected exactly one Dependency Gate / dependency-gate check')
+        raise PolicyError('expected exactly one dependency-gate check')
     match = matches[0]
     if match.get('head_sha') != sha or match.get('status') != 'completed' or match.get('conclusion') != 'success':
         raise PolicyError('canary check must be completed successfully on the exact commit SHA')

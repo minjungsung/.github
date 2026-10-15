@@ -1,5 +1,6 @@
 from contextlib import redirect_stdout
 import io
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -35,7 +36,7 @@ class FakeRunner:
             (root / '.git').mkdir(parents=True)
             (root / LEGACY).parent.mkdir(parents=True)
             if self.legacy is not None:
-                (root / LEGACY).write_text(self.legacy)
+                (root / LEGACY).write_bytes(self.legacy.encode())
             (root / '.github/workflows/deploy.yml').write_text('name: Deploy\n')
         elif command[:3] == ['gh', 'repo', 'view']:
             output = json.dumps({'defaultBranchRef': {'name': 'main'}})
@@ -55,7 +56,7 @@ class FakeRunner:
             elif args == ['branch', '--show-current']:
                 output = self.branch + '\n'
             elif args[:1] == ['show']:
-                output = self.base_legacy if args[1].endswith(':' + LEGACY) else render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
+                output = self.base_legacy.encode() if args[1].endswith(':' + LEGACY) else render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
             elif args[:1] == ['merge-base']:
                 output = SHA + '\n'
             elif args[:1] == ['rev-parse']:
@@ -191,6 +192,60 @@ class RolloutTest(unittest.TestCase):
                 (Path(temp) / 'Algorithm/.github/workflows/custom.yml').write_text(content)
                 with self.assertRaisesRegex(PolicyError, 'review'):
                     self.run_rollout(runner, Path(temp), '--push', '--create-pr')
+
+    def test_reviewed_hash_authorizes_only_exact_legacy_bytes(self):
+        content = LEGACY_CONTENT + '# reviewed custom workflow\n'
+        digest = hashlib.sha256(content.encode()).hexdigest()
+        for supplied, succeeds in ((digest, True), ('0' * 64, False)):
+            with TemporaryDirectory() as temp:
+                runner = FakeRunner(legacy=content)
+                if succeeds:
+                    self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', supplied)
+                    self.assertFalse((Path(temp) / 'Algorithm' / LEGACY).exists())
+                else:
+                    with self.assertRaises(PolicyError):
+                        self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', supplied)
+
+    def test_existing_pr_authorized_legacy_deletion_matches_reviewed_hash(self):
+        content = LEGACY_CONTENT + '# reviewed custom workflow\n'
+        digest = hashlib.sha256(content.encode()).hexdigest()
+        pr = {'url': 'https://github.com/minjungsung/Algorithm/pull/1',
+              'baseRefName': 'main', 'headRefName': BRANCH, 'headRefOid': SHA}
+        with TemporaryDirectory() as temp:
+            runner = FakeRunner(prs=[pr], legacy=None, base_legacy=content)
+            output = self.run_rollout(runner, Path(temp), '--push', '--create-pr', '--reviewed-legacy-sha256', digest)
+            self.assertIn('existing-pr', output)
+
+    def test_reviewed_digest_uses_raw_crlf_bytes(self):
+        content = LEGACY_CONTENT.replace('\n', '\r\n')
+        for digest, accepted in ((hashlib.sha256(content.encode()).hexdigest(), True),
+                                 (hashlib.sha256(LEGACY_CONTENT.encode()).hexdigest(), False)):
+            with TemporaryDirectory() as temp:
+                runner = FakeRunner(legacy=content)
+                if accepted:
+                    self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', digest)
+                else:
+                    with self.assertRaises(PolicyError):
+                        self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', digest)
+
+    def test_explicit_reviewed_hash_refuses_missing_legacy_without_pr(self):
+        with TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(PolicyError, 'absent'):
+                self.run_rollout(FakeRunner(legacy=None), Path(temp), '--reviewed-legacy-sha256', 'a' * 64)
+
+    def test_reviewed_hash_rejects_existing_caller_only_pr(self):
+        pr = {'url': 'https://github.com/minjungsung/Algorithm/pull/1',
+              'baseRefName': 'main', 'headRefName': BRANCH, 'headRefOid': SHA}
+        class CallerOnly(FakeRunner):
+            def __call__(self, command):
+                result = super().__call__(command)
+                if command[0] == 'git' and command[3:5] == ['diff', '--name-only']:
+                    result.stdout = CALLER + '\n'
+                return result
+        with TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(PolicyError, 'does not delete'):
+                self.run_rollout(CallerOnly(prs=[pr], legacy=None), Path(temp),
+                                 '--reviewed-legacy-sha256', 'a' * 64)
 
     def test_sha_validation_happens_before_commands(self):
         runner = FakeRunner()

@@ -136,7 +136,8 @@
           "runtime-version": "20",
           "manifest": "package.json",
           "lockfile": "package-lock.json",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "test-command": "bash scripts/verify.sh --web"
         },
         {
           "name": "spring-gradle",
@@ -259,7 +260,8 @@
           "name": "github-actions",
           "ecosystem": "github-actions",
           "path": ".",
-          "timeout-minutes": 5
+          "timeout-minutes": 5,
+          "build-command": "python3 -m unittest discover -s tests -p 'test_course_brief.py'"
         }
       ]
     },
@@ -671,7 +673,7 @@
       "name": "visionRAG",
       "default-branch": "main",
       "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "root-python-pyproject",
@@ -679,7 +681,9 @@
           "path": ".",
           "runtime-version": "3.12",
           "manifest": "pyproject.toml",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install \".[dev,mlops]\"",
+          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short"
         },
         {
           "name": "root-python-requirements",
@@ -687,7 +691,9 @@
           "path": ".",
           "runtime-version": "3.12",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install \".[dev,mlops]\"",
+          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short"
         },
         {
           "name": "spaces-python-requirements",
