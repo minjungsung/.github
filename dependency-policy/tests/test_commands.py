@@ -50,6 +50,17 @@ class CommandsTest(unittest.TestCase):
             with self.assertRaises(PolicyError):
                 plan_commands(self.project('npm'), root)
 
+    def test_custom_npm_script_and_newline_suppression_fail_before_execution(self):
+        for script in ('false || true', 'false\necho success'):
+            root = self.make_root({'package.json': json.dumps({'scripts': {'test:ci': script}})})
+            with self.assertRaises(PolicyError):
+                plan_commands(self.project('npm', test_command='npm run test:ci'), root)
+
+    def test_quoted_multiline_script_literal_remains_valid(self):
+        root = self.make_root({'package.json': json.dumps({'scripts': {'test:ci': "printf 'first\nsecond'"}})})
+        self.assertEqual(plan_commands(self.project('npm', test_command='npm run test:ci'), root).test,
+                         'npm run test:ci')
+
     def test_shell_swallowing_rejected_but_literals_and_and_sequences_allowed(self):
         for command in ('false || :', 'false; echo done', 'false | true'):
             with self.assertRaises(PolicyError):

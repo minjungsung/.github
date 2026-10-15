@@ -32,6 +32,22 @@ class CommandPlan:
 
 def reject_forbidden(command: str, *, shell_syntax: bool = False) -> None:
     if shell_syntax:
+        quote = None
+        escaped = False
+        for character in command:
+            if escaped:
+                escaped = False
+                continue
+            if character == '\\' and quote != "'":
+                escaped = True
+                continue
+            if character in {"'", '"'}:
+                if quote is None:
+                    quote = character
+                elif quote == character:
+                    quote = None
+            elif character in {'\n', '\r'} and quote is None:
+                raise PolicyError('command contains forbidden shell newline separator')
         lexer = shlex.shlex(command, posix=False, punctuation_chars=';&|')
         lexer.whitespace_split = True
         try:
@@ -85,11 +101,10 @@ def _npm_commands(project: Project, root: Path) -> tuple[Command, Command, Comma
             if separator and ((key in {'legacy-peer-deps', 'force'} and value.strip().lower() not in {'false', '0'}) or
                               (key == 'strict-peer-deps' and value.strip().lower() in {'false', '0'})):
                 raise PolicyError('npmrc contains a dependency-resolution bypass')
-    for name in ('test', 'build', 'pretest', 'posttest', 'prebuild', 'postbuild'):
-        if name in scripts:
-            if not isinstance(scripts[name], str):
-                raise PolicyError('npm manifest script must be a string')
-            reject_forbidden(scripts[name], shell_syntax=True)
+    for script in scripts.values():
+        if not isinstance(script, str):
+            raise PolicyError('npm manifest script must be a string')
+        reject_forbidden(script, shell_syntax=True)
     test: Command = ("npm", "test", "--", "--watchAll=false") if "test" in scripts else None
     build: Command = ("npm", "run", "build") if "build" in scripts else None
     return install, test, build
