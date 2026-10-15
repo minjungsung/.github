@@ -44,6 +44,8 @@ python3 dependency-policy/scripts/configure_protection.py \
   --repository portfolio-frontend-inner --sha "$CANARY_SHA"
 ```
 
+Generated callers also run on pushes to the inventoried default branch. These pushes route to the reusable ordinary no-op and emit the aggregate gate on the actual default-branch commit; they do not run Dependabot validation or auto-merge. Observe that successful current-commit check before applying protection. Strict Dependabot PR validation remains unchanged.
+
 Review the before/after output. Apply with the immutable policy pin only after the caller is merged and the exact check succeeds:
 
 ```sh

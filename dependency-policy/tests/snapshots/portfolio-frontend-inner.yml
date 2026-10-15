@@ -1,9 +1,12 @@
 name: Dependency Gate
 on:
   pull_request:
+  push:
+    branches:
+      - "main"
 
 concurrency:
-  group: dependency-gate-${{ github.repository }}-${{ github.event.pull_request.number }}
+  group: dependency-gate-${{ github.repository }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -12,7 +15,7 @@ jobs:
       contents: read
     uses: minjungsung/.github/.github/workflows/dependency-validation.yml@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     with:
-      pr-author: ${{ github.event.pull_request.user.login }}
+      pr-author: ${{ github.event.pull_request.user.login || 'policy-push' }}
       projects-json: '[{"name":"root-node","ecosystem":"npm","path":".","runtime-version":"20","manifest":"package.json","lockfile":"package-lock.json","timeout-minutes":15}]'
       policy-ref: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
