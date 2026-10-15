@@ -10,6 +10,14 @@ from urllib.parse import quote
 
 
 class MaintenanceClient(ReconciliationClient):
+    def alert_pages(self, repository):
+        # Dependabot alerts use cursor pagination; gh follows the Link headers.
+        pages = self._json(['gh', 'api', '--paginate', '--slurp',
+                            f'repos/{repository}/dependabot/alerts?state=open&per_page=100'])
+        if not isinstance(pages, list) or not all(isinstance(page, list) and all(isinstance(a, dict) for a in page) for page in pages):
+            raise PolicyError('invalid vulnerability alert pages')
+        return [alert for page in pages for alert in page]
+
     def mutate(self, endpoint, method, payload):
         # Use typed CLI fields without shell evaluation or untrusted commands.
         command = ['gh', 'api', '--method', method, endpoint]
@@ -118,7 +126,7 @@ def maintain(owner, inventory, client, apply=False):
             entry['policy-status'] = 'automatic' if policy.auto_merge_enabled else 'manual'
             if not policy.auto_merge_enabled: report['coverage-complete'] = False
         try:
-            alerts = client.pages(f'repos/{full}/dependabot/alerts?state=open')
+            alerts = client.alert_pages(full)
             if not all(isinstance(a.get('number'), int) and isinstance(a.get('dependency'), dict) and isinstance(a.get('security_vulnerability'), dict) for a in alerts):
                 raise PolicyError('invalid vulnerability alert response')
             entry['alerts'] = [{'number': a['number'], 'severity': a.get('security_advisory', {}).get('severity'),
@@ -126,8 +134,9 @@ def maintain(owner, inventory, client, apply=False):
                                'patched-version': a.get('security_vulnerability', {}).get('first_patched_version'),
                                'url': a.get('html_url'), 'status': 'open-remediation-required'} for a in alerts]
             if alerts: report['coverage-complete'] = False
-        except (PolicyError, KeyError, TypeError, AttributeError):
+        except (PolicyError, KeyError, TypeError, AttributeError) as error:
             entry['alert-status'] = 'unavailable'
+            entry['alert-error'] = str(error) if isinstance(error, PolicyError) else 'Malformed vulnerability alert response'
             report['coverage-complete'] = False
         try:
             pulls = client.pages(f'repos/{full}/pulls?state=open')

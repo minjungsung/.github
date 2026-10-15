@@ -35,6 +35,23 @@ jobs:
           app-id: ${{ vars.DEPENDENCY_APP_ID }}
           private-key: ${{ secrets.DEPENDENCY_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
+      - name: Diagnose credential and security API access
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.DEPENDENCY_MAINTENANCE_TOKEN }}
+          POLICY_OWNER: ${{ github.repository_owner }}
+        run: |
+          python3 - <<'PYCODE'
+          import json, os, subprocess, re
+          for label, endpoint in [('authentication', 'user'), ('central-alerts', f"repos/{os.environ['POLICY_OWNER']}/.github/dependabot/alerts?state=open&per_page=1")]:
+              response = subprocess.run(['gh', 'api', '-i', endpoint], capture_output=True, text=True)
+              status = re.search(r'HTTP/[^ ]+ ([0-9]+)', response.stdout)
+              scopes = re.search(r'(?im)^x-oauth-scopes: (.*)$', response.stdout)
+              print(json.dumps({'probe': label, 'exit-code': response.returncode, 'http-status': status.group(1) if status else None, 'oauth-scopes': scopes.group(1).strip() if scopes else None}))
+              if response.returncode:
+                  # Print only GitHub's static API error message, never credentials or payloads.
+                  for line in response.stderr.splitlines():
+                      if line.startswith('gh: '): print(line)
+          PYCODE
       - name: Reconcile active repositories and refresh stale updates
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.DEPENDENCY_MAINTENANCE_TOKEN }}

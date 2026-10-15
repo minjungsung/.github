@@ -43,9 +43,10 @@ class MaintenanceTests(unittest.TestCase):
         class Fake:
             def list_repositories(self, owner):
                 return [{'name':n,'nameWithOwner':f'{owner}/{n}'} for n in ['one','two']]
-            def pages(self, endpoint):
-                if '/one/dependabot/' in endpoint: raise PolicyError('denied')
+            def alert_pages(self, repository):
+                if repository.endswith('/one'): raise PolicyError('denied')
                 return []
+            def pages(self, endpoint): return []
         inventory=Inventory(1,tuple(Repository(n,'main',()) for n in ['one','two']))
         result=maintain('example',inventory,Fake())
         self.assertFalse(result['coverage-complete'])
@@ -53,6 +54,19 @@ class MaintenanceTests(unittest.TestCase):
         self.assertEqual(result['repositories'][0]['alert-status'],'unavailable')
         self.assertEqual(result['mutations'],[])
 
+
+class AlertPaginationTests(unittest.TestCase):
+    def test_cursor_pages_follow_links_without_numeric_page(self):
+        import json, subprocess
+        from scripts.maintain_dependencies import MaintenanceClient
+        commands=[]
+        def runner(command):
+            commands.append(command)
+            return subprocess.CompletedProcess(command, 0, json.dumps([[{'number':1}], [{'number':2}]]), '')
+        result=MaintenanceClient(runner).alert_pages('example/project')
+        self.assertEqual([a['number'] for a in result],[1,2])
+        self.assertIn('--paginate',commands[0])
+        self.assertNotIn('&page=',commands[0][-1])
 
 class TrustedMergeTests(unittest.TestCase):
     def inputs(self):
