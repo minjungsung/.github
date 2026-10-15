@@ -152,7 +152,7 @@ class ReconcileTests(unittest.TestCase):
                     value = [{'number': 1, 'user': {'login': 'dependabot[bot]'}}]
                 elif endpoint.endswith('/pulls/1'):
                     value = {'number': 1, 'user': {'login': 'dependabot[bot]'}, 'state': 'open',
-                             'head': {'sha': SHA}, 'mergeable': True,
+                             'head': {'sha': SHA}, 'base': {'ref': 'main'}, 'mergeable': True,
                              'html_url': 'https://github.com/example/project/pull/1',
                              'body': 'Bumps package from 1.0.0 to 1.0.1.\n'}
                 else:
@@ -184,9 +184,11 @@ class ReconcileTests(unittest.TestCase):
                         value = [{'full_name': 'example/project', 'archived': False}]
                     elif '/pulls?' in command[-1]:
                         value = [{'number': 1, 'user': {'login': 'dependabot[bot]'}}]
+                    elif '/branches/' in command[-1]:
+                        value = {'protected': False}
                     elif command[-1].endswith('/pulls/1'):
                         value = {'number': 1, 'user': {'login': 'dependabot[bot]'}, 'state': 'open',
-                                 'head': {'sha': SHA}, 'mergeable': True,
+                                 'head': {'sha': SHA}, 'base': {'ref': 'main'}, 'mergeable': True,
                                  'html_url': 'https://github.com/example/project/pull/1',
                                  'body': 'Bumps package from 1.0.0 to 1.0.1.\n'}
                     else:
@@ -203,6 +205,40 @@ class ReconcileTests(unittest.TestCase):
                     self.assertEqual(record['external_blocker'], 'Required dependency gate protection is absent')
                     self.assertEqual(decision.state, 'external-administrative-blocker')
                     self.assertNotEqual(decision.state, 'merge-eligible')
+
+    def test_missing_head_check_uses_actual_base_protection(self):
+        for protection, expected in [({'checks': [{'context': 'dependency-gate', 'app_id': 15368}]}, 'await-current-checks'),
+                                     ({'checks': [{'context': 'dependency-gate', 'app_id': 1}]}, 'external-administrative-blocker'),
+                                     (None, 'incomplete-discovery')]:
+            with self.subTest(protection=protection):
+                def runner(command):
+                    endpoint = command[-1]
+                    if command[1:3] == ['pr', 'checks']:
+                        return subprocess.CompletedProcess(command, 1, '', "no required checks reported on the 'dependabot/old' branch\n")
+                    if command[1:3] == ['pr', 'view']:
+                        value = {'headRefOid': SHA, 'author': {'login': 'app/dependabot'}, 'mergeStateStatus': 'CLEAN'}
+                    elif endpoint.startswith('users/'):
+                        value = [{'full_name': 'example/project'}]
+                    elif '/pulls?' in endpoint:
+                        value = [{'number': 1, 'user': {'login': 'dependabot[bot]'}}]
+                    elif endpoint.endswith('/pulls/1'):
+                        value = {'number': 1, 'user': {'login': 'dependabot[bot]'}, 'state': 'open',
+                                 'head': {'sha': SHA}, 'base': {'ref': 'main'}, 'mergeable': True,
+                                 'html_url': 'https://github.com/example/project/pull/1',
+                                 'body': 'Bumps package from 1.0.0 to 1.0.1.\n'}
+                    elif endpoint.endswith('/required_status_checks'):
+                        if protection is None:
+                            return subprocess.CompletedProcess(command, 1, '', 'protection lookup failed')
+                        value = protection
+                    elif '/branches/' in endpoint:
+                        value = {'protected': True}
+                    else:
+                        value = {'total_count': 0, 'check_runs': []}
+                    return subprocess.CompletedProcess(command, 0, json.dumps(value), '')
+                record = ReconciliationClient(runner).collect('example')[0]
+                decision = classify_pr(dict(record, repository_policy_known=True, auto_merge_enabled=True))
+                self.assertEqual(decision.state, expected)
+                self.assertNotEqual(decision.state, 'merge-eligible')
 
     def test_rebase_boundary_invokes_handler_only_for_rebase_decision(self):
         class Fake:
