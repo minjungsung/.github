@@ -4,21 +4,46 @@ from contextlib import redirect_stdout
 import unittest
 import subprocess
 
-from lib.models import PolicyError
+from lib.models import PolicyError, Inventory, Project, Repository
 from scripts.reconcile_dependabot_prs import ReconciliationClient, classify_pr, main, verified_body_update_type
 
 SHA = 'a' * 40
+INVENTORY = Inventory(1, (Repository('project', 'main', (Project('workflows', 'github-actions', '.', timeout_minutes=5),)),))
 
 
 def passing():
     return {'number': 1, 'url': 'https://github.com/example/project/pull/1',
             'author': 'dependabot[bot]', 'head_sha': SHA, 'state': 'open',
+            'repository_policy_known': True, 'auto_merge_enabled': True,
             'update_type': 'patch', 'mergeable': True, 'behind': False,
             'gate': {'head_sha': SHA, 'status': 'completed', 'conclusion': 'success', 'app': 'github-actions'},
             'required_checks_pass': True, 'external_blocker': None}
 
 
 class ReconcileTests(unittest.TestCase):
+    def test_manual_repository_and_unknown_policy_never_become_eligible(self):
+        for field, state in [('auto_merge_enabled', 'manual-repository'), ('repository_policy_known', 'unreviewed-repository')]:
+            pr = passing(); pr[field] = False
+            self.assertEqual(classify_pr(pr).state, state)
+        pr = passing(); pr.pop('repository_policy_known')
+        self.assertEqual(classify_pr(pr).state, 'unreviewed-repository')
+
+    def test_main_uses_inventory_and_prevents_manual_mutations(self):
+        class Fake:
+            def collect(self, owner):
+                pr = passing(); pr['behind'] = True
+                return [pr]
+        manual = Inventory(1, (Repository('project', 'main', INVENTORY.repositories[0].projects, auto_merge_enabled=False),))
+        calls = []
+        with redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(main(['--owner', 'example', '--request-rebase'], client=Fake(), inventory=manual,
+                                  mutation_handler=lambda *args: calls.append(args)), 0)
+        self.assertEqual(json.loads(output.getvalue())[0]['state'], 'manual-repository')
+        self.assertEqual(calls, [])
+        with redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(main(['--owner', 'example', '--check'], client=Fake(), inventory=Inventory(1, ())), 1)
+        self.assertEqual(json.loads(output.getvalue())[0]['state'], 'unreviewed-repository')
+
     def test_canonical_dependabot_version_evidence_is_conservative(self):
         for version, expected in [('1.0.1', 'patch'), ('1.1.0', 'minor'), ('2.0.0', 'major'), ('1.0.0-beta', None)]:
             detail = {'user': {'login': 'dependabot[bot]'}, 'body': f'Bumps package from 1.0.0 to {version}.\n'}
@@ -37,7 +62,7 @@ class ReconcileTests(unittest.TestCase):
         class Fake:
             def collect(self, owner): return [pr, passing()]
         with redirect_stdout(io.StringIO()) as output:
-            self.assertEqual(main(['--owner', 'example', '--check'], client=Fake()), 1)
+            self.assertEqual(main(['--owner', 'example', '--check'], client=Fake(), inventory=INVENTORY), 1)
         self.assertEqual(len(json.loads(output.getvalue())), 2)
 
     def test_repository_error_preserves_healthy_sibling(self):
@@ -92,13 +117,13 @@ class ReconcileTests(unittest.TestCase):
         class Fake:
             def collect(self, owner): return [passing()]
         with redirect_stdout(io.StringIO()) as output:
-            self.assertEqual(main(['--owner', 'example', '--check'], client=Fake()), 0)
+            self.assertEqual(main(['--owner', 'example', '--check'], client=Fake(), inventory=INVENTORY), 0)
         self.assertEqual(json.loads(output.getvalue())[0]['state'], 'merge-eligible')
         class Failed:
             def collect(self, owner):
                 pr = passing(); pr['behind'] = True; return [pr]
         with redirect_stdout(io.StringIO()):
-            self.assertEqual(main(['--owner', 'example', '--check'], client=Failed()), 1)
+            self.assertEqual(main(['--owner', 'example', '--check'], client=Failed(), inventory=INVENTORY), 1)
 
     def test_json_collection_handles_failing_checks_and_keeps_unverified_metadata_manual(self):
         calls = []
@@ -126,7 +151,7 @@ class ReconcileTests(unittest.TestCase):
         records = ReconciliationClient(runner).collect('example')
         self.assertEqual(records[0]['update_type'], 'patch')
         self.assertFalse(records[0]['required_checks_pass'])
-        self.assertEqual(classify_pr(records[0]).state, 'await-current-checks')
+        self.assertEqual(classify_pr(dict(records[0], repository_policy_known=True, auto_merge_enabled=True)).state, 'await-current-checks')
         self.assertTrue(all(command[1] in {'api', 'pr'} for command in calls))
         self.assertFalse(any(command[1:3] in [['pr', 'comment'], ['pr', 'close'], ['pr', 'merge']] for command in calls))
 
@@ -160,7 +185,7 @@ class ReconcileTests(unittest.TestCase):
                                  'app': {'slug': 'github-actions', 'owner': {'login': 'github'}}}]}
                     return subprocess.CompletedProcess(command, 0, json.dumps(value), '')
                 record = ReconciliationClient(runner).collect('example')[0]
-                decision = classify_pr(record)
+                decision = classify_pr(dict(record, repository_policy_known=True, auto_merge_enabled=True))
                 if incomplete:
                     self.assertEqual(decision.state, 'incomplete-discovery')
                 else:
@@ -175,7 +200,7 @@ class ReconcileTests(unittest.TestCase):
                 pr = passing(); pr['behind'] = True; return [pr]
         calls = []
         with redirect_stdout(io.StringIO()):
-            main(['--owner', 'example', '--request-rebase'], client=Fake(), mutation_handler=lambda mode, decision: calls.append((mode, decision.state)))
+            main(['--owner', 'example', '--request-rebase'], client=Fake(), inventory=INVENTORY, mutation_handler=lambda mode, decision: calls.append((mode, decision.state)))
         self.assertEqual(calls, [('request-rebase', 'request-rebase')])
 
     def test_mutations_without_reviewed_handler_refused(self):

@@ -4,9 +4,10 @@ from dataclasses import asdict, dataclass
 import json
 import hashlib
 import re
+from pathlib import Path
 
 from lib.github_client import GitHubClient
-from lib.models import PolicyError
+from lib.models import PolicyError, load_inventory
 from scripts.configure_protection import CHECK_CONTEXT
 
 
@@ -30,6 +31,10 @@ def classify_pr(pr: dict) -> ReconciliationDecision:
         raise PolicyError('PR requires an immutable head SHA')
     def decision(state, reason):
         return ReconciliationDecision(pr['number'], pr['url'], pr['head_sha'], state, reason, pr.get('metadata_evidence'))
+    if pr.get('repository_policy_known') is not True:
+        return decision('unreviewed-repository', 'Repository is absent from the reviewed inventory')
+    if pr.get('auto_merge_enabled') is not True:
+        return decision('manual-repository', 'Reviewed repository policy disables automatic merging')
     update = pr.get('update_type')
     if update == 'major': return decision('manual-major', 'Major updates require manual review')
     if update not in {'patch', 'minor'}: return decision('manual-unknown', 'Verified patch/minor metadata is unavailable')
@@ -161,7 +166,7 @@ class ReconciliationClient(GitHubClient):
         return sorted(records, key=lambda pr: (pr['url'], pr['number']))
 
 
-def main(argv=None, *, client=None, mutation_handler=None):
+def main(argv=None, *, client=None, mutation_handler=None, inventory=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--owner', required=True)
     mode = parser.add_mutually_exclusive_group(required=True)
@@ -173,13 +178,22 @@ def main(argv=None, *, client=None, mutation_handler=None):
     if not args.check and mutation_handler is None:
         raise PolicyError('mutation mode requires an explicitly supplied reviewed remediation handler')
     records = (client or ReconciliationClient()).collect(args.owner)
-    decisions = [classify_pr(pr) for pr in records]
+    reviewed = inventory if inventory is not None else load_inventory(Path(__file__).resolve().parents[1] / 'repositories.json')
+    repositories = {repository.name: repository for repository in reviewed.repositories}
+    decisions = []
+    for pr in records:
+        match = re.fullmatch(r'https://github\.com/' + re.escape(args.owner) + r'/([^/]+)/pull/[0-9]+', pr.get('url', ''))
+        repository = repositories.get(match[1]) if match else None
+        # The inventory overrides caller-supplied policy flags.
+        current = dict(pr, repository_policy_known=repository is not None,
+                       auto_merge_enabled=repository.auto_merge_enabled if repository else False)
+        decisions.append(classify_pr(current))
     if not args.check:
         for decision in decisions:
             if args.request_rebase and decision.state == 'request-rebase': mutation_handler('request-rebase', decision)
             elif args.apply_remediation and decision.state in {'remediate', 'close-with-reason'}: mutation_handler('apply-remediation', decision)
     print(json.dumps([asdict(decision) for decision in decisions], indent=2, sort_keys=True))
-    return int(any(decision.state not in {'merge-eligible', 'external-administrative-blocker', 'manual-major', 'manual-unknown'} for decision in decisions))
+    return int(any(decision.state not in {'merge-eligible', 'external-administrative-blocker', 'manual-major', 'manual-unknown', 'manual-repository'} for decision in decisions))
 
 
 if __name__ == '__main__': raise SystemExit(main())
