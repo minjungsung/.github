@@ -5,6 +5,7 @@ import json
 import hashlib
 import re
 from pathlib import Path
+from urllib.parse import quote
 
 from lib.github_client import GitHubClient
 from lib.models import PolicyError, load_inventory
@@ -141,7 +142,25 @@ class ReconciliationClient(GitHubClient):
                     )
                     no_required = isinstance(absence_message, str) and re.fullmatch(
                         r"no required checks reported on the '[^'\r\n]+' branch\n?", absence_message) is not None
+                    protection_absent = False
                     if no_required:
+                        # gh lists checks attached to the head, so its absence message
+                        # cannot establish whether the target branch requires a gate.
+                        base = detail.get('base', {}).get('ref')
+                        if not isinstance(base, str) or not base:
+                            raise PolicyError('invalid PR base branch')
+                        endpoint = f'repos/{name}/branches/{quote(base, safe="")}'
+                        branch = self._json(['gh', 'api', endpoint])
+                        if not isinstance(branch, dict) or type(branch.get('protected')) is not bool:
+                            raise PolicyError('invalid base branch protection response')
+                        protection_absent = not branch['protected']
+                        if not protection_absent:
+                            protection = self._json(['gh', 'api', endpoint + '/protection/required_status_checks'])
+                            checks = protection.get('checks') if isinstance(protection, dict) else None
+                            if not isinstance(checks, list) or not all(isinstance(check, dict) for check in checks):
+                                raise PolicyError('invalid required base checks response')
+                            protection_absent = not any(check.get('context') == CHECK_CONTEXT and
+                                                        check.get('app_id') == 15368 for check in checks)
                         required = []
                     else:
                         try:
@@ -152,12 +171,12 @@ class ReconciliationClient(GitHubClient):
                     records.append({'number': detail['number'], 'url': detail['html_url'], 'head_sha': head,
                                     'author': 'dependabot[bot]', 'update_type': verified_body_update_type(detail), 'mergeable': detail.get('mergeable'),
                                     'behind': graphql.get('mergeStateStatus') == 'BEHIND', 'gate': gate,
-                                    'required_protection_absent': no_required,
+                                    'required_protection_absent': protection_absent,
                                     'required_checks_pass': bool(required) and all(check.get('bucket') == 'pass' for check in required),
                                     'metadata_evidence': {'source': 'authenticated-dependabot-canonical-body',
                                                           'head_sha': head,
                                                           'body_sha256': hashlib.sha256((detail.get('body') or '').encode()).hexdigest()},
-                                    'external_blocker': 'Required dependency gate protection is absent' if no_required else ('required review approval' if graphql.get('reviewDecision') == 'REVIEW_REQUIRED' else None)})
+                                    'external_blocker': 'Required dependency gate protection is absent' if protection_absent else ('required review approval' if graphql.get('reviewDecision') == 'REVIEW_REQUIRED' else None)})
                 except (PolicyError, TypeError, ValueError, KeyError, AttributeError) as error:
                     records.append({'number': entry.get('number', 0),
                                     'url': entry.get('html_url') or f'https://github.com/{name}/pull/{entry.get("number", 0)}',
