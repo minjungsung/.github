@@ -339,7 +339,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Actual minor PR118 auto-merged. Reviewed major-policy PR123 merged after all CI and Vercel passed; fresh main gate observed. Corrective journal PR122 remains open.",
+      "notes": "Actual minor PR118 auto-merged. Reviewed major-policy PR123 merged after all CI and Vercel passed; fresh main gate observed. Corrective journal PR122 merged; optional Vercel quota still blocks deployment.",
       "rollout-pr": "https://github.com/minjungsung/LingoCast/pull/117",
       "verified-default-branch-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
       "default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38677241401/job/116233561516",
@@ -5795,7 +5795,6 @@
   "acceptance-gaps": [
     "Eight repositories retain manual automatic-merge settings: Chatbot, TangoMBTI, Undead-Survivor, dongle-game, house-scanner-frontend, kiro-skills, shooting-game, visionRAG.",
     "KakaoBot-API remains unenrolled; House-scanner and KakaoBot-API actual deployment failures and TangoMBTI enforcing audit failures remain unresolved.",
-    "LingoCast corrective journal PR122 remains open; policy PR123 supplied fresh successful main gate evidence.",
     "GitHub-token automatic merges do not trigger cascading push workflows: current JHU automatic merge commit requires fresh main validation before exact-main publication; frontend-inner gained fresh main CI through reviewed wiki48 merge.",
     "Complete fleet PR reconciliation and failed-update publication denial for every publishing workflow remain unproven."
   ],
@@ -9371,6 +9370,393 @@
         "url": "https://github.com/minjungsung/visionRAG/pull/51"
       }
     ],
-    "scope": "Read-only latest snapshot under known-major policy; manual and unknown rows are unresolved user scope, not completed automation."
+    "scope": "Read-only latest snapshot under known-major policy; manual and unknown rows are unresolved user scope, not completed automation.",
+    "historical-snapshot": true,
+    "superseded-by": "remaining-major-outcomes after refreshed heads and corrected base protection discovery"
+  },
+  "remaining-major-outcomes": {
+    "actual_auto_merged": [
+      {
+        "repo": "Leethub",
+        "number": 29,
+        "head": "4f1e26e74bdfd469507f3e675069bfea53f11f26",
+        "prior_head": "fc60ef8bac9945039264140adcab46b5824c44f9",
+        "merged": true,
+        "merge_commit": "14507bc986df449e5fcf0712893df968df66c78d",
+        "merged_at": "2026-10-15T05:14:22Z",
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685545987/job/116259888248"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685545987/job/116259861251"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/runs/116259430820"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685545987/job/116259429718"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, 15)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685545987/job/116259428423"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685545734/job/116259427635"
+          }
+        ]
+      },
+      {
+        "repo": "Leethub",
+        "number": 33,
+        "head": "578ec8a37670a1b95125cb7330a0edc4520979f2",
+        "prior_head": "f29fc8e7aba7fba6da843a5ec242041134cc6acd",
+        "merged": true,
+        "merge_commit": "d404d00209fd5ba469ef4fa16445d13c2d4f344c",
+        "merged_at": "2026-10-15T05:14:42Z",
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685551065/job/116259942028"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685551065/job/116259912484"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685551065/job/116259444518"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, 15)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685551065/job/116259443322"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685550709/job/116259442262"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/runs/116259429731"
+          }
+        ]
+      },
+      {
+        "repo": "senior_eltango",
+        "number": 21,
+        "head": "dd83218405a2d6df71a91d0949370f932d59fd66",
+        "prior_head": "8b04b2bce53abd7133251ebfffb172accc2534c0",
+        "merged": true,
+        "merge_commit": "557f25814d6ac417bb7d0b982720731b83217c07",
+        "merged_at": "2026-10-15T05:13:40Z",
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685555719/job/116259683551"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685555719/job/116259653051"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685555719/job/116259457835"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (root-node, npm, ., 24, package.json, 15)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685555719/job/116259456567"
+          },
+          {
+            "name": "ci",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685555386/job/116259455408"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/runs/116259445250"
+          }
+        ]
+      },
+      {
+        "repo": "repo-template",
+        "number": 3,
+        "head": "fdf7a38f7b7b0510f808fd7b8544d5ab16ed5ca1",
+        "prior_head": "e7c20da0de4981808ed938f76570e49e627ff163",
+        "merged": true,
+        "merge_commit": "fbdab398c3eb58472ce5d9f4ae65cabe139f93e5",
+        "merged_at": "2026-10-15T05:13:17Z",
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685571184/job/116259569285"
+          },
+          {
+            "name": "dependency-gate",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685571184/job/116259543281"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685571184/job/116259504833"
+          },
+          {
+            "name": "TruffleHog Scan",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685570934/job/116259503408"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (github-actions, github-actions, ., 5)",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685571184/job/116259503403"
+          },
+          {
+            "name": "Gitleaks Scan",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685570934/job/116259503094"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/runs/116259489233"
+          },
+          {
+            "name": "TruffleHog Scan",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685565482/job/116259486365"
+          },
+          {
+            "name": "Gitleaks Scan",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/repo-template/actions/runs/38685565482/job/116259486006"
+          }
+        ]
+      },
+      {
+        "repo": "Nbody",
+        "number": 9,
+        "head": "27ca3e031c4c52bff1df457b3ec6be89d87b3215",
+        "merged": true,
+        "merged_at": "2026-10-15T05:16:40Z",
+        "merge_commit": "2a4ca0450db53cb18d1ae9937baeba9559998368",
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38685879870/job/116260540511"
+          },
+          {
+            "name": "dependency-gate",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38685879870/job/116260518058"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38685879870/job/116260471361"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (github-actions, github-actions, ., 5)",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38685879870/job/116260469794"
+          },
+          {
+            "name": "ci",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Nbody/actions/runs/38685879447/job/116260468808"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Nbody/runs/116260459545"
+          }
+        ]
+      },
+      {
+        "repo": "senior_eltango",
+        "number": 19,
+        "head": "87547b2d077c5a1687e0b8009bf8531a3b18f63d",
+        "merged": true,
+        "merged_at": "2026-10-15T05:17:03Z",
+        "merge_commit": "36bd96bb7b562a50d5e509b6be9a31af0d96591f",
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685846942/job/116260644577"
+          },
+          {
+            "name": "dependency-gate",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685846942/job/116260617878"
+          },
+          {
+            "name": "Vercel Preview Comments",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/runs/116260454780"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685846942/job/116260368358"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (root-node, npm, ., 24, package.json, 15)",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685846942/job/116260366263"
+          },
+          {
+            "name": "ci",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/actions/runs/38685846582/job/116260364866"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/senior_eltango/runs/116260358072"
+          }
+        ]
+      },
+      {
+        "repo": "Leethub",
+        "number": 31,
+        "head": "c2a4a143ebe868e2bc4ba4eda0244263f7621070",
+        "merged": true,
+        "merged_at": "2026-10-15T05:17:49Z",
+        "merge_commit": "4cb87781606f9ca2b689b1674ee3856382b35c6d",
+        "mergeable_state": "unknown",
+        "auto_merge": null,
+        "checks": [
+          {
+            "name": "dependabot-auto-merge",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685875987/job/116260879504"
+          },
+          {
+            "name": "dependency-gate",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685875987/job/116260854745"
+          },
+          {
+            "name": "validate-dependencies / ordinary-pr",
+            "conclusion": "skipped",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685875987/job/116260458804"
+          },
+          {
+            "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, 15)",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685875987/job/116260457650"
+          },
+          {
+            "name": "ci",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/actions/runs/38685875652/job/116260456498"
+          },
+          {
+            "name": "GitGuardian Security Checks",
+            "conclusion": "success",
+            "url": "https://github.com/minjungsung/Leethub/runs/116260441050"
+          }
+        ]
+      }
+    ],
+    "current_main_observations": [
+      {
+        "repo": "Leethub",
+        "main": "4cb87781606f9ca2b689b1674ee3856382b35c6d",
+        "checks": [],
+        "has_successful_gate": false
+      },
+      {
+        "repo": "Nbody",
+        "main": "2a4ca0450db53cb18d1ae9937baeba9559998368",
+        "checks": [],
+        "has_successful_gate": false
+      },
+      {
+        "repo": "repo-template",
+        "main": "fbdab398c3eb58472ce5d9f4ae65cabe139f93e5",
+        "checks": [],
+        "has_successful_gate": false
+      },
+      {
+        "repo": "senior_eltango",
+        "main": "36bd96bb7b562a50d5e509b6be9a31af0d96591f",
+        "checks": [],
+        "has_successful_gate": false
+      }
+    ],
+    "sources": {
+      "dependency-gate-remaining-refreshed-checks.json": "477b5cbbb2e3202be5e8fcaa7abf032eac34daf56956b40e794db2208d017c6c",
+      "dependency-gate-unknown-actions-current.json": "f85ec6dc9a726a420075d421484d4f326be3304b1f34cfa51f5c793473cc0b08",
+      "dependency-gate-unknown-actions-final-three.json": "16eeff5c49e19e2118a1dea938024f61fc1f96af67389d08fb5643d7436f510b"
+    },
+    "limitations": [
+      "Leethub30 workflow-capable token permission is absent; no repository secret names available.",
+      "senior_eltango18 remains open with optional authenticated Vercel 24-hour quota failure despite strict checks passing.",
+      "Leethub32 and39 strict npm ci fail missing yaml2.9.1 lock entry; auto-merge skipped.",
+      "Body-only reconciliation does not classify every Actions update; authenticated workflow metadata is separate evidence."
+    ]
+  },
+  "reconciliation-fix": {
+    "pr": 30,
+    "merge-sha": "2af19cbaf207fa52be05cc02809cdd3bb482e826",
+    "tests": 162,
+    "behavior": "Missing checks on a PR head no longer falsely imply missing base branch protection."
+  },
+  "lingocast-journal-followup": {
+    "pr": 122,
+    "merge-sha": "92c811ac1c1f3560d6f548e6f44ecbeba3ee8692",
+    "status": "merged normally after actual checks passed; optional Vercel quota remains deployment blocked"
   }
 }
