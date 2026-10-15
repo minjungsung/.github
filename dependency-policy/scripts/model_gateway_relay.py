@@ -51,8 +51,11 @@ def serve(endpoint, credential, local_key, port):
             except HTTPError as error:
                 self.send_error(error.code, "Gateway rejected the request")
                 return
-            except (ValueError, URLError, TimeoutError):
-                self.send_error(502, "Gateway connection failed")
+            except (ValueError, URLError, TimeoutError) as error:
+                reason = error.reason if isinstance(error, URLError) else error
+                category = "TLS verification failed" if isinstance(reason, ssl.SSLCertVerificationError) else type(reason).__name__
+                print("Gateway connection category: " + category, flush=True)
+                self.send_error(502, "Gateway connection failed: " + category)
                 return
             with upstream:
                 self.send_response(upstream.status)
