@@ -13,6 +13,10 @@ on:
           - npm-fail-test
           - npm-fail-build
           - python-requirements-fail
+          - npm-timeout
+          - npm-cancel
+          - multi-project-fail
+          - actionlint-fail
 
 permissions:
   contents: read
@@ -66,3 +70,35 @@ jobs:
       projects-json: '[{"name":"python-requirements-fail","ecosystem":"python-requirements","path":"dependency-policy/fixtures/python-requirements-fail","runtime-version":"3.12","manifest":"requirements.txt","timeout-minutes":15}]'
       policy-ref: ${{ github.sha }}
 
+
+  npm-timeout:
+    if: inputs.scenario == 'npm-timeout'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-timeout","ecosystem":"npm","path":"dependency-policy/fixtures/npm-hang","runtime-version":"20","manifest":"package.json","test-command":"npm test","timeout-minutes":1}]'
+      policy-ref: ${{ github.sha }}
+
+  npm-cancel:
+    if: inputs.scenario == 'npm-cancel'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-cancel","ecosystem":"npm","path":"dependency-policy/fixtures/npm-hang","runtime-version":"20","manifest":"package.json","test-command":"npm test","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  multi-project-fail:
+    if: inputs.scenario == 'multi-project-fail'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"npm-pass","ecosystem":"npm","path":"dependency-policy/fixtures/npm-pass","runtime-version":"20","manifest":"package.json","timeout-minutes":15},{"name":"npm-fail-test","ecosystem":"npm","path":"dependency-policy/fixtures/npm-fail-test","runtime-version":"20","manifest":"package.json","timeout-minutes":15}]'
+      policy-ref: ${{ github.sha }}
+
+  actionlint-fail:
+    if: inputs.scenario == 'actionlint-fail'
+    uses: ./.github/workflows/dependency-validation.yml
+    with:
+      pr-author: "dependabot[bot]"
+      projects-json: '[{"name":"actionlint-fail","ecosystem":"github-actions","path":"dependency-policy/fixtures/github-actions-fail","test-command":"actionlint .github/workflows/invalid.yml","timeout-minutes":5}]'
+      policy-ref: ${{ github.sha }}
