@@ -1,0 +1,703 @@
+{
+  "schema-version": 1,
+  "repositories": [
+    {
+      "name": ".github",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "workflow-policy",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "Algorithm",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "Chatbot",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "Interview",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "Interview-Ben-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "Interview-Ben",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "Interview-Flow-node",
+          "ecosystem": "npm",
+          "path": "Interview-Flow",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "KakaoBot",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "KakaoBot-API",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "Leethub",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "LingoCast",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "spring-gradle",
+          "ecosystem": "gradle",
+          "path": "spring",
+          "runtime-version": "21",
+          "manifest": "build.gradle.kts",
+          "gradle-wrapper": "gradlew",
+          "timeout-minutes": 30
+        },
+        {
+          "name": "worker-node",
+          "ecosystem": "npm",
+          "path": "worker",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "Nbody",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "TangoMBTI",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "Undead-Survivor",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "ai_algorithm_design_and_analysis",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "applied_generative_ai",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "module6-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module6",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "applied_machine_learning",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "course-manager",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "creating_ai_enabled_systems",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "dongle-game",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "eltango",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "hackdigest",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/clear-cache.yml"
+      ],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "worker-node",
+          "ecosystem": "npm",
+          "path": "worker",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "house-scanner-frontend",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "introduction_to_algorithm",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "jhu_software_concepts",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "module_1-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_1",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_10-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_10",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_11-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_11",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_12-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_12",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_13-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_13",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_2-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_2",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_3-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_3",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_4-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_4",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_5-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_5",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_6-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_6",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_6-src-web-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_6/src/web",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_6-src-worker-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_6/src/worker",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_7-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_7",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "module_8-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "module_8",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "kiro-skills",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "gstack-lib-diagram-render-node",
+          "ecosystem": "npm",
+          "path": "gstack/lib/diagram-render",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "gstack-node",
+          "ecosystem": "npm",
+          "path": "gstack",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "mcp-builder-scripts-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "mcp-builder/scripts",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "slack-gif-creator-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "slack-gif-creator",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "medium",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/daily_publish.yml",
+        ".github/workflows/deploy_pages.yml"
+      ],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.11",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "minjungsung",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "portfolio-backend",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "portfolio-frontend",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "portfolio-frontend-inner",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "repo-template",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "senior_eltango",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "shooting-game",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "visionRAG",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-pyproject",
+          "ecosystem": "python-pyproject",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "pyproject.toml",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "spaces-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "spaces",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    }
+  ]
+}

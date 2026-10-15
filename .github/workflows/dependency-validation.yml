@@ -1,0 +1,84 @@
+name: Dependency Validation
+on:
+  workflow_call:
+    inputs:
+      pr-author:
+        required: true
+        type: string
+      projects-json:
+        required: true
+        type: string
+      policy-ref:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  ordinary-pr:
+    if: inputs.pr-author != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Record ordinary pull request no-op
+        run: |
+          {
+            echo "## Dependency validation"
+            echo
+            echo "Ordinary pull request: dependency validation is a successful no-op."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  validate-projects:
+    if: inputs.pr-author == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ matrix.project.timeout-minutes }}
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJSON(inputs.projects-json) }}
+    steps:
+      - name: Check out target repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        if: matrix.project.ecosystem == 'npm'
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: ${{ matrix.project.runtime-version }}
+
+      - name: Set up Python
+        if: startsWith(matrix.project.ecosystem, 'python-')
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: ${{ matrix.project.runtime-version }}
+
+      - name: Set up Java
+        if: matrix.project.ecosystem == 'gradle'
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.project.runtime-version }}
+
+      - name: Check out dependency policy
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: minjungsung/.github
+          ref: ${{ inputs.policy-ref }}
+          path: .dependency-policy-source
+          persist-credentials: false
+
+      - name: Install actionlint
+        if: matrix.project.ecosystem == 'github-actions'
+        run: bash .dependency-policy-source/dependency-policy/scripts/install_actionlint.sh
+
+      - name: Validate project
+        env:
+          PROJECT_JSON: ${{ toJSON(matrix.project) }}
+        run: |
+          PYTHONPATH=.dependency-policy-source/dependency-policy \
+          python3 .dependency-policy-source/dependency-policy/scripts/run_project.py \
+            --project-json "$PROJECT_JSON" \
+            --repository-root "$GITHUB_WORKSPACE"

@@ -1,0 +1,30 @@
+name: Dependency Gate
+on:
+  pull_request:
+
+concurrency:
+  group: dependency-gate-${{ github.repository }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-dependencies:
+    permissions:
+      contents: read
+    uses: minjungsung/.github/.github/workflows/dependency-validation.yml@POLICY_COMMIT_SHA
+    with:
+      pr-author: ${{ github.event.pull_request.user.login }}
+      projects-json: 'COMPACT_PROJECT_JSON'
+      policy-ref: POLICY_COMMIT_SHA
+
+  dependency-gate:
+    name: dependency-gate
+    if: always()
+    needs: validate-dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require dependency validation success
+        env:
+          VALIDATION_RESULT: ${{ needs.validate-dependencies.result }}
+        run: test "$VALIDATION_RESULT" = success
+AUTO_MERGE_JOB

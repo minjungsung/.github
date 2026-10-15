@@ -1,0 +1,165 @@
+name: Policy CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  policy-ci:
+    name: Policy CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out policy repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "20"
+
+      - name: Set up Java for real Gradle fixtures
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install verified Gradle fixture runtime
+        run: |
+          archive="$RUNNER_TEMP/gradle-8.14.3-bin.zip"
+          curl --fail --location --silent --show-error \
+            https://services.gradle.org/distributions/gradle-8.14.3-bin.zip --output "$archive"
+          printf '%s  %s\n' bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531 "$archive" | sha256sum --check -
+          unzip -q "$archive" -d "$RUNNER_TEMP"
+          printf '%s\n' "$RUNNER_TEMP/gradle-8.14.3/bin" >> "$GITHUB_PATH"
+
+      - name: Run policy unit and fixture tests
+        env:
+          PYTHONPATH: dependency-policy
+        run: python3 -m unittest discover -s dependency-policy/tests -v
+
+      - name: Verify every inventory caller in check mode
+        env:
+          POLICY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          while IFS= read -r repository; do
+            rendered="$RUNNER_TEMP/${repository//\//-}-dependency-gate.yml"
+            PYTHONPATH=dependency-policy python3 dependency-policy/scripts/render_callers.py \
+              --repository "$repository" \
+              --policy-sha "$POLICY_SHA" \
+              --output "$rendered"
+            PYTHONPATH=dependency-policy python3 dependency-policy/scripts/render_callers.py \
+              --repository "$repository" \
+              --policy-sha "$POLICY_SHA" \
+              --check "$rendered"
+          done < <(
+            PYTHONPATH=dependency-policy python3 - <<'PY'
+          from lib.models import load_inventory
+          from pathlib import Path
+
+          inventory = load_inventory(Path("dependency-policy/repositories.json"))
+          for repository in inventory.repositories:
+              print(repository.name)
+          PY
+          )
+
+      - name: Require strict npm peer-conflict failure
+        env:
+          PROJECT_JSON: '{"name":"npm-peer-conflict","ecosystem":"npm","path":"dependency-policy/fixtures/npm-peer-conflict","runtime-version":"20","manifest":"package.json","timeout-minutes":15}'
+        run: |
+          log="$RUNNER_TEMP/npm-peer-conflict.log"
+          summary="$RUNNER_TEMP/npm-peer-conflict-summary.md"
+          npm_user_config="$RUNNER_TEMP/empty-npmrc"
+          : > "$npm_user_config"
+          if NPM_CONFIG_USERCONFIG="$npm_user_config" \
+            GITHUB_STEP_SUMMARY="$summary" PYTHONPATH=dependency-policy \
+            python3 dependency-policy/scripts/run_project.py \
+              --project-json "$PROJECT_JSON" \
+              --repository-root "$GITHUB_WORKSPACE" > "$log" 2>&1
+          then
+            echo "peer-conflict fixture unexpectedly passed" >&2
+            exit 1
+          fi
+          grep -F ERESOLVE "$log"
+          grep -F "install: \`npm install\` — FAIL" "$summary"
+          grep -F 'result: FAIL' "$summary"
+
+      - name: Verify real npm and Gradle fixture phases
+        env:
+          PYTHONPATH: dependency-policy
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import subprocess
+          import sys
+          import tempfile
+
+          source = Path("dependency-policy/fixtures")
+          runner = Path("dependency-policy/scripts/run_project.py").resolve()
+          fixtures = [
+              ("npm-pass", "npm", 0, ["install", "test", "build"], None),
+              ("npm-fail-test", "npm", 1, ["install"], "test"),
+              ("npm-fail-build", "npm", 1, ["install", "test"], "build"),
+              ("gradle-pass", "gradle", 0, ["test"], None),
+              ("gradle-fail", "gradle", 1, [], "test"),
+          ]
+          commands = {
+              "npm": {"install": "npm install", "test": "npm test -- --watchAll=false", "build": "npm run build"},
+              "gradle": {"test": "./gradlew --no-daemon check"},
+          }
+          for name, ecosystem, expected_code, passing, failing in fixtures:
+              with tempfile.TemporaryDirectory() as directory:
+                  root = Path(directory)
+                  shutil.copytree(source / name, root / name)
+                  summary = root / "summary.md"
+                  npm_config = root / "empty-npmrc"
+                  npm_config.write_text("")
+                  environment = dict(os.environ, GITHUB_STEP_SUMMARY=str(summary), NPM_CONFIG_USERCONFIG=str(npm_config))
+                  project = {"name": name, "ecosystem": ecosystem, "path": name,
+                             "runtime-version": "20" if ecosystem == "npm" else "17",
+                             "manifest": "package.json" if ecosystem == "npm" else "build.gradle.kts",
+                             "timeout-minutes": 15}
+                  if ecosystem == "gradle":
+                      project["gradle-wrapper"] = "gradlew"
+                  result = subprocess.run([sys.executable, str(runner), "--project-json", json.dumps(project),
+                                           "--repository-root", str(root)], env=environment, capture_output=True, text=True)
+                  text = summary.read_text() if summary.exists() else ""
+                  expected_lines = [f"- {phase}: `{commands[ecosystem][phase]}` — PASS" for phase in passing]
+                  if failing:
+                      expected_lines.append(f"- {failing}: `{commands[ecosystem][failing]}` — FAIL")
+                  expected_lines.append("- result: FAIL" if failing else "- result: PASS")
+                  if ecosystem == "gradle":
+                      expected_lines.append("- install: SKIP — not configured")
+                      if not failing:
+                          expected_lines.append("- build: SKIP — not configured")
+                  if result.returncode != expected_code or any(line not in text.splitlines() for line in expected_lines):
+                      print(result.stdout, result.stderr, text)
+                      raise SystemExit(f"{name}: unexpected status or validation phase")
+                  if name == "gradle-fail" and "controlled fixture failure" not in result.stdout + result.stderr:
+                      print(result.stdout, result.stderr)
+                      raise SystemExit("Gradle failed for an unexpected reason")
+                  print(f"{name}: expected exit {expected_code}; phase assertions passed")
+                  print(text)
+                  with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as aggregate:
+                      aggregate.write(text + "\n")
+          PY
+
+      - name: Install actionlint
+        run: bash dependency-policy/scripts/install_actionlint.sh
+
+      - name: Validate workflows and rendered snapshots
+        run: actionlint .github/workflows/*.yml dependency-policy/tests/snapshots/*.yml
