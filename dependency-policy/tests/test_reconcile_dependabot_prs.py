@@ -27,6 +27,30 @@ class ReconcileTests(unittest.TestCase):
             self.assertIsNone(verified_body_update_type({'user': {'login': 'dependabot[bot]'}, 'body': body}))
         self.assertIsNone(verified_body_update_type({'user': {'login': 'other'}, 'body': 'Bumps package from 1.0.0 to 1.0.1.\n'}))
 
+    def test_grouped_body_with_one_pair_is_unknown(self):
+        body = 'Bumps the dependencies group with 2 updates.\nBumps package from 1.0.0 to 1.0.1.\n'
+        self.assertIsNone(verified_body_update_type({'user': {'login': 'dependabot[bot]'}, 'body': body}))
+
+    def test_incomplete_discovery_fails_check_even_when_type_major(self):
+        pr = passing(); pr.update(discovery_error='check lookup failed', update_type='major')
+        self.assertEqual(classify_pr(pr).state, 'incomplete-discovery')
+        class Fake:
+            def collect(self, owner): return [pr, passing()]
+        with redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(main(['--owner', 'example', '--check'], client=Fake()), 1)
+        self.assertEqual(len(json.loads(output.getvalue())), 2)
+
+    def test_repository_error_preserves_healthy_sibling(self):
+        class Client(ReconciliationClient):
+            def pages(self, endpoint):
+                if endpoint.startswith('users/'):
+                    return [{'full_name': 'example/broken'}, {'full_name': 'example/healthy'}]
+                if '/broken/' in endpoint: raise PolicyError('repository unavailable')
+                return []
+        records = Client().collect('example')
+        self.assertEqual(len(records), 1)
+        self.assertIn('repository PR discovery incomplete', records[0]['discovery_error'])
+
     def test_passing_patch_minor_are_eligible(self):
         for update in ('patch', 'minor'):
             pr = passing(); pr['update_type'] = update
@@ -50,6 +74,7 @@ class ReconcileTests(unittest.TestCase):
             self.assertEqual(classify_pr(pr).state, expected)
         pr = passing(); pr['external_blocker'] = 'required review approval'
         self.assertEqual(classify_pr(pr).reason, 'required review approval')
+        self.assertEqual(classify_pr(pr).state, 'external-administrative-blocker')
 
     def test_close_requires_reviewed_concrete_evidence(self):
         for kind in ('duplicate', 'superseded', 'upstream-incompatible', 'withdrawn'):
