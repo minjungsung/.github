@@ -585,6 +585,19 @@ updates:
 
             self.assertEqual(result, 1)
 
+    def test_reviewed_postgres_service_survives_audit_and_write_roundtrip(self):
+        project = Project(name="workflows", ecosystem="github-actions", path=".", timeout_minutes=5)
+        reviewed = Repository(name="repo", default_branch="main", projects=(project,), postgres_required=True)
+        discovered = DiscoveredRepository(name="repo", default_branch="main", projects=(project,), archived=False)
+        result = reconcile(Inventory(1, (reviewed,)), (discovered,))
+        self.assertTrue(result.inventory.repository("repo").postgres_required)
+        serialized = inventory_dict(result.inventory)
+        self.assertTrue(serialized["repositories"][0]["postgres-required"])
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "inventory.json"
+            path.write_text(json.dumps(serialized))
+            self.assertTrue(load_inventory(path).repository("repo").postgres_required)
+
 
 if __name__ == "__main__":
     unittest.main()

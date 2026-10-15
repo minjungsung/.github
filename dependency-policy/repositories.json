@@ -199,8 +199,10 @@
     {
       "name": "TangoMBTI",
       "default-branch": "main",
-      "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "deployment-workflows": [
+        ".github/workflows/release.yml"
+      ],
+      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "root-node",
@@ -369,8 +371,10 @@
     {
       "name": "house-scanner-frontend",
       "default-branch": "main",
-      "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "deployment-workflows": [
+        ".github/workflows/release.yml"
+      ],
+      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "root-node",
@@ -528,7 +532,8 @@
           "manifest": "requirements.txt",
           "timeout-minutes": 15
         }
-      ]
+      ],
+      "postgres-required": true
     },
     {
       "name": "kiro-skills",
