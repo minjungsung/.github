@@ -55,6 +55,24 @@ class MaintenanceTests(unittest.TestCase):
         self.assertEqual(result['mutations'],[])
 
 
+    def test_clean_mergeability_with_old_base_refreshes_before_trusting_checks(self):
+        class Fake:
+            def list_repositories(self, owner):
+                return [{'name':'app','nameWithOwner':f'{owner}/app'}]
+            def alert_pages(self, repository): return []
+            def pages(self, endpoint): return [{'number':1,'user':{'login':'dependabot[bot]'}}]
+            def _json(self, command):
+                endpoint = command[-1]
+                if '/check-runs?' in endpoint:
+                    return {'total_count':2,'check_runs':[check('dependency-gate'),check('validate-dependencies / validate-projects (root, npm)')]}
+                if '/compare/' in endpoint: return {'behind_by':1}
+                return pr(base={'sha':'b'*40})
+        inventory=Inventory(1,(Repository('app','main',()),))
+        result=maintain('example',inventory,Fake())
+        self.assertEqual(result['repositories'][0]['pull-requests'][0]['status'],'refresh')
+        self.assertEqual(result['mutations'],[])
+
+
 class AlertPaginationTests(unittest.TestCase):
     def test_cursor_pages_follow_links_without_numeric_page(self):
         import json, subprocess

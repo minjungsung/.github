@@ -156,6 +156,18 @@ def maintain(owner, inventory, client, apply=False):
                 checks = client._json(['gh', 'api', f'repos/{full}/commits/{head}/check-runs?filter=latest&per_page=100'])
                 if checks.get('total_count', 0) > len(checks.get('check_runs', [])):
                     raise PolicyError('check response incomplete')
+                # GitHub's mergeable_state can be clean even when the base has moved.
+                # Compare ancestry before trusting old successful checks.
+                base_sha = detail.get('base', {}).get('sha')
+                if policy and policy.auto_merge_enabled:
+                    if not isinstance(base_sha, str) or not re.fullmatch('[0-9a-f]{40}', base_sha):
+                        raise PolicyError('invalid immutable PR base')
+                    comparison = client._json(['gh', 'api', f'repos/{full}/compare/{base_sha}...{head}'])
+                    behind = comparison.get('behind_by')
+                    if type(behind) is not int or behind < 0:
+                        raise PolicyError('invalid head ancestry response')
+                    if behind:
+                        detail = dict(detail, mergeable_state='behind')
                 action, reason = plan_pr(detail, checks.get('check_runs', []), bool(policy and policy.auto_merge_enabled))
                 row.update({'head-sha': head, 'status': action, 'reason': reason})
                 if action not in {'ignore', 'await-github-merge', 'merged'}: report['coverage-complete'] = False
