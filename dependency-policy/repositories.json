@@ -712,7 +712,8 @@
           "runtime-version": "20",
           "manifest": "package.json",
           "lockfile": "package-lock.json",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "test-command": "npm test"
         }
       ]
     },
