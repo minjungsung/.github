@@ -161,10 +161,18 @@ def _identities(value: dict) -> dict:
     return result
 
 
+def required_checks_payload(required: dict) -> dict:
+    """GitHub accepts one required-check representation, preserving every context."""
+    checks = copy.deepcopy(required.get('checks', []))
+    bound = {check['context'] for check in checks}
+    checks.extend({'context': name, 'app_id': -1} for name in required.get('contexts', []) if name not in bound)
+    return {'strict': required['strict'], 'checks': checks}
+
+
 def protection_payload(after: dict) -> dict:
     """Serialize existing GET settings for PUT when status checks are disabled."""
     required = after['required_status_checks']
-    payload = {'required_status_checks': {key: required[key] for key in ('strict', 'contexts', 'checks') if key in required}}
+    payload = {'required_status_checks': required_checks_payload(required)}
     for key in ('enforce_admins', 'required_linear_history', 'allow_force_pushes',
                 'allow_deletions', 'block_creations', 'required_conversation_resolution',
                 'lock_branch', 'allow_fork_syncing'):
@@ -222,11 +230,19 @@ def main(argv: Sequence[str] | None = None, *, client: ProtectionClient | None =
         return 0
     backup_directory.mkdir(parents=True, exist_ok=True)
     backup = backup_directory / f'{args.owner}-{repository.name}.json'
-    # Refuse to overwrite an earlier recovery snapshot, including after API failure.
-    with backup.open('x') as stream:
-        stream.write(json.dumps(before, indent=2, sort_keys=True) + '\n')
+    # Retry only against the exact original state; never overwrite recovery evidence.
+    try:
+        with backup.open('x') as stream:
+            stream.write(json.dumps(before, indent=2, sort_keys=True) + '\n')
+    except FileExistsError:
+        try:
+            original = json.loads(backup.read_text())
+        except (OSError, json.JSONDecodeError) as error:
+            raise PolicyError('existing protection backup is invalid; review before retry') from error
+        if original != before:
+            raise PolicyError('protection changed since original backup; review before retry')
     required = after['required_status_checks']
-    payload = {key: required[key] for key in ('strict', 'contexts', 'checks') if key in required}
+    payload = required_checks_payload(required)
     if before is None or before.get('required_status_checks') is None:
         api.put_protection(full_name, branch, put_payload)
     else:

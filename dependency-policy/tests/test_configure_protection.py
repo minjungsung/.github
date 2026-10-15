@@ -50,12 +50,16 @@ class FakeAPI:
         return self.caller
 
     def put_protection(self, repository, branch, payload):
+        required = payload.get('required_status_checks', payload)
+        assert not ('contexts' in required and 'checks' in required), 'GitHub oneOf rejects both representations'
         assert self.backup.is_file()
         assert json.loads(self.backup.read_text()) == self.current
         self.mutations.append(copy.deepcopy(payload))
         self.current = copy.deepcopy(payload)
 
     def update_required_checks(self, repository, branch, payload):
+        required = payload.get('required_status_checks', payload)
+        assert not ('contexts' in required and 'checks' in required), 'GitHub oneOf rejects both representations'
         assert self.backup.is_file()
         assert json.loads(self.backup.read_text()) == self.current
         self.mutations.append(copy.deepcopy(payload))
@@ -110,6 +114,22 @@ class ProtectionTests(unittest.TestCase):
         current = copy.deepcopy(CURRENT)
         current['required_status_checks']['contexts'].append(CHECK_CONTEXT)
         self.assertIn({'context': CHECK_CONTEXT, 'app_id': 15368}, plan_required_check(current, CHECK_CONTEXT, 15368)['required_status_checks']['checks'])
+
+    def test_matching_original_backup_allows_retry_without_overwrite(self):
+        self.api.backup.parent.mkdir()
+        self.api.backup.write_text(json.dumps(CURRENT, indent=4))
+        original = self.api.backup.read_bytes()
+        self.run_cli('--apply', '--policy-sha', PIN)
+        self.assertEqual(len(self.api.mutations), 1)
+        self.assertEqual(self.api.backup.read_bytes(), original)
+
+    def test_changed_state_refuses_backup_retry(self):
+        self.api.backup.parent.mkdir()
+        self.api.backup.write_text(json.dumps(CURRENT))
+        self.api.current['required_pull_request_reviews']['required_approving_review_count'] = 3
+        with self.assertRaises(PolicyError):
+            self.run_cli('--apply', '--policy-sha', PIN)
+        self.assertEqual(self.api.mutations, [])
 
     def test_default_backup_directory_is_repository_root(self):
         self.assertEqual(BACKUP_DIRECTORY, POLICY_ROOT.parent / 'reports' / 'protection-backups')
@@ -178,7 +198,7 @@ class ProtectionTests(unittest.TestCase):
     def test_backup_failure_prevents_mutation(self):
         self.api.backup.parent.mkdir()
         self.api.backup.write_text('previous backup')
-        with self.assertRaises(FileExistsError):
+        with self.assertRaises(PolicyError):
             self.run_cli('--apply', '--policy-sha', PIN)
         self.assertEqual(self.api.mutations, [])
         self.assertEqual(self.api.backup.read_text(), 'previous backup')
@@ -231,7 +251,7 @@ class ProtectionTests(unittest.TestCase):
         self.run_cli('--apply', '--policy-sha', PIN)
         original_backup = self.api.backup.read_bytes()
         self.assertEqual(len(self.api.mutations), 1)
-        self.assertEqual(set(self.api.mutations[0]), {'strict', 'contexts', 'checks'})
+        self.assertEqual(set(self.api.mutations[0]), {'strict', 'checks'})
         self.assertEqual(self.api.current['required_pull_request_reviews'], CURRENT['required_pull_request_reviews'])
         self.run_cli('--apply', '--policy-sha', PIN)
         self.assertEqual(len(self.api.mutations), 1)
