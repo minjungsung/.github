@@ -130,6 +130,42 @@ class ReconcileTests(unittest.TestCase):
         self.assertTrue(all(command[1] in {'api', 'pr'} for command in calls))
         self.assertFalse(any(command[1:3] in [['pr', 'comment'], ['pr', 'close'], ['pr', 'merge']] for command in calls))
 
+    def test_absent_required_checks_is_explicit_administrative_blocker(self):
+        for output, code, incomplete in (
+            ("no required checks reported on the 'main' branch\n", 0, False),
+            ("not valid JSON", 0, True),
+            ("no required checks reported on the 'main' branch\n", 2, True),
+        ):
+            with self.subTest(output=output, code=code):
+                def runner(command):
+                    if command[1:3] == ['pr', 'checks']:
+                        return subprocess.CompletedProcess(command, code, output, '')
+                    if command[1:3] == ['pr', 'view']:
+                        value = {'headRefOid': SHA, 'author': {'login': 'app/dependabot'}, 'mergeStateStatus': 'CLEAN'}
+                    elif command[-1].startswith('users/'):
+                        value = [{'full_name': 'example/project', 'archived': False}]
+                    elif '/pulls?' in command[-1]:
+                        value = [{'number': 1, 'user': {'login': 'dependabot[bot]'}}]
+                    elif command[-1].endswith('/pulls/1'):
+                        value = {'number': 1, 'user': {'login': 'dependabot[bot]'}, 'state': 'open',
+                                 'head': {'sha': SHA}, 'mergeable': True,
+                                 'html_url': 'https://github.com/example/project/pull/1',
+                                 'body': 'Bumps package from 1.0.0 to 1.0.1.\n'}
+                    else:
+                        value = {'total_count': 1, 'check_runs': [{'name': 'dependency-gate',
+                                 'head_sha': SHA, 'status': 'completed', 'conclusion': 'success',
+                                 'app': {'slug': 'github-actions', 'owner': {'login': 'github'}}}]}
+                    return subprocess.CompletedProcess(command, 0, json.dumps(value), '')
+                record = ReconciliationClient(runner).collect('example')[0]
+                decision = classify_pr(record)
+                if incomplete:
+                    self.assertEqual(decision.state, 'incomplete-discovery')
+                else:
+                    self.assertFalse(record['required_checks_pass'])
+                    self.assertEqual(record['external_blocker'], 'Required dependency gate protection is absent')
+                    self.assertEqual(decision.state, 'external-administrative-blocker')
+                    self.assertNotEqual(decision.state, 'merge-eligible')
+
     def test_rebase_boundary_invokes_handler_only_for_rebase_decision(self):
         class Fake:
             def collect(self, owner):
