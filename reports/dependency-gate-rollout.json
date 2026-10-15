@@ -339,7 +339,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Actual Node20/Java21 validation passed and prior required gate verified. Reviewed metadata canary PR120 merged; fresh bot118head7094f93e strict gate/metadata proof pending.",
+      "notes": "Actual Node20/Java21 validation and required protection passed. Reviewed metadata canary enabled actual grouped jsoup minor PR118 to pass all3 strict projects and auto-merge at exacthead7094f93e; merged5bd5fe28. Fleet promotion and production acceptance remain separate.",
       "rollout-pr": "https://github.com/minjungsung/LingoCast/pull/117",
       "verified-default-branch-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
       "default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38677241401/job/116233561516",
@@ -350,7 +350,7 @@
       },
       "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
       "metadata-canary-pr": "https://github.com/minjungsung/LingoCast/pull/120",
-      "metadata-canary-status": "merged-real-bot-checks-pending",
+      "metadata-canary-status": "actual-minor-auto-merge-proven",
       "prior-default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38675147610/job/116226967377"
     },
     {
@@ -933,6 +933,11 @@
       "source-id": "dependency-gate-pr-reconciliation-next.json",
       "sha256": "eca8b4f685671f9135a96232f76fa47c3e4a354f8eb4b2f1419bed36ccac538c",
       "retention": "Necessary snapshot facts embedded; mutable source may advance"
+    },
+    {
+      "source-id": "LingoCast-real-minor-evidence.json",
+      "sha256": "e729d6cc030f5bd80099d3c903a786d7576b1c203ecb9accee6043d93347cbf2",
+      "retention": "Actual exact-head metadata, gate, project and automatic merge facts embedded"
     }
   ],
   "protection-backups": [
@@ -4965,15 +4970,87 @@
   },
   "policy-release-rollout": {
     "released-sha": "912a4df6333443b9f8a012275627d971a8218a03",
-    "status": "metadata-canary-pending",
+    "status": "real-minor-canary-passed",
     "canary-pr": "https://github.com/minjungsung/LingoCast/pull/120",
     "limitation": "LingoCast has promoted912a; other callers retain53eef. Latest renderer byte drift remains pending explicit version promotion.",
-    "canary-status": "merged-real-bot-checks-pending",
+    "canary-status": "merged-and-actual-minor-auto-merge-proven",
     "canary-merge-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
     "real-bot-head": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
     "default-fleet-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
     "exceptions": {
       "LingoCast": "912a4df6333443b9f8a012275627d971a8218a03"
     }
+  },
+  "real-dependabot-minor-evidence": {
+    "repository": "minjungsung/LingoCast",
+    "pr": 118,
+    "url": "https://github.com/minjungsung/LingoCast/pull/118",
+    "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
+    "metadata-action-sha": "25dd0e34f4fe68f24cc83900b1fe3fe149efef98",
+    "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+    "merge-sha": "5bd5fe28f784cc552635bbc2ad47321fe521ba01",
+    "merged-at": "2026-10-15T03:41:31Z",
+    "dependency": {
+      "name": "org.jsoup:jsoup",
+      "previous-version": "1.17.2",
+      "new-version": "1.23.2",
+      "update-type": "version-update:semver-minor",
+      "group": "maven"
+    },
+    "gate": {
+      "name": "dependency-gate",
+      "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+      "conclusion": "success",
+      "app-id": 15368,
+      "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116234451029"
+    },
+    "auto-merge-job": {
+      "run-id": 38677298115,
+      "job-id": 116234521695,
+      "conclusion": "success",
+      "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116234521695"
+    },
+    "project-checks": [
+      {
+        "name": "validate-dependencies / validate-projects (worker-node, npm, worker, 20, package.json, package-lock.json, 15)",
+        "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116233710280"
+      },
+      {
+        "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, bash scripts/verify.sh...",
+        "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116233710260"
+      },
+      {
+        "name": "validate-dependencies / validate-projects (spring-gradle, gradle, spring, 21, build.gradle.kts, gradlew, 30)",
+        "head-sha": "7094f93ebf59ae670cdc2aaf38fb280927aaeb46",
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/LingoCast/actions/runs/38677298115/job/116233709971"
+      }
+    ],
+    "verification-skips": false,
+    "manual-merge-performed": false,
+    "fresh-caller-sha256": "49d769a7b6cabd2405e74457ec5761729b1d0df5b01065de47a546e12a94cea9",
+    "sources": [
+      {
+        "reference": "LingoCast118-checks.json",
+        "sha256": "e9d29934047dffb95cd3a8e2e62557591ba475d8ae2b48bb47270f2b12ecddf0"
+      },
+      {
+        "reference": "LingoCast118-metadata-auto-merge.log",
+        "sha256": "80fb105aab1698324f98467b7b091d1260efd589169f6476c1c0c7c44dda47ae"
+      },
+      {
+        "reference": "LingoCast118-merged.json",
+        "sha256": "53adfd2a9e84fa3256adeb57bca9b76af3804fb9cec2387f099271230bba6bab"
+      },
+      {
+        "reference": "dependency-gate-lingocast118-message.txt",
+        "sha256": "58fef17bae3467fc2ec574ff5088ccdde7f6b3ff63500daa39023cda3caa9cb2"
+      }
+    ],
+    "scope": "One actual minor dependency PR proved trusted validation, metadata classification and automatic merge. Fleet rollout, patch evidence, major/unknown manual behavior and production acceptance remain separate."
   }
 }
