@@ -131,8 +131,12 @@ class ReconciliationClient(GitHubClient):
                     response = self._runner(['gh', 'pr', 'checks', str(entry['number']), '--repo', name, '--required', '--json', 'bucket,name'])
                     if response.returncode not in {0, 1, 8}:
                         raise PolicyError('required check lookup failed')
-                    no_required = response.returncode == 0 and isinstance(response.stdout, str) and re.fullmatch(
-                        r"no required checks reported on the '[^'\r\n]+' branch\n?", response.stdout) is not None
+                    absence_message = (
+                        response.stdout if response.returncode == 0 else
+                        response.stderr if response.returncode == 1 and response.stdout == '' else None
+                    )
+                    no_required = isinstance(absence_message, str) and re.fullmatch(
+                        r"no required checks reported on the '[^'\r\n]+' branch\n?", absence_message) is not None
                     if no_required:
                         required = []
                     else:
