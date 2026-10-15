@@ -36,8 +36,7 @@ def classify_pr(pr: dict) -> ReconciliationDecision:
     if pr.get('auto_merge_enabled') is not True:
         return decision('manual-repository', 'Reviewed repository policy disables automatic merging')
     update = pr.get('update_type')
-    if update == 'major': return decision('manual-major', 'Major updates require manual review')
-    if update not in {'patch', 'minor'}: return decision('manual-unknown', 'Verified patch/minor metadata is unavailable')
+    if update not in {'patch', 'minor', 'major'}: return decision('manual-unknown', 'Verified patch/minor/major metadata is unavailable')
     evidence = pr.get('closure_evidence', {})
     if isinstance(evidence, dict) and evidence.get('reviewed') is True and evidence.get('kind') in {'duplicate', 'superseded', 'upstream-incompatible', 'withdrawn'} and evidence.get('reason') and re.match(r'https://', evidence.get('url', '')):
         return decision('close-with-reason', evidence['kind'] + ': ' + evidence['reason'] + ' — ' + evidence['url'])

@@ -129,7 +129,7 @@ class RenderCallersTest(unittest.TestCase):
         self.assertIn("if: github.event.pull_request.user.login == 'dependabot[bot]'", rendered)
         self.assertEqual(rendered.count(POLICY_SHA), 2)
 
-    def test_render_only_auto_merges_patch_and_minor_dependabot_updates(self):
+    def test_render_auto_merges_verified_patch_minor_and_major_updates(self):
         rendered = render_caller(self.repository(), POLICY_SHA)
 
         self.assertIn(
@@ -138,6 +138,8 @@ class RenderCallersTest(unittest.TestCase):
         )
         self.assertIn("steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch'", rendered)
         self.assertIn("steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor'", rendered)
+        self.assertIn("steps.dependabot-metadata.outputs.update-type == 'version-update:semver-major'", rendered)
+        self.assertIn("steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major'", rendered)
         self.assertIn("gh pr review --approve", rendered)
         self.assertIn("gh pr merge --auto --squash", rendered)
         self.assertIn("Manual review required", rendered)
