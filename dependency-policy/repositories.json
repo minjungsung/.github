@@ -423,7 +423,7 @@
           "name": "module_12-python-requirements",
           "ecosystem": "python-requirements",
           "path": "module_12",
-          "runtime-version": "3.11",
+          "runtime-version": "3.12",
           "manifest": "requirements.txt",
           "timeout-minutes": 15
         },
@@ -431,7 +431,7 @@
           "name": "module_13-python-requirements",
           "ecosystem": "python-requirements",
           "path": "module_13",
-          "runtime-version": "3.11",
+          "runtime-version": "3.12",
           "manifest": "requirements.txt",
           "timeout-minutes": 15
         },
@@ -457,7 +457,8 @@
           "path": "module_4",
           "runtime-version": "3.11",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "test-command": ".dependency-gate-venv/bin/python -m pytest"
         },
         {
           "name": "module_5-python-requirements",
@@ -465,7 +466,9 @@
           "path": "module_5",
           "runtime-version": "3.11",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install -e .",
+          "test-command": ".dependency-gate-venv/bin/python -m pytest"
         },
         {
           "name": "module_6-python-requirements",
@@ -473,7 +476,9 @@
           "path": "module_6",
           "runtime-version": "3.11",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install -e .",
+          "test-command": ".dependency-gate-venv/bin/python -m pytest"
         },
         {
           "name": "module_6-src-web-python-requirements",
@@ -503,7 +508,7 @@
           "name": "module_8-python-requirements",
           "ecosystem": "python-requirements",
           "path": "module_8",
-          "runtime-version": "3.11",
+          "runtime-version": "3.12",
           "manifest": "requirements.txt",
           "timeout-minutes": 15
         },
@@ -511,7 +516,7 @@
           "name": "root-python-requirements",
           "ecosystem": "python-requirements",
           "path": ".",
-          "runtime-version": "3.11",
+          "runtime-version": "3.12",
           "manifest": "requirements.txt",
           "timeout-minutes": 15
         }
