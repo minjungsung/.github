@@ -126,8 +126,9 @@ def maintain(owner, inventory, client, apply=False):
                                'patched-version': a.get('security_vulnerability', {}).get('first_patched_version'),
                                'url': a.get('html_url'), 'status': 'open-remediation-required'} for a in alerts]
             if alerts: report['coverage-complete'] = False
-        except (PolicyError, KeyError, TypeError, AttributeError):
+        except (PolicyError, KeyError, TypeError, AttributeError) as error:
             entry['alert-status'] = 'unavailable'
+            entry['alert-error'] = str(error) if isinstance(error, PolicyError) else 'Malformed vulnerability alert response'
             report['coverage-complete'] = False
         try:
             pulls = client.pages(f'repos/{full}/pulls?state=open')
