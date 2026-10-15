@@ -132,7 +132,7 @@ class RenderCallersTest(unittest.TestCase):
         rendered = render_caller(self.repository(), POLICY_SHA)
 
         self.assertIn(
-            "uses: dependabot/fetch-metadata@08eff52bf64351f401fb50d4972fa95b9f2c2d1b",
+            "uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98",
             rendered,
         )
         self.assertIn("steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch'", rendered)
