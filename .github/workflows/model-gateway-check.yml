@@ -13,6 +13,7 @@ jobs:
           persist-credentials: false
       - name: Start isolated enterprise credential relay
         env:
+          COMPANY_MODEL_CA_PEM: ${{ secrets.COMPANY_MODEL_CA_PEM }}
           COMPANY_MODEL_API_KEY: ${{ secrets.COMPANY_MODEL_API_KEY }}
           COMPANY_MODEL_RESPONSES_ENDPOINT: ${{ secrets.COMPANY_MODEL_RESPONSES_ENDPOINT }}
         run: |
@@ -22,7 +23,8 @@ jobs:
           local_key = secrets.token_hex(32)
           print('::add-mask::' + local_key)
           config = {'endpoint': os.environ['COMPANY_MODEL_RESPONSES_ENDPOINT'],
-                    'credential': os.environ['COMPANY_MODEL_API_KEY'], 'local-key': local_key}
+                    'credential': os.environ['COMPANY_MODEL_API_KEY'], 'local-key': local_key,
+                    'ca-pem': os.environ.get('COMPANY_MODEL_CA_PEM', '')}
           # Root holds the real credential; the Action removes model sudo access.
           process = subprocess.Popen(['sudo', '-n', 'python3', 'dependency-policy/scripts/model_gateway_relay.py'],
                                      stdin=subprocess.PIPE, stdout=subprocess.DEVNULL,

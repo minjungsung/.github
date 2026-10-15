@@ -20,11 +20,13 @@ def validate_endpoint(endpoint):
     return endpoint
 
 
-def serve(endpoint, credential, local_key, port):
+def serve(endpoint, credential, local_key, port, ca_pem=None):
     validate_endpoint(endpoint)
     if not credential or not local_key:
         raise ValueError("Both gateway and relay credentials are required")
     context = ssl.create_default_context()
+    if ca_pem:
+        context.load_verify_locations(cadata=ca_pem)
 
     class Handler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
@@ -78,7 +80,7 @@ def main():
     parser.add_argument("--port", type=int, default=8766)
     args = parser.parse_args()
     config = json.load(sys.stdin)
-    serve(config["endpoint"], config["credential"], config["local-key"], args.port)
+    serve(config["endpoint"], config["credential"], config["local-key"], args.port, config.get("ca-pem"))
 
 
 if __name__ == "__main__":
