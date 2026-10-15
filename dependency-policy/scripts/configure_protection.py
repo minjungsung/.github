@@ -18,7 +18,7 @@ from scripts.audit_repositories import DEFAULT_OWNER
 
 POLICY_ROOT = Path(__file__).resolve().parents[1]
 INVENTORY_PATH = POLICY_ROOT / 'repositories.json'
-BACKUP_DIRECTORY = POLICY_ROOT / 'reports' / 'protection-backups'
+BACKUP_DIRECTORY = POLICY_ROOT.parent / 'reports' / 'protection-backups'
 CHECK_CONTEXT = 'Dependency Gate / dependency-gate'
 SHA_PATTERN = re.compile(r'[0-9a-f]{40}')
 NAME_PATTERN = re.compile(r'[A-Za-z0-9_.-]+')
@@ -42,8 +42,19 @@ class ProtectionClient(GitHubClient):
             raise PolicyError('repository has no default branch')
         return branch
 
-    def protection(self, repository: str, branch: str) -> dict:
-        return _object(self._json(['gh', 'api', f'repos/{repository}/branches/{quote(branch, safe="")}/protection']))
+    def protection(self, repository: str, branch: str) -> dict | None:
+        result = self._runner(['gh', 'api', f'repos/{repository}/branches/{quote(branch, safe="")}/protection'])
+        try:
+            value = _object(json.loads(result.stdout))
+        except (TypeError, json.JSONDecodeError) as error:
+            raise PolicyError('GitHub protection response contains invalid JSON') from error
+        if result.returncode != 0:
+            if value.get('message') == 'Branch not protected' and str(value.get('status')) == '404':
+                return None
+            raise PolicyError(f'GitHub protection command failed with exit code {result.returncode}')
+        if 'message' in value:
+            raise PolicyError('GitHub protection response contains an error')
+        return value
 
     def caller_text(self, repository: str, branch: str) -> str:
         value = _object(self._json(['gh', 'api', f'repos/{repository}/contents/.github/workflows/dependency-gate.yml?ref={quote(branch, safe="")}']))
@@ -54,13 +65,19 @@ class ProtectionClient(GitHubClient):
         except (binascii.Error, UnicodeDecodeError) as error:
             raise PolicyError('default branch caller has invalid content') from error
 
+    def put_protection(self, repository: str, branch: str, payload: dict) -> dict:
+        return self._write_protection(repository, branch, payload, 'PUT', '')
+
     def update_required_checks(self, repository: str, branch: str, payload: dict) -> dict:
+        return self._write_protection(repository, branch, payload, 'PATCH', '/required_status_checks')
+
+    def _write_protection(self, repository: str, branch: str, payload: dict, method: str, suffix: str) -> dict:
         # A JSON input file preserves arrays and booleans without form coercion.
         import tempfile
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'required-checks.json'
             path.write_text(json.dumps(payload))
-            return _object(self._json(['gh', 'api', '--method', 'PATCH', f'repos/{repository}/branches/{quote(branch, safe="")}/protection/required_status_checks', '--input', str(path)]))
+            return _object(self._json(['gh', 'api', '--method', method, f'repos/{repository}/branches/{quote(branch, safe="")}/protection{suffix}', '--input', str(path)]))
 
 
 def find_check_context(client: ProtectionClient, repository: str, sha: str) -> str:
@@ -90,8 +107,10 @@ def find_check_context(client: ProtectionClient, repository: str, sha: str) -> s
     return CHECK_CONTEXT
 
 
-def plan_required_check(current: dict, context: str) -> dict:
-    after = copy.deepcopy(_object(current))
+def plan_required_check(current: dict | None, context: str) -> dict:
+    after = copy.deepcopy(_object(current)) if current is not None else {
+        'enforce_admins': False, 'required_pull_request_reviews': None, 'restrictions': None,
+    }
     required = after.get('required_status_checks')
     if required is None:
         required = {'strict': False, 'contexts': [], 'checks': []}
@@ -110,6 +129,49 @@ def plan_required_check(current: dict, context: str) -> dict:
         ]
     return after
 
+
+
+def _identities(value: dict) -> dict:
+    result = {}
+    for kind, key in [('users', 'login'), ('teams', 'slug'), ('apps', 'slug')]:
+        entries = value.get(kind, [])
+        if not isinstance(entries, list):
+            raise PolicyError('invalid protection restrictions')
+        identities = [item if isinstance(item, str) else _object(item).get(key) for item in entries]
+        if not all(isinstance(item, str) and item for item in identities):
+            raise PolicyError('invalid protection identity')
+        result[kind] = identities
+    return result
+
+
+def protection_payload(after: dict) -> dict:
+    """Serialize existing GET settings for PUT when status checks are disabled."""
+    required = after['required_status_checks']
+    payload = {'required_status_checks': {key: required[key] for key in ('strict', 'contexts', 'checks') if key in required}}
+    for key in ('enforce_admins', 'required_linear_history', 'allow_force_pushes',
+                'allow_deletions', 'block_creations', 'required_conversation_resolution',
+                'lock_branch', 'allow_fork_syncing'):
+        if key in after:
+            value = after[key]
+            enabled = value.get('enabled') if isinstance(value, dict) else value
+            if not isinstance(enabled, bool):
+                raise PolicyError('invalid protection boolean setting')
+            payload[key] = enabled
+    payload.setdefault('enforce_admins', False)
+    restrictions = after.get('restrictions')
+    payload['restrictions'] = _identities(_object(restrictions)) if restrictions is not None else None
+    reviews = after.get('required_pull_request_reviews')
+    if reviews is None:
+        payload['required_pull_request_reviews'] = None
+    else:
+        reviews = _object(reviews)
+        review_keys = ('dismiss_stale_reviews', 'require_code_owner_reviews',
+                       'required_approving_review_count', 'require_last_push_approval')
+        payload['required_pull_request_reviews'] = {key: copy.deepcopy(reviews[key]) for key in review_keys if key in reviews}
+        for key in ('dismissal_restrictions', 'bypass_pull_request_allowances'):
+            if key in reviews:
+                payload['required_pull_request_reviews'][key] = _identities(_object(reviews[key]))
+    return payload
 
 def main(argv: Sequence[str] | None = None, *, client: ProtectionClient | None = None,
          inventory_path: Path = INVENTORY_PATH, backup_directory: Path = BACKUP_DIRECTORY) -> int:
@@ -135,6 +197,7 @@ def main(argv: Sequence[str] | None = None, *, client: ProtectionClient | None =
         raise PolicyError('default branch caller does not match the rendered immutable policy pin')
     before = api.protection(full_name, branch)
     after = plan_required_check(before, context)
+    put_payload = protection_payload(after) if before is None or before.get('required_status_checks') is None else None
     print(json.dumps({'before': before, 'after': after}, indent=2, sort_keys=True))
     if not args.apply or before == after:
         return 0
@@ -145,7 +208,10 @@ def main(argv: Sequence[str] | None = None, *, client: ProtectionClient | None =
         stream.write(json.dumps(before, indent=2, sort_keys=True) + '\n')
     required = after['required_status_checks']
     payload = {key: required[key] for key in ('strict', 'contexts', 'checks') if key in required}
-    api.update_required_checks(full_name, branch, payload)
+    if before is None or before.get('required_status_checks') is None:
+        api.put_protection(full_name, branch, put_payload)
+    else:
+        api.update_required_checks(full_name, branch, payload)
     return 0
 
 

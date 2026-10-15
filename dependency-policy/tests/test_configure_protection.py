@@ -8,7 +8,7 @@ import subprocess
 import unittest
 
 from lib.models import PolicyError, Project, Repository
-from scripts.configure_protection import CHECK_CONTEXT, ProtectionClient, find_check_context, main, plan_required_check
+from scripts.configure_protection import BACKUP_DIRECTORY, POLICY_ROOT, CHECK_CONTEXT, ProtectionClient, find_check_context, main, plan_required_check
 from scripts.render_callers import render_caller
 
 SHA = 'a' * 40
@@ -45,6 +45,12 @@ class FakeAPI:
     def caller_text(self, repository, branch):
         return self.caller
 
+    def put_protection(self, repository, branch, payload):
+        assert self.backup.is_file()
+        assert json.loads(self.backup.read_text()) == self.current
+        self.mutations.append(copy.deepcopy(payload))
+        self.current = copy.deepcopy(payload)
+
     def update_required_checks(self, repository, branch, payload):
         assert self.backup.is_file()
         assert json.loads(self.backup.read_text()) == self.current
@@ -68,6 +74,45 @@ class ProtectionTests(unittest.TestCase):
             result = main(['--owner', 'example', '--repository', 'sample', '--sha', SHA, *extra], client=self.api, inventory_path=self.inventory, backup_directory=self.api.backup.parent)
         return result, json.loads(output.getvalue())
 
+    def test_default_backup_directory_is_repository_root(self):
+        self.assertEqual(BACKUP_DIRECTORY, POLICY_ROOT.parent / 'reports' / 'protection-backups')
+
+    def test_confirm_only_specific_unprotected_response(self):
+        for message, status, code, absent in [('Branch not protected', '404', 1, True), ('Not Found', '404', 1, False), ('Branch not protected', '403', 1, False), ('Branch not protected', '404', 0, False)]:
+            with self.subTest(message=message, status=status, code=code):
+                def runner(command):
+                    return subprocess.CompletedProcess(command, code, json.dumps({'message': message, 'status': status}), '')
+                client = ProtectionClient(runner)
+                if absent:
+                    self.assertIsNone(client.protection('example/sample', 'main'))
+                else:
+                    with self.assertRaises(PolicyError):
+                        client.protection('example/sample', 'main')
+
+    def test_absent_dry_run_and_apply(self):
+        self.api.current = None
+        _, diff = self.run_cli()
+        self.assertIsNone(diff['before'])
+        self.assertEqual(self.api.mutations, [])
+        self.run_cli('--apply', '--policy-sha', PIN)
+        self.assertIsNone(json.loads(self.api.backup.read_text()))
+        self.assertEqual(set(self.api.mutations[0]), {'required_status_checks', 'enforce_admins', 'required_pull_request_reviews', 'restrictions'})
+        self.assertFalse(self.api.mutations[0]['enforce_admins'])
+        self.run_cli('--apply', '--policy-sha', PIN)
+        self.assertEqual(len(self.api.mutations), 1)
+
+    def test_enable_missing_checks_preserves_existing_protection(self):
+        self.api.current['required_status_checks'] = None
+        self.api.current.update({'restrictions': {'users': [{'login': 'maintainer'}], 'teams': [{'slug': 'developers'}], 'apps': [{'slug': 'ci-app'}]}, 'required_linear_history': {'enabled': True}, 'allow_force_pushes': {'enabled': False}, 'required_conversation_resolution': {'enabled': True}})
+        self.run_cli('--apply', '--policy-sha', PIN)
+        payload = self.api.mutations[0]
+        self.assertEqual(payload['required_pull_request_reviews'], CURRENT['required_pull_request_reviews'])
+        self.assertTrue(payload['enforce_admins'])
+        self.assertTrue(payload['required_linear_history'])
+        self.assertFalse(payload['allow_force_pushes'])
+        self.assertTrue(payload['required_conversation_resolution'])
+        self.assertEqual(payload['restrictions'], {'users': ['maintainer'], 'teams': ['developers'], 'apps': ['ci-app']})
+
     def test_json_api_boundary_and_payload(self):
         commands = []
         payloads = []
@@ -88,6 +133,10 @@ class ProtectionTests(unittest.TestCase):
         self.assertIn('PATCH', commands[2])
         self.assertIn('repos/example/sample/branches/release%2Fmain/protection/required_status_checks', commands[2])
         self.assertEqual(payloads, [payload])
+        client.put_protection('example/sample', 'main', {'required_status_checks': payload, 'enforce_admins': False, 'required_pull_request_reviews': None, 'restrictions': None})
+        self.assertIn('PUT', commands[3])
+        self.assertIn('repos/example/sample/branches/main/protection', commands[3])
+        self.assertIsNone(payloads[1]['restrictions'])
 
     def test_backup_failure_prevents_mutation(self):
         self.api.backup.parent.mkdir()
