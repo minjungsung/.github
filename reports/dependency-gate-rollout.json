@@ -2,7 +2,7 @@
   "schema-version": 1,
   "status": "in-progress",
   "acceptance-complete": false,
-  "policy-sha": "53eef31813cadd2611ade5062449c5089bbe1774",
+  "policy-sha": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
   "active-repository-count": 33,
   "central-merged-prs": [
     {
@@ -339,7 +339,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Actual minor PR118 passed all3 projects and auto-merged. Wiki PR121 was merged by ordinary automation before full CI; checks later passed. Required human-only journal PR122 is blocked by Vercel quota; fresh current-main gate proof remains missing.",
+      "notes": "Actual minor PR118 auto-merged. Reviewed major-policy PR123 merged after all CI and Vercel passed; fresh main gate observed. Corrective journal PR122 remains open.",
       "rollout-pr": "https://github.com/minjungsung/LingoCast/pull/117",
       "verified-default-branch-sha": "578f1117ecaefaa266875b94010cbc45489745b7",
       "default-branch-gate-run": "https://github.com/minjungsung/LingoCast/actions/runs/38677241401/job/116233561516",
@@ -638,7 +638,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "All15 strict projects and existing tests passed with PostgreSQL16. Service-aware caller/wiki/release guards and requiredgate verified. Actual majorbot40 central15-project gate passed at d5910b5a; PR remained open with null autoMergeRequest.",
+      "notes": "Verified pytest-cov major PR40 actually auto-merged after all15 projects passed. Fresh gate on resulting token-generated main commit remains pending.",
       "remediation-pr": "https://github.com/minjungsung/jhu_software_concepts/pull/58",
       "remediation-merge-sha": "00a9d10b540c639df9f4e033cae85963e9b31476",
       "caller-merge-sha": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
@@ -788,7 +788,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Strict Node20 baseline and metadata canary passed, required gate verified. Release PR47 merged after CI/Vercel with exact gate/lint prerequisites. Wiki guard PR48 latest head is blocked by24-hour Vercel quota.",
+      "notes": "Security migration PR50 merged; 24 open Dependabot alerts became zero, npm audit zero. Seven npm major PRs incorporated and closed; checkout major PR27 actually auto-merged after strict validation. Vercel optional quota deployment remains blocked; wiki PR48 alignment pending.",
       "baseline-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38666261119",
       "baseline-head-sha": "ed6f15313506ebc9b0774b0633e7dac86a009406",
       "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
@@ -1115,7 +1115,9 @@
     "gate-conclusion": "success",
     "verified-update-type": "major",
     "auto-merge-request": null,
-    "limitation": "Evidence applies only to the recorded exact PR head"
+    "limitation": "Evidence applies only to the recorded exact PR head",
+    "historical-snapshot": true,
+    "superseded-by": "major-policy-promotion and actual-major-auto-merge-evidence; historical exact-head evidence retained"
   },
   "dependabot-reconciliation": {
     "source-id": "dependency-gate-final-reconciliation.json",
@@ -1458,7 +1460,9 @@
         "url": "https://github.com/minjungsung/visionRAG/pull/51"
       }
     ],
-    "limitation": "Reviewed manual repository policy is authoritative; grouped/requirement metadata without verified parser evidence remains manual-unknown. This is a point-in-time open-PR snapshot."
+    "limitation": "Reviewed manual repository policy is authoritative; grouped/requirement metadata without verified parser evidence remains manual-unknown. This is a point-in-time open-PR snapshot.",
+    "historical-snapshot": true,
+    "superseded-by": "major-policy-promotion and actual-major-auto-merge-evidence; historical exact-head evidence retained"
   },
   "live-inventory-audit": {
     "source-id": "dependency-gate-live-audit-normalized.json",
@@ -5029,7 +5033,9 @@
       "jhu_software_concepts": "1749d8b2d4eacf6540347c142fc2d544c68c2d14",
       "manual-repositories": "53eef31813cadd2611ade5062449c5089bbe1774"
     },
-    "next-wave": "21 reviewed automatic-merge metadata promotions completed"
+    "next-wave": "21 reviewed automatic-merge metadata promotions completed",
+    "historical-snapshot": true,
+    "superseded-by": "major-policy-promotion and actual-major-auto-merge-evidence; historical exact-head evidence retained"
   },
   "real-dependabot-minor-evidence": {
     "repository": "minjungsung/LingoCast",
@@ -5126,7 +5132,9 @@
       "source-id": "jhu-real-bot-service.log",
       "sha256": "b5f0b67711327d7a8e628ada9092f2110017b249c81717ba383d85fee88982fa"
     },
-    "limitation": "Exact real bot head service/major manual-routing evidence; not fleet patch/minor reconciliation"
+    "limitation": "Exact real bot head service/major manual-routing evidence; not fleet patch/minor reconciliation",
+    "historical-snapshot": true,
+    "superseded-by": "major-policy-promotion and actual-major-auto-merge-evidence; historical exact-head evidence retained"
   },
   "final-caller-verification": {
     "source-id": "dependency-gate-final-caller-verification.json",
@@ -5394,7 +5402,9 @@
       "KakaoBot-API",
       "TangoMBTI",
       "house-scanner-frontend"
-    ]
+    ],
+    "historical-snapshot": true,
+    "superseded-by": "major-policy-promotion and actual-major-auto-merge-evidence; historical exact-head evidence retained"
   },
   "deployment-inventory": [
     {
@@ -5783,10 +5793,12 @@
     }
   ],
   "acceptance-gaps": [
-    "Three default branches remain unenrolled because deployment/audit checks fail.",
-    "KakaoBot-API wiki guard remains unmerged due to deployment failure; frontend-inner wiki guard and Lingo required journal correction are blocked by24-hour Vercel build quota.",
-    "Lingo wiki PR121 was auto-merged before all checks by existing ordinary automation; its application checks later passed, but current main lacks newly triggered gate evidence.",
-    "Failed-update publication denial has not been exercised for every publishing workflow."
+    "Eight repositories retain manual automatic-merge settings: Chatbot, TangoMBTI, Undead-Survivor, dongle-game, house-scanner-frontend, kiro-skills, shooting-game, visionRAG.",
+    "KakaoBot-API remains unenrolled; House-scanner and KakaoBot-API actual deployment failures and TangoMBTI enforcing audit failures remain unresolved.",
+    "Frontend-inner wiki PR48 needs native Vitest validation alignment and successful reviewed merge.",
+    "LingoCast corrective journal PR122 remains open; policy PR123 supplied fresh successful main gate evidence.",
+    "GitHub-token automatic merges do not trigger cascading push workflows: current JHU and frontend-inner automatic merge commits require fresh main validation before exact-main publication.",
+    "Complete fleet PR reconciliation and failed-update publication denial for every publishing workflow remain unproven."
   ],
   "metadata-policy-fleet-promotion": {
     "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
@@ -8056,9 +8068,1298 @@
     "limitation": "Source structure and reviewed PRs; no actual publishing dispatch performed."
   },
   "final-validation": {
+    "unit-tests": 161,
+    "conclusion": "passed",
+    "source-id": "dependency-gate-current-tests.log",
+    "sha256": "491b11609020997d5b0956127a804f9d6aa40d7ca1fab87917f284192e33e3a6",
+    "scope": "Current central policy at a2b23d6 plus report-only outcome changes"
+  },
+  "major-policy-promotion": {
+    "policy-sha": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
+    "reviewed-candidate-count": 24,
+    "merged-pin-prs": 23,
+    "superseded-pin-prs": 1,
+    "records": [
+      {
+        "repository": ".github",
+        "status": "merged",
+        "base-sha": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
+        "before-sha256": "b914f53f6bc4f5e93c3e47adb1b268f9ef6a5668944b0d6a61d3a6a05a2f72be",
+        "after-sha256": "df6e1d3ccfaa11aaf55336b671a6edd3f1285bd03cbd66c50dd1a94f7e6e16fd",
+        "changed-lines": 6,
+        "diff": ".github.diff",
+        "publication_base": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
+        "head": "25fd8f615ece4664059f8d68851d09d2cf4b4446",
+        "url": "https://github.com/minjungsung/.github/pull/27",
+        "merge_sha": "f4f835f5db6678caf5f4a8c577f2868d2b3f91cc"
+      },
+      {
+        "repository": "Algorithm",
+        "status": "merged",
+        "base-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "Algorithm.diff",
+        "publication_base": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+        "head": "cffb427802ea784532678fe390af7549ad7dc33d",
+        "url": "https://github.com/minjungsung/Algorithm/pull/9",
+        "merge_sha": "4c1084f0d0279f1a771d9b8aeb30d3e2109bc8c3"
+      },
+      {
+        "repository": "Interview",
+        "status": "merged",
+        "base-sha": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "before-sha256": "92c93204b87a869a634889dc0f69d3c26c9605e451a4fdc7aeb0292e3436225b",
+        "after-sha256": "c2a285c80b23d613be03cde9a6ad023e877f78841e534affbc8a8222dd4b5e22",
+        "changed-lines": 6,
+        "diff": "Interview.diff",
+        "publication_base": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "head": "dd7d9533bb81f0c57b0150dceb1f74acb5b946e8",
+        "url": "https://github.com/minjungsung/Interview/pull/35",
+        "merge_sha": "9c642ea30683a1387da0b5abb32cda97d57be4f2"
+      },
+      {
+        "repository": "KakaoBot",
+        "status": "merged",
+        "base-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "KakaoBot.diff",
+        "publication_base": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+        "head": "a769c76dbdeccea360a1ee02c9bf6699d0139b29",
+        "url": "https://github.com/minjungsung/KakaoBot/pull/10",
+        "merge_sha": "fbc235f93afeefdff208e917e2f756907ca729bb"
+      },
+      {
+        "repository": "Leethub",
+        "status": "merged",
+        "base-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "Leethub.diff",
+        "publication_base": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+        "head": "42a2ef0fa9df804e491fd9b31a6624a2e2a49395",
+        "url": "https://github.com/minjungsung/Leethub/pull/46",
+        "merge_sha": "0fbccb793e76c2573df895aee2167c46b87e037c"
+      },
+      {
+        "repository": "LingoCast",
+        "status": "merged",
+        "base-sha": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+        "before-sha256": "49d769a7b6cabd2405e74457ec5761729b1d0df5b01065de47a546e12a94cea9",
+        "after-sha256": "24d751143ea93179befcfb50bd265dc50c7a767ec7305f1e535bbe8f5d18749c",
+        "changed-lines": 6,
+        "diff": "LingoCast.diff",
+        "publication_base": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+        "head": "92a9dd8ae6596f72e06a39a12a88eb77a510e9cf",
+        "url": "https://github.com/minjungsung/LingoCast/pull/123",
+        "merge_sha": "ec04a8bb132433fcbc5a5f3ada6d48a814960770"
+      },
+      {
+        "repository": "Nbody",
+        "status": "merged",
+        "base-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "Nbody.diff",
+        "publication_base": "63922d1ae8351b0d72e9625dba40e276789b275a",
+        "head": "7bc6fd4485fdf3231822b7a7e94216b137e32ef6",
+        "url": "https://github.com/minjungsung/Nbody/pull/11",
+        "merge_sha": "5caf524f5f034fc37abe5684cae2e8756bdf02f0"
+      },
+      {
+        "repository": "TangoDJ",
+        "status": "merged",
+        "base-sha": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "before-sha256": "1258cac6bd87e3a79ed4731ced3007f65ce0189c6fa7910fd50eb2f901674413",
+        "after-sha256": "3e4044a2b089a7a9ee15ffa2e3a96ab5d3d0666c6bed8f27635b94f68b09f881",
+        "changed-lines": 6,
+        "diff": "TangoDJ.diff",
+        "publication_base": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "head": "38a870b3d5b547893a74f09a262c835cbce7fa7c",
+        "url": "https://github.com/minjungsung/TangoDJ/pull/4",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "b7e6a6bb06c9e389bac97a2ad993eab69b6e35b5",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked"
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "status": "merged",
+        "base-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "ai_algorithm_design_and_analysis.diff",
+        "publication_base": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+        "head": "03afe9b13e90219e9b86b1e8d4c1d228236e75e4",
+        "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/pull/9",
+        "merge_sha": "56cc698237f8ba4465f474605105519d650ec4d9"
+      },
+      {
+        "repository": "applied_generative_ai",
+        "status": "merged",
+        "base-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+        "before-sha256": "e1d980025e0ea83a5e62e2eeac71e3a3e86748bc69b522149555d6815fbbb234",
+        "after-sha256": "75320dc15dcfb9a0836a74fc7514e82100683c3e399abc15db637c078fb595ba",
+        "changed-lines": 6,
+        "diff": "applied_generative_ai.diff",
+        "publication_base": "370792d89a649111a3cf226a17a206154f5e948b",
+        "head": "ca5039f15e87715782ea96042229456c3624a84f",
+        "url": "https://github.com/minjungsung/applied_generative_ai/pull/18",
+        "merge_sha": "dfee3d76e4a471fddee426c563b319425fbab3e7"
+      },
+      {
+        "repository": "applied_machine_learning",
+        "status": "merged",
+        "base-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "applied_machine_learning.diff",
+        "publication_base": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+        "head": "ea32a9f2b8bd32b3ba00d88e9515dc948d479497",
+        "url": "https://github.com/minjungsung/applied_machine_learning/pull/8",
+        "merge_sha": "691d81dba69d85dbe4c8d54a09d12fbbd794acc7"
+      },
+      {
+        "repository": "course-manager",
+        "status": "merged",
+        "base-sha": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "before-sha256": "03cbc7604cb1e181fdafd0b72924d7478fdcbb8273d1728f9d3c71bab924069a",
+        "after-sha256": "1ff468b3def6618817bf99c41723b78b3916801830cc963026e21000ea7369b3",
+        "changed-lines": 6,
+        "diff": "course-manager.diff",
+        "publication_base": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "head": "0448be79b083ace5f3763491c6dde781030e914c",
+        "url": "https://github.com/minjungsung/course-manager/pull/3",
+        "merge_sha": "8bdfa6f7e6f2fdb5b3d2c5041abc19c9a5b60076"
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "status": "merged",
+        "base-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "creating_ai_enabled_systems.diff",
+        "publication_base": "b086a4325fd563344a7f4dd90619de1690f858f5",
+        "head": "8a547e820cf2a2964f9bd9c0e4d698dc854e55c6",
+        "url": "https://github.com/minjungsung/creating_ai_enabled_systems/pull/8",
+        "merge_sha": "f6bc7a585654e32188787751f10b7ea2d88e6936"
+      },
+      {
+        "repository": "eltango",
+        "status": "merged",
+        "base-sha": "e3342dc518e76354286832858aa054ba4e19e338",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "eltango.diff",
+        "publication_base": "e3342dc518e76354286832858aa054ba4e19e338",
+        "head": "4d2cf5b9477439709c1a7c19f343152c2a15b80c",
+        "url": "https://github.com/minjungsung/eltango/pull/31",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "259ec9449bc1ed83c91eb059d9c6fd4a65e41d14",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked"
+      },
+      {
+        "repository": "hackdigest",
+        "status": "merged",
+        "base-sha": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "before-sha256": "1a06636f9a9f7acb5dbed81865f2ee11fcca34f6e4838110129f89ed460e53fc",
+        "after-sha256": "cb72a05456bd1d2a947e638d5c77e86e3b93470a1e0da304a9f3952f6d536d31",
+        "changed-lines": 6,
+        "diff": "hackdigest.diff",
+        "publication_base": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "head": "c9eedf73d694637083afb5100a321434f1904c5c",
+        "url": "https://github.com/minjungsung/hackdigest/pull/27",
+        "merge_sha": "cbd945ef6b85b26b7096cc23608b16508947e2b9"
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "status": "merged",
+        "base-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "introduction_to_algorithm.diff",
+        "publication_base": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+        "head": "4810fedfab944d978301c789f59bc8038ad7ba76",
+        "url": "https://github.com/minjungsung/introduction_to_algorithm/pull/8",
+        "merge_sha": "4df650da8b6dc5273eb693e81111e430440ac8f5"
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "status": "merged",
+        "base-sha": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+        "before-sha256": "bb690fbae7fe6ea8990741f43af0572cae9ad3b66ec32541c148b83636bf11b9",
+        "after-sha256": "8709700e7c8e000db203872d192c4f766fa3d93ea42f5f603e8debd6a26101fa",
+        "changed-lines": 6,
+        "diff": "jhu_software_concepts.diff",
+        "publication_base": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+        "head": "d362420c5bc682f93dcad2e2e1cb18a29d29dbbc",
+        "url": "https://github.com/minjungsung/jhu_software_concepts/pull/60",
+        "merge_sha": "323e3f530097c0c67576cc4455ca6a8244e718f6"
+      },
+      {
+        "repository": "medium",
+        "status": "merged",
+        "base-sha": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "before-sha256": "51e02b36e8870d7647b3255dc53d764bf86f01b83dad54c891027672a5d84dee",
+        "after-sha256": "41789d9ee0a9ea7638c951b28bf02ce9f8d1bdf7dbc19effb6271b62b9c90d84",
+        "changed-lines": 6,
+        "diff": "medium.diff",
+        "publication_base": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "head": "1f9d6766e64d2312909c479fd8f5ed42f35c7db2",
+        "url": "https://github.com/minjungsung/medium/pull/11",
+        "merge_sha": "a32640d21952bec5c6c09735dc94990ae137dcfc"
+      },
+      {
+        "repository": "minjungsung",
+        "status": "merged",
+        "base-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "minjungsung.diff",
+        "publication_base": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+        "head": "b0a70fae5fe8fdea09297081cba2b84be80b315b",
+        "url": "https://github.com/minjungsung/minjungsung/pull/10",
+        "merge_sha": "24f50e9e852bf3a8f8e21b2b25cd8aec992c2a5b"
+      },
+      {
+        "repository": "portfolio-backend",
+        "status": "merged",
+        "base-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "portfolio-backend.diff",
+        "publication_base": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+        "head": "66b8f7ff3d2dba51a52b489945e4989f51cdcc77",
+        "url": "https://github.com/minjungsung/portfolio-backend/pull/42",
+        "merge_sha": "9ee26e15e2e678dcf1fa6a1fa22b575aa57fe527"
+      },
+      {
+        "repository": "portfolio-frontend",
+        "status": "merged",
+        "base-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+        "before-sha256": "8cedd9d047c88838c10010166a399ff3860693770a06bf56af37988424240cc9",
+        "after-sha256": "9e27b5603a77fc069390652fe41244ba47914d189f838d27e93ecd8436ddb1dd",
+        "changed-lines": 6,
+        "diff": "portfolio-frontend.diff",
+        "publication_base": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+        "head": "918e67249844cc5398da1898e7e0c307bbffdb94",
+        "url": "https://github.com/minjungsung/portfolio-frontend/pull/39",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "7c5510b59c27746ca88d40fd52075a8564df1646",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked"
+      },
+      {
+        "repository": "portfolio-frontend-inner",
+        "status": "superseded-by-reviewed-source-migration",
+        "base-sha": "0b1e5c0b8c3d33be04286a1cb7f060d5a4e0214f",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "portfolio-frontend-inner.diff",
+        "publication_base": "0b1e5c0b8c3d33be04286a1cb7f060d5a4e0214f",
+        "head": "434dcfa7ec5d99b0b032d4f64c4a24e274840768",
+        "url": "https://github.com/minjungsung/portfolio-frontend-inner/pull/49",
+        "failures": [
+          "Vercel"
+        ],
+        "superseding_pr": "https://github.com/minjungsung/portfolio-frontend-inner/pull/50",
+        "superseding_merge_sha": "36c9e8c1b2912829a8566ce0f3e65c71ee185565",
+        "limitation": "Native-test descriptor and verified-major caller integrated in reviewed security migration; quota status preserved."
+      },
+      {
+        "repository": "repo-template",
+        "status": "merged",
+        "base-sha": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "repo-template.diff",
+        "publication_base": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "head": "2feec892101abcb6c41f03331d9ac031cbd98f6a",
+        "url": "https://github.com/minjungsung/repo-template/pull/6",
+        "merge_sha": "1fb6107c05bfffecf2dac2bb1d238015f177bf1c"
+      },
+      {
+        "repository": "senior_eltango",
+        "status": "merged",
+        "base-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+        "before-sha256": "1546f10510d140adb45618c992e4e27165a3a1608153dbcebceffeaa814a3152",
+        "after-sha256": "f94db1a72be743fb7fc687ca78f66cca1d1ba405cb89d818c9eef00e8b1a629f",
+        "changed-lines": 6,
+        "diff": "senior_eltango.diff",
+        "publication_base": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+        "head": "14b50fcac91326bc28ae231ff53d5603530ab1ca",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/28",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "132473fabc2404139fec71ee1752782aa20a950c",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked"
+      }
+    ],
+    "main-proof": [
+      {
+        "repository": ".github",
+        "status": "main-gate-protected",
+        "base-sha": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
+        "before-sha256": "b914f53f6bc4f5e93c3e47adb1b268f9ef6a5668944b0d6a61d3a6a05a2f72be",
+        "after-sha256": "df6e1d3ccfaa11aaf55336b671a6edd3f1285bd03cbd66c50dd1a94f7e6e16fd",
+        "changed-lines": 6,
+        "diff": ".github.diff",
+        "publication_base": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
+        "head": "25fd8f615ece4664059f8d68851d09d2cf4b4446",
+        "url": "https://github.com/minjungsung/.github/pull/27",
+        "merge_sha": "f4f835f5db6678caf5f4a8c577f2868d2b3f91cc",
+        "verified_main_sha": "a2b23d6c9c8a48a49bef5ca3d2f4523ae7ca6495",
+        "main_advanced": true,
+        "main_gate": "https://github.com/minjungsung/.github/actions/runs/38684412351/job/116255928462",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Algorithm",
+        "status": "main-gate-protected",
+        "base-sha": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "Algorithm.diff",
+        "publication_base": "5b8e4b508f240e94f1b0310789015205ac0653d6",
+        "head": "cffb427802ea784532678fe390af7549ad7dc33d",
+        "url": "https://github.com/minjungsung/Algorithm/pull/9",
+        "merge_sha": "4c1084f0d0279f1a771d9b8aeb30d3e2109bc8c3",
+        "verified_main_sha": "4c1084f0d0279f1a771d9b8aeb30d3e2109bc8c3",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Algorithm/actions/runs/38683576380/job/116253313574",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Interview",
+        "status": "main-gate-protected",
+        "base-sha": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "before-sha256": "92c93204b87a869a634889dc0f69d3c26c9605e451a4fdc7aeb0292e3436225b",
+        "after-sha256": "c2a285c80b23d613be03cde9a6ad023e877f78841e534affbc8a8222dd4b5e22",
+        "changed-lines": 6,
+        "diff": "Interview.diff",
+        "publication_base": "ce5924aabf58bd0fdf287e04c990a53aeac0a7db",
+        "head": "dd7d9533bb81f0c57b0150dceb1f74acb5b946e8",
+        "url": "https://github.com/minjungsung/Interview/pull/35",
+        "merge_sha": "9c642ea30683a1387da0b5abb32cda97d57be4f2",
+        "verified_main_sha": "9c642ea30683a1387da0b5abb32cda97d57be4f2",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Interview/actions/runs/38683575309/job/116253296615",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "KakaoBot",
+        "status": "main-gate-protected",
+        "base-sha": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "KakaoBot.diff",
+        "publication_base": "13b58476a07d5b5a4c4a28ce5b7d2253829dc958",
+        "head": "a769c76dbdeccea360a1ee02c9bf6699d0139b29",
+        "url": "https://github.com/minjungsung/KakaoBot/pull/10",
+        "merge_sha": "fbc235f93afeefdff208e917e2f756907ca729bb",
+        "verified_main_sha": "fbc235f93afeefdff208e917e2f756907ca729bb",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/KakaoBot/actions/runs/38683575847/job/116253301132",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Leethub",
+        "status": "main-gate-protected",
+        "base-sha": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "Leethub.diff",
+        "publication_base": "2a4629aae2e0dae11f7675cc14a2f1365fc1eaab",
+        "head": "42a2ef0fa9df804e491fd9b31a6624a2e2a49395",
+        "url": "https://github.com/minjungsung/Leethub/pull/46",
+        "merge_sha": "0fbccb793e76c2573df895aee2167c46b87e037c",
+        "verified_main_sha": "0fbccb793e76c2573df895aee2167c46b87e037c",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Leethub/actions/runs/38683586605/job/116253331099",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "LingoCast",
+        "status": "main-gate-protected",
+        "base-sha": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+        "before-sha256": "49d769a7b6cabd2405e74457ec5761729b1d0df5b01065de47a546e12a94cea9",
+        "after-sha256": "24d751143ea93179befcfb50bd265dc50c7a767ec7305f1e535bbe8f5d18749c",
+        "changed-lines": 6,
+        "diff": "LingoCast.diff",
+        "publication_base": "a232c371dd07d428aaf6343ccfde4c511b651eba",
+        "head": "92a9dd8ae6596f72e06a39a12a88eb77a510e9cf",
+        "url": "https://github.com/minjungsung/LingoCast/pull/123",
+        "merge_sha": "ec04a8bb132433fcbc5a5f3ada6d48a814960770",
+        "verified_main_sha": "ec04a8bb132433fcbc5a5f3ada6d48a814960770",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/LingoCast/actions/runs/38683586859/job/116253343891",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "Nbody",
+        "status": "main-gate-protected",
+        "base-sha": "63922d1ae8351b0d72e9625dba40e276789b275a",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "Nbody.diff",
+        "publication_base": "63922d1ae8351b0d72e9625dba40e276789b275a",
+        "head": "7bc6fd4485fdf3231822b7a7e94216b137e32ef6",
+        "url": "https://github.com/minjungsung/Nbody/pull/11",
+        "merge_sha": "5caf524f5f034fc37abe5684cae2e8756bdf02f0",
+        "verified_main_sha": "5caf524f5f034fc37abe5684cae2e8756bdf02f0",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/Nbody/actions/runs/38683586232/job/116253330760",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "TangoDJ",
+        "status": "main-gate-protected",
+        "base-sha": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "before-sha256": "1258cac6bd87e3a79ed4731ced3007f65ce0189c6fa7910fd50eb2f901674413",
+        "after-sha256": "3e4044a2b089a7a9ee15ffa2e3a96ab5d3d0666c6bed8f27635b94f68b09f881",
+        "changed-lines": 6,
+        "diff": "TangoDJ.diff",
+        "publication_base": "ebff99ca82627b62e559705b1252cf7008ccde9d",
+        "head": "38a870b3d5b547893a74f09a262c835cbce7fa7c",
+        "url": "https://github.com/minjungsung/TangoDJ/pull/4",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "b7e6a6bb06c9e389bac97a2ad993eab69b6e35b5",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked",
+        "verified_main_sha": "b7e6a6bb06c9e389bac97a2ad993eab69b6e35b5",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/TangoDJ/actions/runs/38684623621/job/116256562557",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "ai_algorithm_design_and_analysis",
+        "status": "main-gate-protected",
+        "base-sha": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "ai_algorithm_design_and_analysis.diff",
+        "publication_base": "3de2c4c3cdd8cfca81813fd89752efe7302635d4",
+        "head": "03afe9b13e90219e9b86b1e8d4c1d228236e75e4",
+        "url": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/pull/9",
+        "merge_sha": "56cc698237f8ba4465f474605105519d650ec4d9",
+        "verified_main_sha": "56cc698237f8ba4465f474605105519d650ec4d9",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/ai_algorithm_design_and_analysis/actions/runs/38683591906/job/116253363288",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "applied_generative_ai",
+        "status": "main-gate-protected",
+        "base-sha": "370792d89a649111a3cf226a17a206154f5e948b",
+        "before-sha256": "e1d980025e0ea83a5e62e2eeac71e3a3e86748bc69b522149555d6815fbbb234",
+        "after-sha256": "75320dc15dcfb9a0836a74fc7514e82100683c3e399abc15db637c078fb595ba",
+        "changed-lines": 6,
+        "diff": "applied_generative_ai.diff",
+        "publication_base": "370792d89a649111a3cf226a17a206154f5e948b",
+        "head": "ca5039f15e87715782ea96042229456c3624a84f",
+        "url": "https://github.com/minjungsung/applied_generative_ai/pull/18",
+        "merge_sha": "dfee3d76e4a471fddee426c563b319425fbab3e7",
+        "verified_main_sha": "dfee3d76e4a471fddee426c563b319425fbab3e7",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/applied_generative_ai/actions/runs/38683597143/job/116253368788",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "applied_machine_learning",
+        "status": "main-gate-protected",
+        "base-sha": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "applied_machine_learning.diff",
+        "publication_base": "90a87642e45d24bcabe97ec2b1e0045011c53b9d",
+        "head": "ea32a9f2b8bd32b3ba00d88e9515dc948d479497",
+        "url": "https://github.com/minjungsung/applied_machine_learning/pull/8",
+        "merge_sha": "691d81dba69d85dbe4c8d54a09d12fbbd794acc7",
+        "verified_main_sha": "691d81dba69d85dbe4c8d54a09d12fbbd794acc7",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/applied_machine_learning/actions/runs/38683596310/job/116253363010",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "course-manager",
+        "status": "main-gate-protected",
+        "base-sha": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "before-sha256": "03cbc7604cb1e181fdafd0b72924d7478fdcbb8273d1728f9d3c71bab924069a",
+        "after-sha256": "1ff468b3def6618817bf99c41723b78b3916801830cc963026e21000ea7369b3",
+        "changed-lines": 6,
+        "diff": "course-manager.diff",
+        "publication_base": "39c63060a439713df0c149bf3a7eb211f2bc2c1e",
+        "head": "0448be79b083ace5f3763491c6dde781030e914c",
+        "url": "https://github.com/minjungsung/course-manager/pull/3",
+        "merge_sha": "8bdfa6f7e6f2fdb5b3d2c5041abc19c9a5b60076",
+        "verified_main_sha": "8bdfa6f7e6f2fdb5b3d2c5041abc19c9a5b60076",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/course-manager/actions/runs/38683597287/job/116253370710",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "creating_ai_enabled_systems",
+        "status": "main-gate-protected",
+        "base-sha": "b086a4325fd563344a7f4dd90619de1690f858f5",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "creating_ai_enabled_systems.diff",
+        "publication_base": "b086a4325fd563344a7f4dd90619de1690f858f5",
+        "head": "8a547e820cf2a2964f9bd9c0e4d698dc854e55c6",
+        "url": "https://github.com/minjungsung/creating_ai_enabled_systems/pull/8",
+        "merge_sha": "f6bc7a585654e32188787751f10b7ea2d88e6936",
+        "verified_main_sha": "f6bc7a585654e32188787751f10b7ea2d88e6936",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/creating_ai_enabled_systems/actions/runs/38683601599/job/116253386494",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "eltango",
+        "status": "main-gate-protected",
+        "base-sha": "e3342dc518e76354286832858aa054ba4e19e338",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "eltango.diff",
+        "publication_base": "e3342dc518e76354286832858aa054ba4e19e338",
+        "head": "4d2cf5b9477439709c1a7c19f343152c2a15b80c",
+        "url": "https://github.com/minjungsung/eltango/pull/31",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "259ec9449bc1ed83c91eb059d9c6fd4a65e41d14",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked",
+        "verified_main_sha": "259ec9449bc1ed83c91eb059d9c6fd4a65e41d14",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/eltango/actions/runs/38684634529/job/116256598894",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "hackdigest",
+        "status": "main-gate-protected",
+        "base-sha": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "before-sha256": "1a06636f9a9f7acb5dbed81865f2ee11fcca34f6e4838110129f89ed460e53fc",
+        "after-sha256": "cb72a05456bd1d2a947e638d5c77e86e3b93470a1e0da304a9f3952f6d536d31",
+        "changed-lines": 6,
+        "diff": "hackdigest.diff",
+        "publication_base": "0b115b823855db9c13b4406421eaf36cbe21df29",
+        "head": "c9eedf73d694637083afb5100a321434f1904c5c",
+        "url": "https://github.com/minjungsung/hackdigest/pull/27",
+        "merge_sha": "cbd945ef6b85b26b7096cc23608b16508947e2b9",
+        "verified_main_sha": "cbd945ef6b85b26b7096cc23608b16508947e2b9",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/hackdigest/actions/runs/38683607222/job/116253396954",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "introduction_to_algorithm",
+        "status": "main-gate-protected",
+        "base-sha": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "introduction_to_algorithm.diff",
+        "publication_base": "4e7e751d6d6f76242ac0cdb3535592155bdf69c7",
+        "head": "4810fedfab944d978301c789f59bc8038ad7ba76",
+        "url": "https://github.com/minjungsung/introduction_to_algorithm/pull/8",
+        "merge_sha": "4df650da8b6dc5273eb693e81111e430440ac8f5",
+        "verified_main_sha": "4df650da8b6dc5273eb693e81111e430440ac8f5",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/introduction_to_algorithm/actions/runs/38683607816/job/116253406043",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "jhu_software_concepts",
+        "status": "main-gate-pending",
+        "base-sha": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+        "before-sha256": "bb690fbae7fe6ea8990741f43af0572cae9ad3b66ec32541c148b83636bf11b9",
+        "after-sha256": "8709700e7c8e000db203872d192c4f766fa3d93ea42f5f603e8debd6a26101fa",
+        "changed-lines": 6,
+        "diff": "jhu_software_concepts.diff",
+        "publication_base": "0d9f75a433dbd3b44211e4deeb4a5e82ec98a0b7",
+        "head": "d362420c5bc682f93dcad2e2e1cb18a29d29dbbc",
+        "url": "https://github.com/minjungsung/jhu_software_concepts/pull/60",
+        "merge_sha": "323e3f530097c0c67576cc4455ca6a8244e718f6"
+      },
+      {
+        "repository": "medium",
+        "status": "main-gate-protected",
+        "base-sha": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "before-sha256": "51e02b36e8870d7647b3255dc53d764bf86f01b83dad54c891027672a5d84dee",
+        "after-sha256": "41789d9ee0a9ea7638c951b28bf02ce9f8d1bdf7dbc19effb6271b62b9c90d84",
+        "changed-lines": 6,
+        "diff": "medium.diff",
+        "publication_base": "99e4b8eca4fef3cfdf637725cecc3f9ca0d00347",
+        "head": "1f9d6766e64d2312909c479fd8f5ed42f35c7db2",
+        "url": "https://github.com/minjungsung/medium/pull/11",
+        "merge_sha": "a32640d21952bec5c6c09735dc94990ae137dcfc",
+        "verified_main_sha": "a32640d21952bec5c6c09735dc94990ae137dcfc",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/medium/actions/runs/38683611571/job/116253409276",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "minjungsung",
+        "status": "main-gate-protected",
+        "base-sha": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "minjungsung.diff",
+        "publication_base": "8eacfe234c7d113e87bc2245c3f25ce64ff05e7a",
+        "head": "b0a70fae5fe8fdea09297081cba2b84be80b315b",
+        "url": "https://github.com/minjungsung/minjungsung/pull/10",
+        "merge_sha": "24f50e9e852bf3a8f8e21b2b25cd8aec992c2a5b",
+        "verified_main_sha": "24f50e9e852bf3a8f8e21b2b25cd8aec992c2a5b",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/minjungsung/actions/runs/38683614088/job/116253423123",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "portfolio-backend",
+        "status": "main-gate-protected",
+        "base-sha": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+        "before-sha256": "17531bfcb2809a3587aa57bc25d29c8b4ee2447ef0f78e88dcc474543593cf4a",
+        "after-sha256": "1146b3d491c2c5b9252af6057c93ebc42c5dc82d38e12d52cb5ab82aec020036",
+        "changed-lines": 6,
+        "diff": "portfolio-backend.diff",
+        "publication_base": "58389d74cbb5161b82b4b761d22357a759eba0cc",
+        "head": "66b8f7ff3d2dba51a52b489945e4989f51cdcc77",
+        "url": "https://github.com/minjungsung/portfolio-backend/pull/42",
+        "merge_sha": "9ee26e15e2e678dcf1fa6a1fa22b575aa57fe527",
+        "verified_main_sha": "9ee26e15e2e678dcf1fa6a1fa22b575aa57fe527",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/portfolio-backend/actions/runs/38683617819/job/116253434393",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "portfolio-frontend",
+        "status": "main-gate-protected",
+        "base-sha": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+        "before-sha256": "8cedd9d047c88838c10010166a399ff3860693770a06bf56af37988424240cc9",
+        "after-sha256": "9e27b5603a77fc069390652fe41244ba47914d189f838d27e93ecd8436ddb1dd",
+        "changed-lines": 6,
+        "diff": "portfolio-frontend.diff",
+        "publication_base": "7844363c4e547f46e04a44cce07c14e2256ca60d",
+        "head": "918e67249844cc5398da1898e7e0c307bbffdb94",
+        "url": "https://github.com/minjungsung/portfolio-frontend/pull/39",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "7c5510b59c27746ca88d40fd52075a8564df1646",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked",
+        "verified_main_sha": "7c5510b59c27746ca88d40fd52075a8564df1646",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/portfolio-frontend/actions/runs/38684645261/job/116256630472",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "repo-template",
+        "status": "main-gate-protected",
+        "base-sha": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "before-sha256": "4df218a880922bff7475fce06700ac07e36ff46720b04e8d4eee2a80a4acacd4",
+        "after-sha256": "f31c2d6d7019f3ecfe5016059aa06274b8fd8a80704ffa71a5ece38377e79d62",
+        "changed-lines": 6,
+        "diff": "repo-template.diff",
+        "publication_base": "5c2753fcbeb28181bccabbf255d75dc019814c7e",
+        "head": "2feec892101abcb6c41f03331d9ac031cbd98f6a",
+        "url": "https://github.com/minjungsung/repo-template/pull/6",
+        "merge_sha": "1fb6107c05bfffecf2dac2bb1d238015f177bf1c",
+        "verified_main_sha": "1fb6107c05bfffecf2dac2bb1d238015f177bf1c",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/repo-template/actions/runs/38683622745/job/116253443386",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      },
+      {
+        "repository": "senior_eltango",
+        "status": "main-gate-protected",
+        "base-sha": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+        "before-sha256": "1546f10510d140adb45618c992e4e27165a3a1608153dbcebceffeaa814a3152",
+        "after-sha256": "f94db1a72be743fb7fc687ca78f66cca1d1ba405cb89d818c9eef00e8b1a629f",
+        "changed-lines": 6,
+        "diff": "senior_eltango.diff",
+        "publication_base": "d97c1fffd4f8d7bfdc1e60612f97b0a50b4c6af4",
+        "head": "14b50fcac91326bc28ae231ff53d5603530ab1ca",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/28",
+        "failures": [
+          "Vercel"
+        ],
+        "merge_sha": "132473fabc2404139fec71ee1752782aa20a950c",
+        "deployment_status": "optional-vercel-24-hour-quota-blocked",
+        "verified_main_sha": "132473fabc2404139fec71ee1752782aa20a950c",
+        "main_advanced": false,
+        "main_gate": "https://github.com/minjungsung/senior_eltango/actions/runs/38684659047/job/116256673228",
+        "main_checks_pending": [],
+        "main_checks_failed": []
+      }
+    ],
+    "sources": [
+      {
+        "reference": "review.json",
+        "sha256": "e727cb9e85487c5493542430101ffd50c37d1b5dc32eecc8389b69ea0fe7d402"
+      },
+      {
+        "reference": "published.json",
+        "sha256": "0eb580f5fb339267da4930b48dbab7f63176ac8c96ea1e1c4d530390d1d6f007"
+      },
+      {
+        "reference": "merge-results.json",
+        "sha256": "d95561b9082724c69fffb31633408084e6d941f812341e23fb994c72e9efe83e"
+      },
+      {
+        "reference": "main-proof.json",
+        "sha256": "3e28500cfb68a42c6ffcaf2f3c610fe948885e5698c4621f6d92d0fe6f9ce37d"
+      },
+      {
+        "reference": "deployment-blockers.json",
+        "sha256": "2b5074dc5cd7ba7f7dff4cab80d3f40d18d258608313d24f185323711e9c0677"
+      }
+    ],
+    "scope": "24 reviewed automatic repository promotions:23 pin PRs merged, frontend-inner superseded by reviewed security/native-test migration. Optional Vercel24h quota failures preserved separately while required checks and strict application CI passed before normal merges. Current-main check gaps remain explicit, including JHU GitHub-token automatic major merge. Eight manual repositories and unenrolled KakaoBot-API remain incomplete all-repository scope."
+  },
+  "inner-security-remediation": {
+    "security_fix_pr": 50,
+    "security_fix_merge": "36c9e8c1b2912829a8566ce0f3e65c71ee185565",
+    "latest_main": "0161281a5b2bd4dcf05836a076fd3ea2c5268d68",
+    "open_alert_count": 0,
+    "main_npm_audit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "implemented_major_prs": [
+      42,
+      38,
+      37,
+      35,
+      33,
+      32,
+      31
+    ],
+    "checkout_major": {
+      "pr": 27,
+      "head": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1",
+      "merged": true,
+      "merge_commit": "0161281a5b2bd4dcf05836a076fd3ea2c5268d68",
+      "gate_run": 38684555565,
+      "ci_run": 38684555298,
+      "checks": [
+        {
+          "name": "dependabot-auto-merge",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "dependency-gate",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "validate-dependencies / ordinary-pr",
+          "conclusion": "skipped",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, npm test, 15)",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "ci",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "GitGuardian Security Checks",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        }
+      ]
+    },
+    "preview_deployment": "Vercel failed only due to build quota; deployment remains blocked",
+    "evidence": {
+      "inner-main-install.log": "7b889548ae2d6af9cd4e9bac6abdfde9b7387103ae3e4af9f85e13e6218d2d90",
+      "inner-main-tests.log": "25c0a0902d6c8480731f869fe1e65eeb9b8a869ec9ffa77f4aa7cca85a0db16a",
+      "inner-main-build.log": "b6f278b9513c40cfc2e4c25a191c0ca32d8118319c53bb4e1a4e59d62fc618af",
+      "inner-main-audit.json": "ba7a76a57498300733c87c701b7f16d25c30f97eb82c139e201b13f5f96d37e7",
+      "inner-checkout27-gate.log": "dde96cc6be1b865f48193b2f3d67cb804f2927398257a72f2c5d30837932f550",
+      "inner-security-browser-smoke.json": "9067deaaeacd2f79a864c518a8290f32469f74e80d7c2f4e53b55de1fe0c5d8b"
+    }
+  },
+  "actual-major-auto-merge-evidence": [
+    {
+      "repository": "minjungsung/jhu_software_concepts",
+      "pr": 40,
+      "policy-sha": "0b9ee15e26f054586eeeab7601edebb9a32bfe57",
+      "head-sha": "7ef35913ea5ef738a24b5eaa23c0f581f58805c7",
+      "merge-sha": "0db4310153a199f29506d67b7c8c01a70025bc59",
+      "merged-at": "2026-10-15T05:00:49Z",
+      "metadata-update-type": "version-update:semver-major",
+      "dependency": "pytest-cov",
+      "metadata-verification-skipped": false,
+      "manual-merge-performed": false,
+      "project-validation-count": 15,
+      "gate": {
+        "app-id": 15368,
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38684065288/job/116256019979",
+        "head-sha": "7ef35913ea5ef738a24b5eaa23c0f581f58805c7"
+      },
+      "auto-merge-job": {
+        "conclusion": "success",
+        "url": "https://github.com/minjungsung/jhu_software_concepts/actions/runs/38684065288/job/116256054743"
+      },
+      "sources": [
+        {
+          "reference": "JHU40-major-auto-checks.json",
+          "sha256": "5bf3fdf9328cdccaacfbff84085a29151271e6966a8a9f10098cf64509f64e75"
+        },
+        {
+          "reference": "JHU40-major-auto-metadata.log",
+          "sha256": "6e62eea31bb9a818368052190daa676a2167ef44133636588250b4b98d05268f"
+        },
+        {
+          "reference": "JHU40-major-auto-merged.json",
+          "sha256": "0111752a2974ab4ffe6fca2b22799dd02e7c0a56367f2a7cefb0bbddf12f985d"
+        }
+      ],
+      "scope": "One actual verified-major automatic merge after all15 strict projects passed. Existing manual repository settings, deployment quotas and fleet reconciliation remain separate."
+    },
+    {
+      "repository": "portfolio-frontend-inner",
+      "pr": 27,
+      "head": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1",
+      "merged": true,
+      "merge_commit": "0161281a5b2bd4dcf05836a076fd3ea2c5268d68",
+      "gate_run": 38684555565,
+      "ci_run": 38684555298,
+      "checks": [
+        {
+          "name": "dependabot-auto-merge",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "dependency-gate",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "validate-dependencies / ordinary-pr",
+          "conclusion": "skipped",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "validate-dependencies / validate-projects (root-node, npm, ., 20, package.json, package-lock.json, npm test, 15)",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "ci",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        },
+        {
+          "name": "GitGuardian Security Checks",
+          "conclusion": "success",
+          "head_sha": "c65282011f7e04d1c31ae1e89d7b45a909a77bc1"
+        }
+      ],
+      "metadata-update-type": "version-update:semver-major",
+      "manual-merge-performed": false
+    }
+  ],
+  "current-snapshot-date": "2026-10-15",
+  "optional-deployment-quota-policy": {
+    "condition": "Only independently confirmed optional Vercel 24-hour rate-limit failures may remain when all required checks and actual application CI pass.",
+    "merge-mode": "Normal exact-head merge without administrator bypass or protection changes",
+    "deployment-status": "Blocked until deployment succeeds; no successful deployment is claimed",
+    "actual-failures": "Actual required application, security, build or deployment failures continue to block."
+  },
+  "manual-repository-gaps": [
+    "Chatbot",
+    "TangoMBTI",
+    "Undead-Survivor",
+    "dongle-game",
+    "house-scanner-frontend",
+    "kiro-skills",
+    "shooting-game",
+    "visionRAG"
+  ],
+  "historical-final-validation": {
     "unit-tests": 160,
     "conclusion": "passed",
     "source-id": "dependency-gate-post-guard-tests.log",
     "sha256": "abc46a04b2605f40e08d91cda3421d80fd4ebc2cf922ba11fbce298bbab199b0"
+  },
+  "current-dependabot-reconciliation": {
+    "source-id": "dependency-gate-major-current-reconciliation.json",
+    "sha256": "e59fd1e11524b6a8ca5de7c275a9436ab9fe2a03dfd1bd59f7d50854f421c8f9",
+    "records": [
+      {
+        "evidence": {
+          "body_sha256": "55a400bbe5ce44ff30761196d9b98568f7f870f8595ed9ea51506eb08ff52ebe",
+          "head_sha": "29b6a4253bf72e480b248b0d9aa6683fc34ee505",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "29b6a4253bf72e480b248b0d9aa6683fc34ee505",
+        "number": 31,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/Chatbot/pull/31"
+      },
+      {
+        "evidence": {
+          "body_sha256": "8e1e648ada27988aa0d3e1e08efeca95b0bfecb7f4e667940511c7199f7e7033",
+          "head_sha": "6a342820e86fd62180344269cdc4fcff9ffb9531",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "6a342820e86fd62180344269cdc4fcff9ffb9531",
+        "number": 32,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/Chatbot/pull/32"
+      },
+      {
+        "evidence": {
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "bc4003111ff5b1f1897f593ae744dc886968042d",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "bc4003111ff5b1f1897f593ae744dc886968042d",
+        "number": 33,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/Chatbot/pull/33"
+      },
+      {
+        "evidence": {
+          "body_sha256": "fed7777e1bbf79f188e53ca9d0d0cd65b047bb6db637570be391109b889a4fe5",
+          "head_sha": "f5467dbf9c5572fe7ca9ee499a29140beff8f2ab",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "f5467dbf9c5572fe7ca9ee499a29140beff8f2ab",
+        "number": 51,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/Chatbot/pull/51"
+      },
+      {
+        "evidence": {
+          "body_sha256": "fc0b0b60fa9eb3f1656c4886549a5293a2fdeb7cb269be507abf7212f53c5b9d",
+          "head_sha": "8ed382df59a016fd4c3f8f74c623d1e38ce82441",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "8ed382df59a016fd4c3f8f74c623d1e38ce82441",
+        "number": 25,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/25"
+      },
+      {
+        "evidence": {
+          "body_sha256": "d89125b081a0aaf8cb3cbe158a7b4354355a01639532eb1db9f0139ede476f2c",
+          "head_sha": "f78b22fbdf00ee1e89a67d289429b4c8d873e708",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "f78b22fbdf00ee1e89a67d289429b4c8d873e708",
+        "number": 26,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/26"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5fda6bfa46d4b70f9ecdabe17f21390189c7ee7d5318d1424bb1f45127bc4a3a",
+          "head_sha": "b404cfdd01885e97a51a6868c2dcb47dc99d1ed3",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "b404cfdd01885e97a51a6868c2dcb47dc99d1ed3",
+        "number": 28,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/28"
+      },
+      {
+        "evidence": {
+          "body_sha256": "781240c7ad659ed9865550cb9408b66b0f0b1daa5617a9b33b72d673d3c7f8c1",
+          "head_sha": "1b2a81dd72043decc1af95ea4d4bc4c01d1a3701",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "1b2a81dd72043decc1af95ea4d4bc4c01d1a3701",
+        "number": 29,
+        "reason": "Required dependency gate protection is absent",
+        "state": "external-administrative-blocker",
+        "url": "https://github.com/minjungsung/KakaoBot-API/pull/29"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
+          "head_sha": "fc60ef8bac9945039264140adcab46b5824c44f9",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "fc60ef8bac9945039264140adcab46b5824c44f9",
+        "number": 29,
+        "reason": "Required gate and checks succeeded on the exact head; gated auto-merge may proceed",
+        "state": "merge-eligible",
+        "url": "https://github.com/minjungsung/Leethub/pull/29"
+      },
+      {
+        "evidence": {
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "6d0f39d0802338841a1858659897da848306f7d9",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "6d0f39d0802338841a1858659897da848306f7d9",
+        "number": 30,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Leethub/pull/30"
+      },
+      {
+        "evidence": {
+          "body_sha256": "8e1e648ada27988aa0d3e1e08efeca95b0bfecb7f4e667940511c7199f7e7033",
+          "head_sha": "9e0bff5ef3f98ceb763e0d9c542a7654b2d008ad",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "9e0bff5ef3f98ceb763e0d9c542a7654b2d008ad",
+        "number": 31,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Leethub/pull/31"
+      },
+      {
+        "evidence": {
+          "body_sha256": "845707e084e0addb67b81d3b9a1b08828aca9fd8b71a64626383344af48c6d31",
+          "head_sha": "c4d7edf483939f25faf981576220fc710a67010b",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "c4d7edf483939f25faf981576220fc710a67010b",
+        "number": 32,
+        "reason": "Required dependency gate protection is absent",
+        "state": "external-administrative-blocker",
+        "url": "https://github.com/minjungsung/Leethub/pull/32"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5c9ce5bac5138284b720e1661760aecbdbe50ee80e5990154faac933f29d043d",
+          "head_sha": "f29fc8e7aba7fba6da843a5ec242041134cc6acd",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "f29fc8e7aba7fba6da843a5ec242041134cc6acd",
+        "number": 33,
+        "reason": "Required gate and checks succeeded on the exact head; gated auto-merge may proceed",
+        "state": "merge-eligible",
+        "url": "https://github.com/minjungsung/Leethub/pull/33"
+      },
+      {
+        "evidence": {
+          "body_sha256": "396f7bd1dab8f708d6b23324edfbad314f3ee2c4e9c7ce45a7578384007acf12",
+          "head_sha": "c9a29cebf5f1bbd9c6f1f27dea3c8d185517900b",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "c9a29cebf5f1bbd9c6f1f27dea3c8d185517900b",
+        "number": 39,
+        "reason": "Required dependency gate protection is absent",
+        "state": "external-administrative-blocker",
+        "url": "https://github.com/minjungsung/Leethub/pull/39"
+      },
+      {
+        "evidence": {
+          "body_sha256": "6c41b1038a913230ed186a04eb3dfcc027efeaeefc0f0efc647f98d65d6dc8b2",
+          "head_sha": "80cc7d74a278098f5b60db34d76bee6c959c80f8",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "80cc7d74a278098f5b60db34d76bee6c959c80f8",
+        "number": 9,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/Nbody/pull/9"
+      },
+      {
+        "evidence": {
+          "body_sha256": "8e1e648ada27988aa0d3e1e08efeca95b0bfecb7f4e667940511c7199f7e7033",
+          "head_sha": "50d2cebbb1a64c938e2ca174963d8cd4fe74476c",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "50d2cebbb1a64c938e2ca174963d8cd4fe74476c",
+        "number": 23,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/eltango/pull/23"
+      },
+      {
+        "evidence": {
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "203a250462072661a5b0ade2a9cf95cbb109265f",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "203a250462072661a5b0ade2a9cf95cbb109265f",
+        "number": 24,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/eltango/pull/24"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
+          "head_sha": "00cd2b4c4770be3983ba89921cf1b7ea3d3ef376",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "00cd2b4c4770be3983ba89921cf1b7ea3d3ef376",
+        "number": 25,
+        "reason": "Required gate and checks succeeded on the exact head; gated auto-merge may proceed",
+        "state": "merge-eligible",
+        "url": "https://github.com/minjungsung/eltango/pull/25"
+      },
+      {
+        "evidence": {
+          "body_sha256": "ba3648feaf77adf61d63c8a60f2c1f12e8f5a56ceee54f6c61e435e74ace1857",
+          "head_sha": "e7c20da0de4981808ed938f76570e49e627ff163",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "e7c20da0de4981808ed938f76570e49e627ff163",
+        "number": 3,
+        "reason": "Required dependency gate protection is absent",
+        "state": "external-administrative-blocker",
+        "url": "https://github.com/minjungsung/repo-template/pull/3"
+      },
+      {
+        "evidence": {
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "bfe685c73116e24369bf0227ed07f6d8f051ca0e",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "bfe685c73116e24369bf0227ed07f6d8f051ca0e",
+        "number": 18,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/18"
+      },
+      {
+        "evidence": {
+          "body_sha256": "8e1e648ada27988aa0d3e1e08efeca95b0bfecb7f4e667940511c7199f7e7033",
+          "head_sha": "d2daa91e123cf137e17d8ea9d47a5805a9b5b76e",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "d2daa91e123cf137e17d8ea9d47a5805a9b5b76e",
+        "number": 19,
+        "reason": "Verified patch/minor/major metadata is unavailable",
+        "state": "manual-unknown",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/19"
+      },
+      {
+        "evidence": {
+          "body_sha256": "5eb398fca3b1bbe2d0c552c82972c1d2e2bacdac38e5f5ae75ab739cd0697c62",
+          "head_sha": "8b04b2bce53abd7133251ebfffb172accc2534c0",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "8b04b2bce53abd7133251ebfffb172accc2534c0",
+        "number": 21,
+        "reason": "Required gate and checks succeeded on the exact head; gated auto-merge may proceed",
+        "state": "merge-eligible",
+        "url": "https://github.com/minjungsung/senior_eltango/pull/21"
+      },
+      {
+        "evidence": {
+          "body_sha256": "22db4bab220b630ad52278c5dcdbf478c23f3e085daf6a41cbcd6d1b8c941797",
+          "head_sha": "d0ac83d8293c1a6b7c06056b73f0dad38dc2bd76",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "d0ac83d8293c1a6b7c06056b73f0dad38dc2bd76",
+        "number": 17,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/visionRAG/pull/17"
+      },
+      {
+        "evidence": {
+          "body_sha256": "a0dbd4ed635b002cf58acb1a4654b69895bc33b14ea662785a00554a90f194e1",
+          "head_sha": "15104befa4aee3e003be9a18c0fcf78799ec0008",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "15104befa4aee3e003be9a18c0fcf78799ec0008",
+        "number": 49,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/visionRAG/pull/49"
+      },
+      {
+        "evidence": {
+          "body_sha256": "25dce19c98a3f1e73b87fdffcc9353fbbfdeaeb82b70b99a97e24113ef4d5af1",
+          "head_sha": "3fc37f30c42a082fbc2e99c53cdb2dbe7e7c4e95",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "3fc37f30c42a082fbc2e99c53cdb2dbe7e7c4e95",
+        "number": 50,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/visionRAG/pull/50"
+      },
+      {
+        "evidence": {
+          "body_sha256": "30ff3fbc7f5ddb84a7e1f14679e1366aa78ca82d767999cfeb9d49eae7664eb8",
+          "head_sha": "abe214b4bf25dc9a499c1a7e124c9f89fea31d40",
+          "source": "authenticated-dependabot-canonical-body"
+        },
+        "head_sha": "abe214b4bf25dc9a499c1a7e124c9f89fea31d40",
+        "number": 51,
+        "reason": "Reviewed repository policy disables automatic merging",
+        "state": "manual-repository",
+        "url": "https://github.com/minjungsung/visionRAG/pull/51"
+      }
+    ],
+    "scope": "Read-only latest snapshot under known-major policy; manual and unknown rows are unresolved user scope, not completed automation."
   }
 }
