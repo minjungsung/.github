@@ -15,3 +15,11 @@ Configure `COMPANY_MODEL_API_KEY` and `COMPANY_MODEL_RESPONSES_ENDPOINT` as cent
 Run `Model Gateway Check` before a live repair canary. It verifies a real model response on a GitHub-hosted runner without executing application code or receiving the repository maintenance token. Scheduled model execution remains disabled until `SECURITY_REPAIR_ENABLED=true`; workflow dispatch allows a controlled repair canary. Both workflows run in GitHub without requiring a local workstation to stay online.
 
 Remaining acceptance work includes a successful real model canary, independent review of generated repairs, exact runtime/service parity for every adapter, immutable repair provenance and closure evidence, all manual repository adapters, post-merge rescan confirmation, and a reviewed automatic acceptance policy for model-authored code. Never claim an unpatched advisory or unavailable API result is resolved.
+
+## Cloud connection evidence
+
+The initial GitHub-hosted canary rejected the enterprise token alphabet before connecting to the gateway. The loopback relay addresses that incompatibility. Subsequent canaries reached the relay, but upstream connection failed with `gaierror`: the configured gateway hostname is not resolvable from GitHub-hosted runners. Local authenticated Responses requests succeeded. These results establish local gateway usability, not external cloud reachability.
+
+Scheduled repair execution remains disabled. To use this gateway without an operator workstation, provide a continuously available runner with authorized access to the enterprise DNS/network, or an enterprise-supported externally reachable Responses endpoint. Do not bypass network controls, disable TLS verification, or expose the credential in repository files. A company-network runner must be ephemeral and dedicated to repair jobs: the pinned Action drops sudo and executes untrusted application code, so a shared corporate host is unsuitable.
+
+Canary evidence: `Model Gateway Check` runs `38695662220` (token alphabet rejection), `38695884321` (upstream connection failure), and `38696316310` (redacted DNS failure category). None completed model execution. This is an explicit blocked connection state, not successful unattended remediation.
