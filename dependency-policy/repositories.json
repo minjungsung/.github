@@ -32,8 +32,11 @@
     {
       "name": "Chatbot",
       "default-branch": "main",
-      "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "deployment-workflows": [
+        ".github/workflows/release.yml",
+        ".github/workflows/push-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "root-python-requirements",
@@ -41,7 +44,8 @@
           "path": ".",
           "runtime-version": "3.12",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15
+          "timeout-minutes": 30,
+          "test-command": ".dependency-gate-venv/bin/python -m unittest discover -s tests -v"
         }
       ]
     },
