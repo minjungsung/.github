@@ -487,11 +487,21 @@ def _merge_repository(
             )
             merged.extend(projects)
 
+    deployments = set(discovered.deployment_workflows)
+    workflow_paths = set(discovered.workflow_paths)
+    for path in reviewed.deployment_workflows:
+        if path in workflow_paths:
+            deployments.add(path)
+        else:
+            ambiguities.append(
+                f"{reviewed.name}: reviewed deployment workflow {path} was not rediscovered"
+            )
+
     return Repository(
         name=reviewed.name,
         default_branch=discovered.default_branch,
         projects=tuple(sorted(merged, key=lambda project: project.name)),
-        deployment_workflows=discovered.deployment_workflows,
+        deployment_workflows=tuple(sorted(deployments)),
         auto_merge_enabled=reviewed.auto_merge_enabled and discovered.auto_merge_enabled,
         postgres_required=reviewed.postgres_required,
     ), tuple(ambiguities)

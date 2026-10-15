@@ -598,6 +598,27 @@ updates:
             path.write_text(json.dumps(serialized))
             self.assertTrue(load_inventory(path).repository("repo").postgres_required)
 
+    def test_reviewed_publication_paths_survive_detector_misses(self):
+        project = Project(name="workflows", ecosystem="github-actions", path=".", timeout_minutes=5)
+        paths = (".github/workflows/release.yml", ".github/workflows/subscribers.yml")
+        reviewed = Repository(name="repo", default_branch="main", projects=(project,), deployment_workflows=paths)
+        discovered = DiscoveredRepository(name="repo", default_branch="main", projects=(project,), archived=False,
+                                          workflow_paths=paths + (".github/workflows/new-publish.yml",),
+                                          deployment_workflows=(".github/workflows/new-publish.yml",))
+        result = reconcile(Inventory(1, (reviewed,)), (discovered,))
+        self.assertEqual(result.inventory.repository("repo").deployment_workflows,
+                         (".github/workflows/new-publish.yml", *paths))
+        self.assertFalse(result.ambiguities)
+
+    def test_missing_reviewed_publication_path_is_explicit_ambiguity(self):
+        project = Project(name="workflows", ecosystem="github-actions", path=".", timeout_minutes=5)
+        path = ".github/workflows/release.yml"
+        reviewed = Repository(name="repo", default_branch="main", projects=(project,), deployment_workflows=(path,))
+        discovered = DiscoveredRepository(name="repo", default_branch="main", projects=(project,), archived=False)
+        result = reconcile(Inventory(1, (reviewed,)), (discovered,))
+        self.assertEqual(result.inventory.repository("repo").deployment_workflows, ())
+        self.assertIn(f"repo: reviewed deployment workflow {path} was not rediscovered", result.ambiguities)
+
 
 if __name__ == "__main__":
     unittest.main()
