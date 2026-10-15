@@ -8,6 +8,10 @@ on:
       projects-json:
         required: true
         type: string
+      postgres-required:
+        required: false
+        type: boolean
+        default: false
       policy-ref:
         required: true
         type: string
@@ -33,11 +37,31 @@ jobs:
     if: inputs.pr-author == 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: ${{ matrix.project.timeout-minutes }}
+    services:
+      postgres:
+        image: ${{ inputs.postgres-required && 'postgres:16' || '' }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: gradcafe_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d gradcafe_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PIP_NO_CACHE_DIR: '1'
     strategy:
       fail-fast: false
       matrix:
         project: ${{ fromJSON(inputs.projects-json) }}
     steps:
+      - name: Configure opted-in disposable database
+        if: inputs.postgres-required
+        run: echo 'DATABASE_URL=postgresql://postgres@localhost:5432/gradcafe_test' >> "$GITHUB_ENV"
+
       - name: Check out target repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:

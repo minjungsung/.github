@@ -17,7 +17,7 @@ jobs:
     with:
       pr-author: ${{ github.event.pull_request.user.login || 'policy-push' }}
       projects-json: 'COMPACT_PROJECT_JSON'
-      policy-ref: POLICY_COMMIT_SHA
+POSTGRES_INPUT      policy-ref: POLICY_COMMIT_SHA
 
   dependency-gate:
     name: dependency-gate

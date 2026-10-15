@@ -210,3 +210,16 @@ class ModelsTest(unittest.TestCase):
                     PolicyError, field
                 ):
                     load_inventory(self.write_projects([project]))
+
+    def test_postgres_defaults_off_and_requires_actual_boolean(self):
+        path = self.write_projects([self.valid_project("github-actions")])
+        self.assertFalse(load_inventory(path).repository("repo").postgres_required)
+        value = json.loads(path.read_text())
+        for invalid in (1, 0, "true", None, [], {}):
+            value["repositories"][0]["postgres-required"] = invalid
+            path.write_text(json.dumps(value))
+            with self.subTest(value=invalid), self.assertRaisesRegex(PolicyError, "postgres-required must be boolean"):
+                load_inventory(path)
+        value["repositories"][0]["postgres-required"] = True
+        path.write_text(json.dumps(value))
+        self.assertTrue(load_inventory(path).repository("repo").postgres_required)
