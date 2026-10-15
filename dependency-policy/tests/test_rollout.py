@@ -16,13 +16,15 @@ SHA = 'a' * 40
 
 
 class FakeRunner:
-    def __init__(self, dirty=False, branch='main', legacy=LEGACY_CONTENT, prs=None):
+    def __init__(self, dirty=False, branch='main', legacy=LEGACY_CONTENT, prs=None, push_urls=None, base_legacy=LEGACY_CONTENT):
         self.commands = []
         self.dirty = dirty
         self.branch = branch
         self.legacy = legacy
         self.prs = prs or []
         self.body = None
+        self.push_urls = push_urls
+        self.base_legacy = base_legacy
 
     def __call__(self, command):
         command = list(command)
@@ -44,14 +46,18 @@ class FakeRunner:
             output = 'https://github.com/minjungsung/Algorithm/pull/1\n'
         elif command[0] == 'git':
             args = command[3:]
-            if args == ['remote', 'get-url', 'origin']:
+            if args == ['remote', 'get-url', '--push', '--all', 'origin']:
+                output = self.push_urls if self.push_urls is not None else 'https://github.com/minjungsung/' + Path(command[2]).name + '.git\n'
+            elif args == ['remote', 'get-url', 'origin']:
                 output = 'https://github.com/minjungsung/' + Path(command[2]).name + '.git\n'
             elif args[:1] == ['status']:
                 output = ' M package.json\n' if self.dirty else ''
             elif args == ['branch', '--show-current']:
                 output = self.branch + '\n'
             elif args[:1] == ['show']:
-                output = render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
+                output = self.base_legacy if args[1].endswith(':' + LEGACY) else render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
+            elif args[:1] == ['merge-base']:
+                output = SHA + '\n'
             elif args[:1] == ['rev-parse']:
                 output = SHA + '\n'
             elif args[:2] == ['diff', '--name-only']:
@@ -148,6 +154,43 @@ class RolloutTest(unittest.TestCase):
             (root / '.github/workflows/custom.yml').write_text('run: gh pr merge --auto\n')
             with self.assertRaisesRegex(PolicyError, 'review'):
                 self.run_rollout(runner, Path(temp), '--push', '--create-pr')
+
+    def test_dangling_root_symlink_rejected_before_clone(self):
+        with TemporaryDirectory() as temp:
+            root = Path(temp) / 'Algorithm'
+            root.symlink_to(Path(temp) / 'missing')
+            runner = FakeRunner()
+            with self.assertRaisesRegex(PolicyError, 'symlink'):
+                self.run_rollout(runner, Path(temp))
+            self.assertEqual(runner.commands, [])
+
+    def test_publication_rejects_alternate_or_multiple_push_urls(self):
+        expected = 'https://github.com/minjungsung/Algorithm.git\n'
+        for urls in ('https://github.com/example/other.git\n', expected + expected, ''):
+            with TemporaryDirectory() as temp:
+                runner = FakeRunner(push_urls=urls)
+                with self.assertRaisesRegex(PolicyError, 'push'):
+                    self.run_rollout(runner, Path(temp), '--push', '--create-pr')
+                self.assertFalse(any(c[0] == 'git' and c[3] in {'switch', 'add', 'commit', 'push'} for c in runner.commands))
+
+    def test_existing_pr_custom_deleted_legacy_is_rejected(self):
+        pr = {'url': 'https://github.com/minjungsung/Algorithm/pull/1',
+              'baseRefName': 'main', 'headRefName': BRANCH, 'headRefOid': SHA}
+        with TemporaryDirectory() as temp:
+            runner = FakeRunner(prs=[pr], legacy=None, base_legacy=LEGACY_CONTENT + '# custom\n')
+            with self.assertRaisesRegex(PolicyError, 'deleted legacy'):
+                self.run_rollout(runner, Path(temp), '--push', '--create-pr')
+
+    def test_unreviewed_merge_actions_and_scripts_are_blocked(self):
+        for content in ('uses: pascalgn/automerge-action@v1\n',
+                        'run: node scripts/auto-merge.js\n',
+                        'uses: peter-evans/enable-pull-request-automerge@v3\n'):
+            with TemporaryDirectory() as temp:
+                runner = FakeRunner()
+                self.run_rollout(runner, Path(temp))
+                (Path(temp) / 'Algorithm/.github/workflows/custom.yml').write_text(content)
+                with self.assertRaisesRegex(PolicyError, 'review'):
+                    self.run_rollout(runner, Path(temp), '--push', '--create-pr')
 
     def test_sha_validation_happens_before_commands(self):
         runner = FakeRunner()

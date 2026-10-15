@@ -5,7 +5,6 @@ import difflib
 import json
 from pathlib import Path
 import re
-import subprocess
 import tempfile
 from typing import Sequence
 
@@ -81,15 +80,22 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
                           'status': status, 'pr_url': pr_url}, sort_keys=True))
         return 0
 
+    if root.is_symlink():
+        raise PolicyError('workspace repository must not be a symlink')
     if not root.exists():
         run(['gh', 'repo', 'clone', full_name, str(root)])
     if root.is_symlink() or not (root / '.git').exists():
         raise PolicyError('workspace repository must be an explicit Git clone')
     # Verify clone identity, including reused workspaces.
     remote = git('remote', 'get-url', 'origin').strip()
-    if remote not in {f'https://github.com/{full_name}.git', f'https://github.com/{full_name}',
-                      f'git@github.com:{full_name}.git', f'ssh://git@github.com/{full_name}.git'}:
+    expected_urls = {f'https://github.com/{full_name}.git', f'https://github.com/{full_name}',
+                     f'git@github.com:{full_name}.git', f'ssh://git@github.com/{full_name}.git'}
+    if remote not in expected_urls:
         raise PolicyError('clone origin differs from inventoried repository')
+    if args.push:
+        push_urls = git('remote', 'get-url', '--push', '--all', 'origin').splitlines()
+        if len(push_urls) != 1 or push_urls[0] not in expected_urls:
+            raise PolicyError('effective push URLs differ from the single reviewed destination')
     if git('status', '--porcelain', '--untracked-files=all').strip():
         raise PolicyError('dirty clone: use a fresh workspace or review existing changes')
     live = json.loads(run(['gh', 'repo', 'view', full_name, '--json', 'defaultBranchRef']))
@@ -110,7 +116,8 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
             if relative == LEGACY and text == LEGACY_CONTENT:
                 changes[relative] = (text, None)
             elif relative != CALLER and ('gh pr merge' in text.lower() or
-                    ('dependabot' in text.lower() and 'auto' in text.lower() and 'merge' in text.lower())):
+                    re.search(r'auto[-_ ]?merge|merge[-_ ]?pull[-_ ]?requests?|enablepullrequestautomerge',
+                              text.lower())):
                 raise PolicyError('independent auto-merge workflow requires review before rollout')
     current = git('branch', '--show-current').strip()
     prs = json.loads(run(['gh', 'pr', 'list', '--repo', full_name, '--head', f'{OWNER}:{BRANCH}',
@@ -128,6 +135,10 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
         files = set(git('diff', '--name-only', f'origin/{repository.default_branch}...{head}').splitlines())
         if not files or not files <= {CALLER, LEGACY} or git('show', f'{head}:{CALLER}') != generated or git('ls-tree', '--name-only', head, '--', LEGACY).strip():
             raise PolicyError('existing rollout PR differs from requested policy; review before rerun')
+        if LEGACY in files:
+            base = git('merge-base', f'origin/{repository.default_branch}', head).strip()
+            if re.fullmatch(r'[0-9a-f]{40}', base) is None or git('show', f'{base}:{LEGACY}') != LEGACY_CONTENT:
+                raise PolicyError('deleted legacy workflow differs from reviewed merge-base bytes')
         return result('existing-pr', pr['url'])
     if current != repository.default_branch:
         raise PolicyError('clone must be on the reviewed default branch')
