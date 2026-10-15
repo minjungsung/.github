@@ -1,8 +1,8 @@
 # Continuous dependency maintenance
 
-The central `Dependency Maintenance` workflow runs every six hours and can be dispatched manually. It discovers all active repositories, records missing inventory coverage and open Dependabot alerts, and refreshes stale Dependabot branches using an expected immutable head SHA. It never dismisses alerts, bypasses checks, changes review requirements, or merges unvalidated updates.
+The central `Dependency Maintenance` workflow runs every six hours and can be dispatched manually. It discovers all active repositories, records missing inventory coverage and open Dependabot alerts, and refreshes stale Dependabot branches using an expected immutable head SHA. It never dismisses alerts, bypasses checks, changes review requirements, or merges unvalidated updates. After canonical Dependabot version metadata, complete exact-head application matrix coverage and required checks pass, the trusted controller can merge by exact SHA with its workflow-capable credential. GitHub continues to enforce reviews and protection. Independently confirmed optional Vercel24-hour quota failures remain deployment blockers; required quota checks still block merging.
 
-Actual metadata verification, strict application validation and automatic merging remain in each repository's audited caller. A new head needs new validation. The controller reports manual policies, missing credentials, incomplete API results and unresolved alerts as failures. A successful gate without successful application matrix jobs cannot authorize dependency acceptance.
+Actual metadata verification and strict application validation remain in each repository's audited caller. The controller accepts only canonical authenticated version pairs for its additional merge path; grouped or unknown metadata remains blocked. A new head needs new validation. The controller reports manual policies, missing credentials, incomplete API results and unresolved alerts as failures. A successful gate without successful application matrix jobs cannot authorize dependency acceptance.
 
 ## Authentication
 
