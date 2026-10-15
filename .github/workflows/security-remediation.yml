@@ -90,7 +90,9 @@ jobs:
       - name: Repair vulnerable dependencies and compatibility
         uses: openai/codex-action@1d82a3dba7c7988ec71ecae1ed5b8e8db96495c5
         with:
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          openai-api-key: ${{ secrets.COMPANY_MODEL_API_KEY }}
+          responses-api-endpoint: ${{ secrets.COMPANY_MODEL_RESPONSES_ENDPOINT }}
+          model: ${{ vars.SECURITY_REPAIR_MODEL }}
           codex-version: '0.162.1'
           permission-profile: ':workspace'
           safety-strategy: drop-sudo

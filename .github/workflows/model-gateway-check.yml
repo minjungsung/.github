@@ -1,0 +1,33 @@
+name: Model Gateway Check
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  connection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify cloud model execution without application code
+        uses: openai/codex-action@1d82a3dba7c7988ec71ecae1ed5b8e8db96495c5
+        with:
+          openai-api-key: ${{ secrets.COMPANY_MODEL_API_KEY }}
+          responses-api-endpoint: ${{ secrets.COMPANY_MODEL_RESPONSES_ENDPOINT }}
+          model: ${{ vars.SECURITY_REPAIR_MODEL }}
+          codex-version: '0.162.1'
+          permission-profile: ':read-only'
+          safety-strategy: drop-sudo
+          prompt: 'Do not use tools or read files. Reply with exactly CLOUD_MODEL_OK.'
+          output-file: cloud-model-result.txt
+      - name: Require completed model response
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          result = Path('cloud-model-result.txt').read_text().strip()
+          if result != 'CLOUD_MODEL_OK':
+              raise SystemExit('Cloud model response did not match the connection contract')
+          print('Cloud model execution verified')
+          PYTHON
