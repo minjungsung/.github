@@ -12,6 +12,7 @@ from scripts.audit_repositories import (
     DiscoveredRepository,
     discover_repositories,
     main,
+    inventory_dict,
     reconcile,
 )
 
@@ -125,6 +126,53 @@ class AuditRepositoriesTest(unittest.TestCase):
             ("active-empty: active repository has no default branch",),
         )
         self.assertEqual(report.inventory.repositories, ())
+
+    def test_incomplete_repository_discovery_preserves_review_and_continues(self):
+        reviewed = Repository("broken", "reviewed-branch", (
+            Project("reviewed", "npm", ".", "20", "package.json", "npm-shrinkwrap.json",
+                    install_command="npm ci --ignore-scripts", timeout_minutes=15),
+        ))
+        inventory = Inventory(1, (reviewed,))
+        for failure in ("tree", "blob", "branch"):
+            with self.subTest(failure=failure):
+                broken = self.repository_record("broken")
+                if failure == "branch":
+                    broken["defaultBranchRef"] = {"name": 123}
+
+                class FailingClient(FakeGitHubClient):
+                    def repository_tree(self, repository, default_branch):
+                        if repository == "owner/broken" and failure == "tree":
+                            raise PolicyError("GitHub tree is truncated")
+                        return super().repository_tree(repository, default_branch)
+
+                    def blob_text(self, repository, sha):
+                        if repository == "owner/broken":
+                            raise PolicyError("GitHub CLI command failed with exit code 1")
+                        return super().blob_text(repository, sha)
+
+                client = FailingClient(
+                    [broken, self.repository_record("healthy")],
+                    {"owner/broken": [self.tree_entry("package.json", "package")],
+                     "owner/healthy": [self.tree_entry("package.json", "package")]},
+                    {("owner/healthy", "package"): "{}"},
+                )
+                discovered = discover_repositories(client, "owner")
+                report = reconcile(inventory, discovered)
+                self.assertEqual(report.inventory.repository("broken"), reviewed)
+                self.assertEqual(report.inventory.repository("healthy").projects[0].ecosystem, "npm")
+                incomplete = next(item for item in discovered if item.name == "broken")
+                self.assertFalse(incomplete.auto_merge_enabled)
+                self.assertEqual(incomplete.projects, ())
+                self.assertEqual(len(report.ambiguities), 1)
+                self.assertIn("broken: incomplete repository discovery:", report.ambiguities[0])
+                with TemporaryDirectory() as directory:
+                    path = Path(directory) / "inventory.json"
+                    path.write_text(json.dumps(inventory_dict(inventory)))
+                    before = path.read_bytes()
+                    with redirect_stdout(io.StringIO()):
+                        self.assertEqual(main(["--check"], client=client, inventory_path=path), 1)
+                        self.assertEqual(main(["--write", str(path)], client=client, inventory_path=path), 2)
+                    self.assertEqual(path.read_bytes(), before)
 
     def tree_entry(self, path, sha):
         return {"path": path, "mode": "100644", "type": "blob", "sha": sha}

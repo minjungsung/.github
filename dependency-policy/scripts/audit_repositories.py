@@ -306,88 +306,108 @@ def discover_repositories(
     discovered: list[DiscoveredRepository] = []
     records = sorted(client.list_repositories(owner), key=lambda value: str(value.get("name", "")))
     for record in records:
-        name, full_name, archived, default_branch = _required_repository_fields(record)
-        if archived:
-            discovered.append(DiscoveredRepository(name, default_branch, True))
-            continue
-        if default_branch is None:
+        # A failure can be attributed safely only when repository identity and
+        # archive status are valid. Account-wide listing/identity failures remain fatal.
+        name = record.get("name")
+        full_name = record.get("nameWithOwner")
+        archived = record.get("isArchived")
+        if (
+            not isinstance(name, str) or not name
+            or not isinstance(full_name, str) or not full_name
+            or not isinstance(archived, bool)
+        ):
+            raise PolicyError("GitHub repository response is missing required fields")
+        try:
+            name, full_name, archived, default_branch = _required_repository_fields(record)
+            if archived:
+                discovered.append(DiscoveredRepository(name, default_branch, True))
+                continue
+            if default_branch is None:
+                discovered.append(DiscoveredRepository(
+                    name=name,
+                    default_branch=None,
+                    archived=False,
+                    auto_merge_enabled=False,
+                    ambiguities=("active repository has no default branch",),
+                ))
+                continue
+
+            files_by_path = _tree_files(client.repository_tree(full_name, default_branch), full_name)
+            file_paths = set(files_by_path)
+            projects, ambiguities = _discover_projects(file_paths)
+            dependabot_config = (
+                ".github/dependabot.yml"
+                if ".github/dependabot.yml" in files_by_path
+                else ".github/dependabot.yaml"
+                if ".github/dependabot.yaml" in files_by_path
+                else None
+            )
+            unsupported = _manifest_unsupported_ecosystems(file_paths)
+            metadata_ambiguities: list[str] = []
+            for project in projects:
+                if project.ecosystem != "npm" or project.manifest is None:
+                    continue
+                manifest_path = (
+                    project.manifest
+                    if project.path == "."
+                    else f"{project.path}/{project.manifest}"
+                )
+                package_unsupported, package_ambiguities = _npm_package_metadata(
+                    client.blob_text(full_name, files_by_path[manifest_path]),
+                    project.path,
+                )
+                unsupported.update(package_unsupported)
+                metadata_ambiguities.extend(package_ambiguities)
+            if dependabot_config is not None:
+                unsupported.update(
+                    _dependabot_ecosystems(
+                        client.blob_text(full_name, files_by_path[dependabot_config])
+                    )
+                )
+
+            workflow_paths = tuple(sorted(
+                path
+                for path in files_by_path
+                if PurePosixPath(path).parent == PurePosixPath(".github/workflows")
+                and PurePosixPath(path).suffix.lower() in {".yml", ".yaml"}
+            ))
+            auto_merge_workflows: list[str] = []
+            deployment_workflows: list[str] = []
+            for workflow_path in workflow_paths:
+                content = client.blob_text(full_name, files_by_path[workflow_path])
+                if _is_auto_merge_workflow(workflow_path, content):
+                    auto_merge_workflows.append(workflow_path)
+                if _is_deployment_workflow(workflow_path, content):
+                    deployment_workflows.append(workflow_path)
+
+            if not projects:
+                projects = (Project(
+                    name="github-actions",
+                    ecosystem="github-actions",
+                    path=".",
+                    timeout_minutes=5,
+                ),)
+            discovered.append(DiscoveredRepository(
+                name=name,
+                default_branch=default_branch,
+                archived=False,
+                projects=projects,
+                dependabot_config=dependabot_config,
+                workflow_paths=workflow_paths,
+                auto_merge_workflows=tuple(auto_merge_workflows),
+                deployment_workflows=tuple(deployment_workflows),
+                unsupported_ecosystems=tuple(sorted(unsupported)),
+                auto_merge_enabled=not unsupported,
+                ambiguities=tuple(sorted((*ambiguities, *metadata_ambiguities))),
+            ))
+        except PolicyError as error:
             discovered.append(DiscoveredRepository(
                 name=name,
                 default_branch=None,
-                archived=False,
+                archived=archived,
                 auto_merge_enabled=False,
-                ambiguities=("active repository has no default branch",),
+                ambiguities=(f"incomplete repository discovery: {error}",),
             ))
-            continue
-
-        files_by_path = _tree_files(client.repository_tree(full_name, default_branch), full_name)
-        file_paths = set(files_by_path)
-        projects, ambiguities = _discover_projects(file_paths)
-        dependabot_config = (
-            ".github/dependabot.yml"
-            if ".github/dependabot.yml" in files_by_path
-            else ".github/dependabot.yaml"
-            if ".github/dependabot.yaml" in files_by_path
-            else None
-        )
-        unsupported = _manifest_unsupported_ecosystems(file_paths)
-        metadata_ambiguities: list[str] = []
-        for project in projects:
-            if project.ecosystem != "npm" or project.manifest is None:
-                continue
-            manifest_path = (
-                project.manifest
-                if project.path == "."
-                else f"{project.path}/{project.manifest}"
-            )
-            package_unsupported, package_ambiguities = _npm_package_metadata(
-                client.blob_text(full_name, files_by_path[manifest_path]),
-                project.path,
-            )
-            unsupported.update(package_unsupported)
-            metadata_ambiguities.extend(package_ambiguities)
-        if dependabot_config is not None:
-            unsupported.update(
-                _dependabot_ecosystems(
-                    client.blob_text(full_name, files_by_path[dependabot_config])
-                )
-            )
-
-        workflow_paths = tuple(sorted(
-            path
-            for path in files_by_path
-            if PurePosixPath(path).parent == PurePosixPath(".github/workflows")
-            and PurePosixPath(path).suffix.lower() in {".yml", ".yaml"}
-        ))
-        auto_merge_workflows: list[str] = []
-        deployment_workflows: list[str] = []
-        for workflow_path in workflow_paths:
-            content = client.blob_text(full_name, files_by_path[workflow_path])
-            if _is_auto_merge_workflow(workflow_path, content):
-                auto_merge_workflows.append(workflow_path)
-            if _is_deployment_workflow(workflow_path, content):
-                deployment_workflows.append(workflow_path)
-
-        if not projects:
-            projects = (Project(
-                name="github-actions",
-                ecosystem="github-actions",
-                path=".",
-                timeout_minutes=5,
-            ),)
-        discovered.append(DiscoveredRepository(
-            name=name,
-            default_branch=default_branch,
-            archived=False,
-            projects=projects,
-            dependabot_config=dependabot_config,
-            workflow_paths=workflow_paths,
-            auto_merge_workflows=tuple(auto_merge_workflows),
-            deployment_workflows=tuple(deployment_workflows),
-            unsupported_ecosystems=tuple(sorted(unsupported)),
-            auto_merge_enabled=not unsupported,
-            ambiguities=tuple(sorted((*ambiguities, *metadata_ambiguities))),
-        ))
     return tuple(discovered)
 
 
