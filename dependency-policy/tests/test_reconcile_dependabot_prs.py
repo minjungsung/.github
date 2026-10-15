@@ -62,6 +62,11 @@ class ReconcileTests(unittest.TestCase):
             self.assertIsNone(verified_body_update_type({'user': {'login': 'dependabot[bot]'}, 'body': body}))
         self.assertIsNone(verified_body_update_type({'user': {'login': 'other'}, 'body': 'Bumps package from 1.0.0 to 1.0.1.\n'}))
 
+    def test_release_notes_group_word_does_not_change_single_update_header(self):
+        detail = {'user': {'login': 'dependabot[bot]'},
+                  'body': 'Bumps [action](https://github.com/example/action) from 2.6.2 to 3.0.3.\n<details>chore: bump the npm group with 2 updates</details>'}
+        self.assertEqual(verified_body_update_type(detail), 'major')
+
     def test_grouped_body_with_one_pair_is_unknown(self):
         body = 'Bumps the dependencies group with 2 updates.\nBumps package from 1.0.0 to 1.0.1.\n'
         self.assertIsNone(verified_body_update_type({'user': {'login': 'dependabot[bot]'}, 'body': body}))

@@ -65,7 +65,8 @@ def verified_body_update_type(detail):
         return None
     body = detail.get('body')
     if not isinstance(body, str): return None
-    if not body.startswith('Bumps ') or re.search(r'(?im)^Bumps ', body[6:]) or re.search(r'(?i)\b(group|updates? .*dependenc|bumps .*group)\b', body):
+    header = body.split('\n', 1)[0]
+    if not body.startswith('Bumps ') or re.search(r'(?im)^Bumps ', body[6:]) or re.search(r'(?i)\b(group|updates? .*dependenc|bumps .*group)\b', header):
         return None
     pairs = re.findall(r'\ABumps (?:\[[^\]\n]+\]\(https://[^)\n]+\)|[A-Za-z0-9@_./-]+) from ([0-9]+\.[0-9]+\.[0-9]+) to ([0-9]+\.[0-9]+\.[0-9]+)\.(?:\s|$)', body)
     # Grouped prose and prereleases require reviewed metadata instead.
