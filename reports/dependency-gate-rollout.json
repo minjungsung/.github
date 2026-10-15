@@ -788,7 +788,7 @@
       "rollout-status": "caller-merged",
       "enforcement-status": "applied-and-verified",
       "baseline-status": "hosted-pass",
-      "notes": "Security migration PR50 merged; 24 open Dependabot alerts became zero, npm audit zero. Seven npm major PRs incorporated and closed; checkout major PR27 actually auto-merged after strict validation. Vercel optional quota deployment remains blocked; wiki PR48 alignment pending.",
+      "notes": "Security migration PR50 merged; 24 open Dependabot alerts became zero, npm audit zero. Seven npm major PRs incorporated and closed; checkout major PR27 actually auto-merged after strict validation. Vercel optional quota deployment remains blocked; wiki PR48 native-test alignment merged and latest main strict CI succeeded; no open PRs remain.",
       "baseline-run": "https://github.com/minjungsung/portfolio-frontend-inner/actions/runs/38666261119",
       "baseline-head-sha": "ed6f15313506ebc9b0774b0633e7dac86a009406",
       "policy-sha": "912a4df6333443b9f8a012275627d971a8218a03",
@@ -5795,9 +5795,8 @@
   "acceptance-gaps": [
     "Eight repositories retain manual automatic-merge settings: Chatbot, TangoMBTI, Undead-Survivor, dongle-game, house-scanner-frontend, kiro-skills, shooting-game, visionRAG.",
     "KakaoBot-API remains unenrolled; House-scanner and KakaoBot-API actual deployment failures and TangoMBTI enforcing audit failures remain unresolved.",
-    "Frontend-inner wiki PR48 needs native Vitest validation alignment and successful reviewed merge.",
     "LingoCast corrective journal PR122 remains open; policy PR123 supplied fresh successful main gate evidence.",
-    "GitHub-token automatic merges do not trigger cascading push workflows: current JHU and frontend-inner automatic merge commits require fresh main validation before exact-main publication.",
+    "GitHub-token automatic merges do not trigger cascading push workflows: current JHU automatic merge commit requires fresh main validation before exact-main publication; frontend-inner gained fresh main CI through reviewed wiki48 merge.",
     "Complete fleet PR reconciliation and failed-update publication denial for every publishing workflow remain unproven."
   ],
   "metadata-policy-fleet-promotion": {
@@ -8935,7 +8934,19 @@
       "inner-main-audit.json": "ba7a76a57498300733c87c701b7f16d25c30f97eb82c139e201b13f5f96d37e7",
       "inner-checkout27-gate.log": "dde96cc6be1b865f48193b2f3d67cb804f2927398257a72f2c5d30837932f550",
       "inner-security-browser-smoke.json": "9067deaaeacd2f79a864c518a8290f32469f74e80d7c2f4e53b55de1fe0c5d8b"
-    }
+    },
+    "wiki-guard": {
+      "pr": 48,
+      "head-sha": "9860cb780f8a7400a256611acc8689f270090f46",
+      "merge-sha": "ffd33e197c845e2897a5a55122f06618317d89e2",
+      "pr-ci-run": 38685318967,
+      "main-ci-run": 38685466849,
+      "main-ci-conclusion": "success",
+      "main-gate-run": 38685467056,
+      "main-gate-conclusion": "success"
+    },
+    "latest-observed-main": "ffd33e197c845e2897a5a55122f06618317d89e2",
+    "open-pr-count": 0
   },
   "actual-major-auto-merge-evidence": [
     {

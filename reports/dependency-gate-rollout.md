@@ -33,7 +33,7 @@ The reviewed major-policy release is `0b9ee15e26f054586eeeab7601edebb9a32bfe57`.
 | Nbody | not-executed | caller-merged / applied-and-verified | Caller merged and required dependency-gate protection applied and verified. |
 | portfolio-backend | remediation-merged | caller-merged / applied-and-verified | Reviewed remediation and caller merged; required dependency-gate protection applied and verified. |
 | portfolio-frontend | remediation-merged | caller-merged / applied-and-verified | Reviewed remediation and caller merged; required dependency-gate protection applied and verified. |
-| portfolio-frontend-inner | hosted-pass / security-fixed | caller-merged / applied-and-verified | PR50 migrated the vulnerable dependency graph; open GitHub alerts24 to0, npm audit0. Seven npm major PRs incorporated; actual checkout major27 auto-merged after strict CI. Vercel quota still blocks deployment. Wiki48 alignment pending. |
+| portfolio-frontend-inner | hosted-pass / security-fixed | caller-merged / applied-and-verified | PR50 migrated the vulnerable dependency graph; open GitHub alerts24 to0, npm audit0. Seven npm major PRs incorporated; actual checkout major27 auto-merged after strict CI. Vercel quota still blocks deployment. Wiki48 merged with native test alignment and fresh main CI passed; no open PRs. |
 | repo-template | not-executed | caller-merged / applied-and-verified | Caller merged and required dependency-gate protection applied and verified. |
 | senior_eltango | remediation-merged | caller-merged / applied-and-verified | Reviewed remediation and caller merged; required dependency-gate protection applied and verified. |
 | shooting-game | not-executed | caller-merged / applied-and-verified | Caller merged and required dependency-gate protection applied and verified. |
@@ -46,9 +46,9 @@ Four reviewed fleet policy PRs merged normally with only authenticated optional 
 
 Eight repositories retain manual automatic-merge settings: Chatbot, TangoMBTI, Undead-Survivor, dongle-game, house-scanner-frontend, kiro-skills, shooting-game and visionRAG. Unsupported Bun/Unity validation and external model/runtime requirements remain explicit gaps. KakaoBot-API remains unenrolled. The requested universal repository coverage is incomplete.
 
-House-scanner and KakaoBot-API actual deployments fail; TangoMBTI's enforcing vulnerability audit fails on unpatched braces. Frontend-inner wiki48 needs its native Vitest command aligned before merge. LingoCast corrective journal122 remains open, though policy123 supplied fresh current-main gate evidence.
+House-scanner and KakaoBot-API actual deployments fail; TangoMBTI's enforcing vulnerability audit fails on unpatched braces. Frontend-inner wiki48 merged after its native Vitest validation aligned; fresh latest-main CI passed. LingoCast corrective journal122 remains open, though policy123 supplied fresh current-main gate evidence.
 
-GitHub-token automatic merges do not trigger cascading push workflows. The actual major PR heads have successful strict checks, but the resulting JHU and frontend-inner main commits need fresh validation before exact-main publication; a prior head's green checks do not establish a new main commit's result.
+GitHub-token automatic merges do not trigger cascading push workflows. The actual major PR heads have successful strict checks, but the resulting JHU main commit still needs fresh validation before exact-main publication. Frontend-inner received fresh main CI through the reviewed wiki48 merge; a prior head's green checks do not establish a new main commit's result.
 
 Historical controlled timeout, authorized cancellation, partial matrix failure and malformed actionlint samples retain their observed failures. They are synthetic adapter evidence, separate from real bot identity and end-to-end merge prevention. The publication inventory retains64 source paths; complete fleet PR reconciliation and failed-update publication denial on every publishing workflow remain unproven.
 
