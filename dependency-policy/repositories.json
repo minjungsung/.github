@@ -335,7 +335,10 @@
       "name": "hackdigest",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/clear-cache.yml"
+        ".github/workflows/clear-cache.yml",
+        ".github/workflows/daily-digest.yml",
+        ".github/workflows/subscribers.yml",
+        ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
       "projects": [
@@ -351,10 +354,11 @@
           "name": "worker-node",
           "ecosystem": "npm",
           "path": "worker",
-          "runtime-version": "20",
+          "runtime-version": "24",
           "manifest": "package.json",
           "lockfile": "package-lock.json",
-          "timeout-minutes": 15
+          "timeout-minutes": 15,
+          "test-command": "npm test"
         }
       ]
     },
