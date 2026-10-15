@@ -200,7 +200,7 @@
       "name": "TangoMBTI",
       "default-branch": "main",
       "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "root-node",
@@ -370,7 +370,7 @@
       "name": "house-scanner-frontend",
       "default-branch": "main",
       "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "root-node",
