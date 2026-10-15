@@ -3,6 +3,7 @@
 import argparse
 import difflib
 import json
+import hashlib
 from pathlib import Path
 import re
 import tempfile
@@ -52,15 +53,21 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
     parser.add_argument('--repository', required=True)
     parser.add_argument('--policy-sha', required=True)
     parser.add_argument('--workspace', required=True, type=Path)
+    parser.add_argument('--reviewed-legacy-sha256', help='reviewed SHA-256 authorizing only exact legacy workflow removal')
     parser.add_argument('--push', action='store_true')
     parser.add_argument('--create-pr', action='store_true')
     args = parser.parse_args(argv)
+    if args.reviewed_legacy_sha256 is not None and re.fullmatch('[0-9a-f]{64}', args.reviewed_legacy_sha256) is None:
+        raise PolicyError('reviewed legacy SHA-256 must be 64 lowercase hexadecimal characters')
     if args.push != args.create_pr:
         raise PolicyError('publication requires both --push and --create-pr')
     if not re.fullmatch(r'[A-Za-z0-9_.-]+', args.repository) or args.repository in {'.', '..'}:
         raise PolicyError('repository must be a safe inventory name')
     repository = load_inventory(inventory_path).repository(args.repository)
     generated = render_caller(repository, args.policy_sha)
+    def reviewed_legacy(content):
+        digest = hashlib.sha256(content.encode()).hexdigest()
+        return digest == args.reviewed_legacy_sha256 if args.reviewed_legacy_sha256 else content == LEGACY_CONTENT
     full_name = f'{OWNER}/{repository.name}'
     workspace = args.workspace.resolve()
     workspace.mkdir(parents=True, exist_ok=True)
@@ -113,8 +120,10 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
                 raise PolicyError('workflow files must be regular files')
             text = path.read_text()
             relative = path.relative_to(root).as_posix()
-            if relative == LEGACY and text == LEGACY_CONTENT:
+            if relative == LEGACY and reviewed_legacy(text):
                 changes[relative] = (text, None)
+            elif relative == LEGACY:
+                raise PolicyError('legacy workflow differs from exact reviewed removal bytes; review required')
             elif relative != CALLER and ('gh pr merge' in text.lower() or
                     re.search(r'auto[-_ ]?merge|merge[-_ ]?pull[-_ ]?requests?|enablepullrequestautomerge',
                               text.lower())):
@@ -137,7 +146,7 @@ def main(argv: Sequence[str] | None = None, *, runner: CommandRunner = _default_
             raise PolicyError('existing rollout PR differs from requested policy; review before rerun')
         if LEGACY in files:
             base = git('merge-base', f'origin/{repository.default_branch}', head).strip()
-            if re.fullmatch(r'[0-9a-f]{40}', base) is None or git('show', f'{base}:{LEGACY}') != LEGACY_CONTENT:
+            if re.fullmatch(r'[0-9a-f]{40}', base) is None or not reviewed_legacy(git('show', f'{base}:{LEGACY}')):
                 raise PolicyError('deleted legacy workflow differs from reviewed merge-base bytes')
         return result('existing-pr', pr['url'])
     if current != repository.default_branch:

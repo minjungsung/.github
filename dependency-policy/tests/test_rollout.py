@@ -1,5 +1,6 @@
 from contextlib import redirect_stdout
 import io
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -191,6 +192,29 @@ class RolloutTest(unittest.TestCase):
                 (Path(temp) / 'Algorithm/.github/workflows/custom.yml').write_text(content)
                 with self.assertRaisesRegex(PolicyError, 'review'):
                     self.run_rollout(runner, Path(temp), '--push', '--create-pr')
+
+    def test_reviewed_hash_authorizes_only_exact_legacy_bytes(self):
+        content = LEGACY_CONTENT + '# reviewed custom workflow\n'
+        digest = hashlib.sha256(content.encode()).hexdigest()
+        for supplied, succeeds in ((digest, True), ('0' * 64, False)):
+            with TemporaryDirectory() as temp:
+                runner = FakeRunner(legacy=content)
+                if succeeds:
+                    self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', supplied)
+                    self.assertFalse((Path(temp) / 'Algorithm' / LEGACY).exists())
+                else:
+                    with self.assertRaises(PolicyError):
+                        self.run_rollout(runner, Path(temp), '--reviewed-legacy-sha256', supplied)
+
+    def test_existing_pr_authorized_legacy_deletion_matches_reviewed_hash(self):
+        content = LEGACY_CONTENT + '# reviewed custom workflow\n'
+        digest = hashlib.sha256(content.encode()).hexdigest()
+        pr = {'url': 'https://github.com/minjungsung/Algorithm/pull/1',
+              'baseRefName': 'main', 'headRefName': BRANCH, 'headRefOid': SHA}
+        with TemporaryDirectory() as temp:
+            runner = FakeRunner(prs=[pr], legacy=None, base_legacy=content)
+            output = self.run_rollout(runner, Path(temp), '--push', '--create-pr', '--reviewed-legacy-sha256', digest)
+            self.assertIn('existing-pr', output)
 
     def test_sha_validation_happens_before_commands(self):
         runner = FakeRunner()
