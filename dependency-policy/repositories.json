@@ -532,7 +532,8 @@
           "manifest": "requirements.txt",
           "timeout-minutes": 15
         }
-      ]
+      ],
+      "postgres-required": true
     },
     {
       "name": "kiro-skills",
