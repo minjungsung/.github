@@ -78,6 +78,12 @@ class ProtectionTests(unittest.TestCase):
             result = main(['--owner', 'example', '--repository', 'sample', '--sha', SHA, *extra], client=self.api, inventory_path=self.inventory, backup_directory=self.api.backup.parent)
         return result, json.loads(output.getvalue())
 
+    def test_observed_api_name_is_required_and_ui_composite_is_rejected(self):
+        self.assertEqual(CHECK_CONTEXT, 'dependency-gate')
+        self.api.pages[0][0]['name'] = 'Dependency Gate / dependency-gate'
+        with self.assertRaises(PolicyError):
+            find_check_context(self.api, 'example/sample', SHA)
+
     def test_reject_untrusted_check_app(self):
         good = copy.deepcopy(self.api.pages[0][0])
         for app in (None, {'id': 99, 'slug': 'unrelated'}, {'id': 15368, 'slug': 'github-actions', 'owner': {'login': 'other'}}):
@@ -178,7 +184,7 @@ class ProtectionTests(unittest.TestCase):
         self.assertEqual(self.api.backup.read_text(), 'previous backup')
 
     def test_exact_successful_context(self):
-        self.api.pages[0].insert(0, {'name': 'dependency-gate', 'head_sha': SHA, 'conclusion': 'success'})
+        self.api.pages[0].insert(0, {'name': 'Dependency Gate / dependency-gate', 'head_sha': SHA, 'conclusion': 'success'})
         self.assertEqual(find_check_context(self.api, 'example/sample', SHA), CHECK_CONTEXT)
         self.assertEqual(self.api.read_pages[0][1], SHA)
 
