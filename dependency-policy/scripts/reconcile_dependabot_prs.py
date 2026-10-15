@@ -38,6 +38,8 @@ def classify_pr(pr: dict) -> ReconciliationDecision:
         return decision('close-with-reason', evidence['kind'] + ': ' + evidence['reason'] + ' — ' + evidence['url'])
     if pr.get('behind') is True or pr.get('mergeable') is False:
         return decision('request-rebase', 'Head is behind or conflicted; wait for a new head SHA after rebase')
+    if pr.get('required_protection_absent') is True:
+        return decision('external-administrative-blocker', 'Required dependency gate protection is absent')
     gate = pr.get('gate')
     if not isinstance(gate, dict) or gate.get('head_sha') != pr['head_sha'] or gate.get('status') != 'completed' or gate.get('app') != 'github-actions':
         return decision('await-current-checks', 'Current head lacks a completed trusted dependency gate')
@@ -129,19 +131,25 @@ class ReconciliationClient(GitHubClient):
                     response = self._runner(['gh', 'pr', 'checks', str(entry['number']), '--repo', name, '--required', '--json', 'bucket,name'])
                     if response.returncode not in {0, 1, 8}:
                         raise PolicyError('required check lookup failed')
-                    try:
-                        required = json.loads(response.stdout)
-                    except (TypeError, json.JSONDecodeError) as error:
-                        raise PolicyError('invalid required checks JSON') from error
+                    no_required = response.returncode == 0 and isinstance(response.stdout, str) and re.fullmatch(
+                        r"no required checks reported on the '[^'\r\n]+' branch\n?", response.stdout) is not None
+                    if no_required:
+                        required = []
+                    else:
+                        try:
+                            required = json.loads(response.stdout)
+                        except (TypeError, json.JSONDecodeError) as error:
+                            raise PolicyError('invalid required checks JSON') from error
                     if not isinstance(required, list) or not all(isinstance(check, dict) for check in required): raise PolicyError('required checks must be an array')
                     records.append({'number': detail['number'], 'url': detail['html_url'], 'head_sha': head,
                                     'author': 'dependabot[bot]', 'update_type': verified_body_update_type(detail), 'mergeable': detail.get('mergeable'),
                                     'behind': graphql.get('mergeStateStatus') == 'BEHIND', 'gate': gate,
+                                    'required_protection_absent': no_required,
                                     'required_checks_pass': bool(required) and all(check.get('bucket') == 'pass' for check in required),
                                     'metadata_evidence': {'source': 'authenticated-dependabot-canonical-body',
                                                           'head_sha': head,
                                                           'body_sha256': hashlib.sha256((detail.get('body') or '').encode()).hexdigest()},
-                                    'external_blocker': 'required review approval' if graphql.get('reviewDecision') == 'REVIEW_REQUIRED' else None})
+                                    'external_blocker': 'Required dependency gate protection is absent' if no_required else ('required review approval' if graphql.get('reviewDecision') == 'REVIEW_REQUIRED' else None)})
                 except (PolicyError, TypeError, ValueError, KeyError, AttributeError) as error:
                     records.append({'number': entry.get('number', 0),
                                     'url': entry.get('html_url') or f'https://github.com/{name}/pull/{entry.get("number", 0)}',
