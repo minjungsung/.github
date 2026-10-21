@@ -16,183 +16,6 @@
       ]
     },
     {
-      "name": "Algorithm",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
-      "name": "Chatbot",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "root-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": ".",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 30,
-          "test-command": ".dependency-gate-venv/bin/python -m unittest discover -s tests -v"
-        }
-      ]
-    },
-    {
-      "name": "Interview",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "Interview-Ben-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "Interview-Ben",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "Interview-Flow-node",
-          "ecosystem": "npm",
-          "path": "Interview-Flow",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "lockfile": "package-lock.json",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "KakaoBot",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
-      "name": "KakaoBot-API",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "root-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": ".",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "Leethub",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "root-node",
-          "ecosystem": "npm",
-          "path": ".",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "lockfile": "package-lock.json",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "LingoCast",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "root-node",
-          "ecosystem": "npm",
-          "path": ".",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "lockfile": "package-lock.json",
-          "timeout-minutes": 15,
-          "test-command": "bash scripts/verify.sh --web"
-        },
-        {
-          "name": "spring-gradle",
-          "ecosystem": "gradle",
-          "path": "spring",
-          "runtime-version": "21",
-          "manifest": "build.gradle.kts",
-          "gradle-wrapper": "gradlew",
-          "timeout-minutes": 30
-        },
-        {
-          "name": "worker-node",
-          "ecosystem": "npm",
-          "path": "worker",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "lockfile": "package-lock.json",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "Nbody",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
       "name": "TangoDJ",
       "default-branch": "main",
       "deployment-workflows": [],
@@ -207,6 +30,33 @@
           "lockfile": "package-lock.json",
           "test-command": "npm test",
           "build-command": "npm run build",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "TangoDJTool",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "android-gradle",
+          "ecosystem": "gradle",
+          "path": "android",
+          "runtime-version": "21",
+          "manifest": "build.gradle",
+          "gradle-wrapper": "gradlew",
+          "timeout-minutes": 30
+        },
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "test-command": "npm test",
           "timeout-minutes": 15
         }
       ]
@@ -228,23 +78,6 @@
           "manifest": "package.json",
           "lockfile": "package-lock.json",
           "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "Undead-Survivor",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
         }
       ]
     },
@@ -275,6 +108,14 @@
       "auto-merge-enabled": true,
       "projects": [
         {
+          "name": "midterm-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": "midterm",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        },
+        {
           "name": "module6-python-requirements",
           "ecosystem": "python-requirements",
           "path": "module6",
@@ -302,27 +143,9 @@
       ]
     },
     {
-      "name": "course-manager",
+      "name": "chrome-extension-dracula",
       "default-branch": "main",
       "deployment-workflows": [],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5,
-          "build-command": "python3 -m unittest discover -s tests -p 'test_course_brief.py'"
-        }
-      ]
-    },
-    {
-      "name": "creating_ai_enabled_systems",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
       "auto-merge-enabled": true,
       "projects": [
         {
@@ -334,13 +157,134 @@
       ]
     },
     {
-      "name": "dongle-game",
+      "name": "chrome-extension-focuspet",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "test-command": "npm test",
+          "build-command": "npm run package",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "chrome-extension-leethub",
       "default-branch": "main",
       "deployment-workflows": [
         ".github/workflows/publish-wiki.yml",
         ".github/workflows/release.yml"
       ],
-      "auto-merge-enabled": false,
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "20",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "chrome-extension-leethub-live-test",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "chrome-extension-linkloom",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "test-command": "npm test",
+          "build-command": "npm run package",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "chrome-extension-quoteharbor",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "test-command": "npm test",
+          "build-command": "npm run package",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "chrome-extension-tabbunny",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "test-command": "npm test",
+          "build-command": "npm run package",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "course-manager",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "build-command": "python3 -m unittest discover -s tests -p 'test_course_brief.py'",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
+      "name": "creating_ai_enabled_systems",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/push-wiki.yml",
+        ".github/workflows/release.yml"
+      ],
+      "auto-merge-enabled": true,
       "projects": [
         {
           "name": "github-actions",
@@ -397,224 +341,7 @@
           "runtime-version": "24",
           "manifest": "package.json",
           "lockfile": "package-lock.json",
-          "timeout-minutes": 15,
-          "test-command": "npm test"
-        }
-      ]
-    },
-    {
-      "name": "house-scanner-frontend",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "root-node",
-          "ecosystem": "npm",
-          "path": ".",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "lockfile": "package-lock.json",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "introduction_to_algorithm",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
-      "name": "jhu_software_concepts",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "module_1-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_1",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_10-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_10",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_11-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_11",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_12-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_12",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_13-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_13",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_2-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_2",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_3-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_3",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_4-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_4",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15,
-          "test-command": ".dependency-gate-venv/bin/python -m pytest"
-        },
-        {
-          "name": "module_5-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_5",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15,
-          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install -e .",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest"
-        },
-        {
-          "name": "module_6-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_6",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15,
-          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install -e .",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest"
-        },
-        {
-          "name": "module_6-src-web-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_6/src/web",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_6-src-worker-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_6/src/worker",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_7-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_7",
-          "runtime-version": "3.11",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "module_8-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "module_8",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "root-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": ".",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        }
-      ],
-      "postgres-required": true
-    },
-    {
-      "name": "kiro-skills",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "gstack-lib-diagram-render-node",
-          "ecosystem": "npm",
-          "path": "gstack/lib/diagram-render",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "gstack-node",
-          "ecosystem": "npm",
-          "path": "gstack",
-          "runtime-version": "20",
-          "manifest": "package.json",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "mcp-builder-scripts-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "mcp-builder/scripts",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "slack-gif-creator-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "slack-gif-creator",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
+          "test-command": "npm test",
           "timeout-minutes": 15
         }
       ]
@@ -692,44 +419,8 @@
           "path": ".",
           "runtime-version": "20",
           "manifest": "package.json",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "portfolio-frontend-inner",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "root-node",
-          "ecosystem": "npm",
-          "path": ".",
-          "runtime-version": "20",
-          "manifest": "package.json",
           "lockfile": "package-lock.json",
-          "timeout-minutes": 15,
-          "test-command": "npm test"
-        }
-      ]
-    },
-    {
-      "name": "repo-template",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
+          "timeout-minutes": 15
         }
       ]
     },
@@ -753,19 +444,37 @@
       ]
     },
     {
-      "name": "shooting-game",
+      "name": "shorts-generator",
       "default-branch": "main",
       "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml",
-        ".github/workflows/release.yml"
+        ".github/workflows/docs.yml"
       ],
-      "auto-merge-enabled": false,
+      "auto-merge-enabled": true,
       "projects": [
         {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
+          "name": "native-python-pyproject",
+          "ecosystem": "python-pyproject",
+          "path": "native",
+          "runtime-version": "3.12",
+          "manifest": "pyproject.toml",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
           "path": ".",
-          "timeout-minutes": 5
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
         }
       ]
     },
@@ -784,9 +493,9 @@
           "path": ".",
           "runtime-version": "3.12",
           "manifest": "pyproject.toml",
-          "timeout-minutes": 15,
           "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install \".[dev,mlops]\"",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short"
+          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short",
+          "timeout-minutes": 15
         },
         {
           "name": "root-python-requirements",
@@ -794,9 +503,9 @@
           "path": ".",
           "runtime-version": "3.12",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15,
           "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install \".[dev,mlops]\"",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short"
+          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short",
+          "timeout-minutes": 15
         },
         {
           "name": "spaces-python-requirements",
