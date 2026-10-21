@@ -6,14 +6,18 @@ from pathlib import Path
 import subprocess
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 from lib.models import PolicyError
 from scripts.render_callers import render_caller
-from lib.models import load_inventory
-from scripts.render_callers import INVENTORY_PATH
+from lib.models import Inventory, Project, Repository
 from scripts.rollout import BRANCH, CALLER, LEGACY, LEGACY_CONTENT, main
 
 SHA = 'a' * 40
+TEST_INVENTORY = Inventory(1, (
+    Repository('Algorithm', 'main', (Project('github-actions', 'github-actions', '.', timeout_minutes=5),)),
+    Repository('Undead-Survivor', 'main', (Project('github-actions', 'github-actions', '.', timeout_minutes=5),), auto_merge_enabled=False),
+))
 
 
 class FakeRunner:
@@ -56,7 +60,7 @@ class FakeRunner:
             elif args == ['branch', '--show-current']:
                 output = self.branch + '\n'
             elif args[:1] == ['show']:
-                output = self.base_legacy.encode() if args[1].endswith(':' + LEGACY) else render_caller(load_inventory(INVENTORY_PATH).repository('Algorithm'), SHA)
+                output = self.base_legacy.encode() if args[1].endswith(':' + LEGACY) else render_caller(TEST_INVENTORY.repository('Algorithm'), SHA)
             elif args[:1] == ['merge-base']:
                 output = SHA + '\n'
             elif args[:1] == ['rev-parse']:
@@ -69,6 +73,11 @@ class FakeRunner:
 
 
 class RolloutTest(unittest.TestCase):
+    def setUp(self):
+        inventory_patch = patch('scripts.rollout.load_inventory', return_value=TEST_INVENTORY)
+        inventory_patch.start()
+        self.addCleanup(inventory_patch.stop)
+
     def run_rollout(self, runner, workspace, *flags):
         with redirect_stdout(io.StringIO()) as out:
             main(['--repository', 'Algorithm', '--policy-sha', SHA,
