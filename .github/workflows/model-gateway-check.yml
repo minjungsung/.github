@@ -47,7 +47,7 @@ jobs:
               output.write('MODEL_RELAY_KEY=' + local_key + '\n')
           PYTHON
       - name: Verify cloud model execution without application code
-        uses: openai/codex-action@1d82a3dba7c7988ec71ecae1ed5b8e8db96495c5
+        uses: openai/codex-action@bdf19a4a223ec2549a3e2274a0cf61556bc07675
         with:
           openai-api-key: ${{ env.MODEL_RELAY_KEY }}
           responses-api-endpoint: http://127.0.0.1:8766/responses
