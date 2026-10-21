@@ -44,10 +44,15 @@ jobs:
           unzip -q "$archive" -d "$RUNNER_TEMP"
           printf '%s\n' "$RUNNER_TEMP/gradle-8.14.3/bin" >> "$GITHUB_PATH"
 
+      - name: Install actionlint for workflow contract tests
+        run: bash dependency-policy/scripts/install_actionlint.sh
+
       - name: Run policy unit and fixture tests
         env:
           PYTHONPATH: dependency-policy
-        run: python3 -m unittest discover -s dependency-policy/tests -v
+        run: |
+          python3 -m pip install -r dependency-policy/requirements.txt
+          python3 -m unittest discover -s dependency-policy/tests -v
 
       - name: Verify every inventory caller in check mode
         env:

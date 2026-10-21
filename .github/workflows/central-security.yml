@@ -1,0 +1,14 @@
+name: Security Scanning
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scan:
+    uses: ./.github/workflows/secret-scanning.yml
+    with:
+      policy-ref: ${{ github.event.pull_request.head.sha || github.sha }}

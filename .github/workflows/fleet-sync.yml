@@ -1,0 +1,80 @@
+name: Fleet Synchronization
+on:
+  schedule:
+    - cron: '37 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: fleet-synchronization
+  cancel-in-progress: false
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install policy dependencies
+        run: python3 -m pip install -r dependency-policy/requirements.txt
+      - name: Require fleet authentication
+        env:
+          APP_ID: ${{ vars.DEPENDENCY_APP_ID }}
+          APP_KEY: ${{ secrets.DEPENDENCY_APP_PRIVATE_KEY }}
+          MAINTENANCE_TOKEN: ${{ secrets.DEPENDENCY_MAINTENANCE_TOKEN }}
+        run: |
+          if [ -z "$MAINTENANCE_TOKEN" ] && { [ -z "$APP_ID" ] || [ -z "$APP_KEY" ]; }; then
+            echo '::error::Configure the fleet GitHub App or dedicated maintenance token.'
+            exit 1
+          fi
+      - name: Create installation token
+        id: app-token
+        if: vars.DEPENDENCY_APP_ID != ''
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ vars.DEPENDENCY_APP_ID }}
+          private-key: ${{ secrets.DEPENDENCY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - name: Synchronize active repositories through checked configuration PRs
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.DEPENDENCY_MAINTENANCE_TOKEN }}
+          POLICY_OWNER: ${{ github.repository_owner }}
+          PYTHONPATH: dependency-policy
+        run: |
+          policy_commit=$(git log -1 --format=%H -- .github/workflows \
+            dependency-policy/scripts dependency-policy/lib dependency-policy/templates \
+            dependency-policy/requirements.txt)
+          python3 dependency-policy/scripts/sync_fleet.py --owner "$POLICY_OWNER" \
+            --policy-sha "$policy_commit" --output fleet-sync.json --apply
+      - name: Record synchronization status
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path('fleet-sync.json')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              if not path.exists():
+                  summary.write('Synchronization did not produce evidence.\n')
+              else:
+                  report = json.loads(path.read_text())
+                  summary.write('# Fleet synchronization\n\n')
+                  for row in report['repositories']:
+                      summary.write(f"- {row['repository']}: {row['status']}; protection={row.get('protection', 'pending')}\n")
+                  for error in report['errors']:
+                      summary.write(f"- ERROR: {error['repository']}: {error['error']}\n")
+          PY
+      - name: Preserve synchronization evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fleet-synchronization-evidence
+          path: fleet-sync.json
+          if-no-files-found: error
+          retention-days: 30
