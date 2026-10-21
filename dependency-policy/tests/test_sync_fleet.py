@@ -33,8 +33,8 @@ class FleetSyncTests(unittest.TestCase):
                  DiscoveredRepository('unsupported', 'main', False, (project,), unsupported_ecosystems=('bun',), auto_merge_enabled=False),
                  DiscoveredRepository('repo-template', 'main', False, (project,))]
         inventory, issues = reconciled_inventory(Inventory(1, ()), items, {})
-        self.assertEqual([r.name for r in inventory.repositories], ['unsupported'])
-        self.assertFalse(inventory.repositories[0].auto_merge_enabled)
+        self.assertEqual([r.name for r in inventory.repositories], ['ambiguous', 'unsupported'])
+        self.assertTrue(all(not r.auto_merge_enabled for r in inventory.repositories))
         self.assertEqual(len(issues), 2)
 
     def test_dependabot_preserves_custom_groups_and_multi_directory_entries(self):

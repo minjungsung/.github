@@ -50,10 +50,21 @@ def reconciled_inventory(inventory, discovered, aliases):
     for item in discovered:
         if item.archived or item.name == SOURCE_REPOSITORY:
             continue
-        if not item.default_branch or item.ambiguities:
+        if not item.default_branch:
             issues.append({'repository': item.name, 'status': 'discovery-blocked',
                            'reasons': list(item.ambiguities)})
             continue
+        if item.name == '.github' and item.name in reviewed:
+            repositories.append(reviewed[item.name])
+            continue
+        if item.ambiguities:
+            issues.append({'repository': item.name, 'status': 'manual-application',
+                           'reasons': list(item.ambiguities)})
+            supported = tuple(p for p in item.projects if p.ecosystem != 'gradle' or p.gradle_wrapper)
+            if not supported:
+                from lib.models import Project
+                supported = (Project('github-actions', 'github-actions', '.', timeout_minutes=5),)
+            item = replace(item, projects=supported, auto_merge_enabled=False)
         old_name = aliases.get(item.name, item.name)
         old = reviewed.get(old_name)
         if old:
@@ -64,7 +75,7 @@ def reconciled_inventory(inventory, discovered, aliases):
                 issues.append({'repository': item.name, 'status': 'inventory-drift', 'reasons': list(problems)})
                 repo = replace(repo, auto_merge_enabled=False)
         else:
-            repo = replace(item_to_repository(item), auto_merge_enabled=not item.unsupported_ecosystems)
+            repo = replace(item_to_repository(item), auto_merge_enabled=item.auto_merge_enabled and not item.ambiguities)
             projects = []
             for project in repo.projects:
                 if project.ecosystem == 'npm':
@@ -129,7 +140,8 @@ jobs:
 
 def dependency_caller(repository, owner, policy_sha):
     generated = render_caller(repository, policy_sha)
-    generated = generated.replace('minjungsung/.github', f'{owner}/.github')
+    generated = re.sub(r'uses: [^\s]+/\.github/\.github/workflows/dependency-validation.yml@',
+                       f'uses: {owner}/.github/.github/workflows/dependency-validation.yml@', generated)
     # Validate applications on configuration PRs and default-branch pushes too.
     generated = generated.replace("${{ github.event.pull_request.user.login || 'policy-push' }}",
                                   "dependabot[bot]")
