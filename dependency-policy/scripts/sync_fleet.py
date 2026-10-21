@@ -366,8 +366,12 @@ def synchronize(owner, inventory, policy_sha, client, apply=False):
     full = f'{owner}/.github'
     files = {'dependency-policy/repositories.json': json.dumps(inventory_dict(proposed), indent=2) + '\n'}
     try:
-        report['inventory'] = ensure_pr(client, full, 'main', files, apply)
-        if apply:
+        live_inventory = client.file(full, 'dependency-policy/repositories.json', 'main')
+        if live_inventory is None or json.loads(live_inventory) != inventory_dict(inventory):
+            report['inventory'] = {'status': 'retry-after-concurrent-review'}
+        else:
+            report['inventory'] = ensure_pr(client, full, 'main', files, apply)
+        if apply and report['inventory']['status'] == 'pr-open':
             checked_merge(client, full, report['inventory'], required=('dependency-gate', 'Policy CI', 'scan / secret-scanning'))
     except PolicyError as error:
         report['errors'].append({'repository': '.github', 'error': str(error)})
