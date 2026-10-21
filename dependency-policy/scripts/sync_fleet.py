@@ -274,6 +274,31 @@ def configure_protection(client, full, branch):
             'enforce_admins': False, 'required_pull_request_reviews': None, 'restrictions': None})
     else:
         protection = json.loads(result.stdout)
+        if protection.get('required_status_checks') is None:
+            reviews = protection.get('required_pull_request_reviews')
+            if reviews is not None:
+                reviews = {key: value for key, value in reviews.items() if key in {
+                    'dismissal_restrictions', 'dismiss_stale_reviews', 'require_code_owner_reviews',
+                    'required_approving_review_count', 'require_last_push_approval',
+                    'bypass_pull_request_allowances'}}
+                for field in ('dismissal_restrictions', 'bypass_pull_request_allowances'):
+                    if field in reviews:
+                        reviews[field] = {kind: [item['slug'] if kind in {'teams', 'apps'} else item['login'] for item in values]
+                                          for kind, values in reviews[field].items() if kind in {'users', 'teams', 'apps'}}
+            restrictions = protection.get('restrictions')
+            if restrictions is not None:
+                restrictions = {kind: [item['slug'] if kind in {'teams', 'apps'} else item['login'] for item in values]
+                                for kind, values in restrictions.items() if kind in {'users', 'teams', 'apps'}}
+            payload = {'required_status_checks': {'strict': False,
+                'checks': [{'context': name, 'app_id': 15368} for name in contexts]},
+                'enforce_admins': protection['enforce_admins']['enabled'],
+                'required_pull_request_reviews': reviews, 'restrictions': restrictions}
+            for field in ('required_linear_history', 'allow_force_pushes', 'allow_deletions',
+                          'block_creations', 'required_conversation_resolution', 'lock_branch', 'allow_fork_syncing'):
+                if field in protection:
+                    payload[field] = protection[field]['enabled']
+            client.api(endpoint, 'PUT', payload)
+            return 'protected'
         existing = protection.get('required_status_checks') or {'strict': False, 'checks': []}
         required = list(existing.get('checks', []))
         present = {c['context'] for c in required}

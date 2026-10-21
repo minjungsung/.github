@@ -59,6 +59,11 @@ branch pushes. Existing deployments are not rewritten. Policy SHA updates use
 the same checked PR path; changes to the central source do not silently change
 old pinned callers.
 
+Push scans cover the new commits; PR scans cover the PR range. Weekly scans
+revisit repository history. TruffleHog scans Git objects without downloading LFS
+payloads; the full history audit also excludes LFS payloads. Missing historical
+LFS server objects therefore do not prevent scanning the available Git history.
+
 The scheduled controller pins the most recent commit that changed workflow or
 policy code. Inventory-only and documentation-only commits do not start another
 fleet-wide policy promotion.
