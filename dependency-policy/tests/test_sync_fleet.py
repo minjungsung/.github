@@ -3,13 +3,14 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import yaml
 
 from lib.models import Inventory, Project, Repository, PolicyError
 from scripts.audit_repositories import DiscoveredRepository
 from scripts.sync_fleet import (checked_merge, dependabot_config, dependency_caller,
-                                ensure_pr, reconciled_inventory, release_caller, security_caller)
+                                ensure_pr, reconciled_inventory, release_caller, security_caller, configure_protection)
 
 SHA = 'a' * 40
 
@@ -101,6 +102,31 @@ class FleetSyncTests(unittest.TestCase):
                 return None
         with self.assertRaisesRegex(PolicyError, 'unrelated'):
             ensure_pr(Fake(), 'example/app', 'main', {'.github/workflows/central-security.yml': 'workflow'}, True)
+
+    def test_protection_without_checks_preserves_existing_reviews_and_flags(self):
+        class Fake:
+            def __init__(self): self.mutations = []
+            def api(self, endpoint, method='GET', payload=None):
+                if method != 'GET':
+                    self.mutations.append((method, payload))
+                    return {}
+                if '/git/ref/' in endpoint: return {'object': {'sha': SHA}}
+                return {'total_count': 2, 'check_runs': [
+                    {'name': name, 'app': {'id': 15368}, 'head_sha': SHA, 'conclusion': 'success'}
+                    for name in ('dependency-gate', 'scan / secret-scanning')]}
+        protection = {'required_status_checks': None, 'enforce_admins': {'enabled': True},
+                      'restrictions': None, 'required_linear_history': {'enabled': True},
+                      'required_pull_request_reviews': {'required_approving_review_count': 2,
+                          'require_code_owner_reviews': True, 'url': 'unused'}}
+        fake = Fake()
+        with patch('scripts.sync_fleet.subprocess.run', return_value=subprocess.CompletedProcess([], 0, json.dumps(protection), '')):
+            self.assertEqual(configure_protection(fake, 'example/app', 'main'), 'protected')
+        method, payload = fake.mutations[0]
+        self.assertEqual(method, 'PUT')
+        self.assertTrue(payload['enforce_admins'])
+        self.assertTrue(payload['required_linear_history'])
+        self.assertEqual(payload['required_pull_request_reviews']['required_approving_review_count'], 2)
+        self.assertNotIn('url', payload['required_pull_request_reviews'])
 
 
 if __name__ == '__main__':
