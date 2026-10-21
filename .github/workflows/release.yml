@@ -1,0 +1,61 @@
+name: Verified Release
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  release:
+    permissions:
+      contents: write
+      checks: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify release commit and create release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_EVENT: ${{ github.event_name }}
+          RELEASE_RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, subprocess
+          repo = os.environ['RELEASE_REPOSITORY']
+          tag = os.environ['RELEASE_VERSION']
+          if not re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?', tag):
+              raise SystemExit('Release version must be a semantic version beginning with v')
+          sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          metadata = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}'], text=True))
+          branch = metadata['default_branch']
+          subprocess.run(['git', 'fetch', 'origin', branch], check=True)
+          subprocess.run(['git', 'merge-base', '--is-ancestor', sha, f'origin/{branch}'], check=True)
+          pages = json.loads(subprocess.check_output(['gh', 'api', '--paginate', '--slurp',
+              f'repos/{repo}/commits/{sha}/check-runs?filter=latest&per_page=100'], text=True))
+          checks = [c for page in pages for c in page['check_runs']]
+          gate = [c for c in checks if c['name'] == 'dependency-gate' and c.get('app', {}).get('id') == 15368]
+          if len(gate) != 1 or gate[0]['head_sha'] != sha or gate[0]['conclusion'] != 'success':
+              raise SystemExit('Release requires a successful trusted dependency gate on its exact commit')
+          current_run = '/actions/runs/' + os.environ['RELEASE_RUN_ID'] + '/'
+          if any(c['status'] != 'completed' or c['conclusion'] not in {'success', 'skipped', 'neutral'} for c in checks if c.get('head_sha') == sha and current_run not in c.get('details_url', '')):
+              raise SystemExit('Release commit has pending or failed checks')
+          existing = subprocess.run(['git', 'rev-parse', '--verify', f'refs/tags/{tag}^{{commit}}'], capture_output=True, text=True)
+          if existing.returncode == 0:
+              if existing.stdout.strip() != sha:
+                  raise SystemExit('Existing release tag refers to another commit')
+          else:
+              if os.environ['RELEASE_EVENT'] != 'workflow_dispatch':
+                  raise SystemExit('Tag-triggered release requires the existing tag')
+              subprocess.run(['gh', 'api', '--method', 'POST', f'repos/{repo}/git/refs',
+                  '-f', f'ref=refs/tags/{tag}', '-f', f'sha={sha}'], check=True, stdout=subprocess.DEVNULL)
+          subprocess.run(['gh', 'release', 'create', tag, '--repo', repo, '--verify-tag',
+              '--generate-notes', '--title', tag], check=True)
+          PY

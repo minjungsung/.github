@@ -47,7 +47,9 @@ jobs:
       - name: Run policy unit and fixture tests
         env:
           PYTHONPATH: dependency-policy
-        run: python3 -m unittest discover -s dependency-policy/tests -v
+        run: |
+          python3 -m pip install -r dependency-policy/requirements.txt
+          python3 -m unittest discover -s dependency-policy/tests -v
 
       - name: Verify every inventory caller in check mode
         env:
