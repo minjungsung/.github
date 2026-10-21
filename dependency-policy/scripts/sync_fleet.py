@@ -257,13 +257,9 @@ def configure_repository(client, full, metadata):
 
 
 def configure_protection(client, full, branch):
-    sha = client.api(f'repos/{full}/git/ref/heads/{quote(branch, safe="")}')['object']['sha']
-    checks = client.api(f'repos/{full}/commits/{sha}/check-runs?filter=latest&per_page=100')
-    if checks.get('total_count', 0) > len(checks['check_runs']):
-        raise PolicyError('Default branch checks response is incomplete')
+    # Requirements apply even while workflow installation or execution is pending.
+    # Successful checks remain a prerequisite for merging, not for protection.
     contexts = ['dependency-gate', 'scan / secret-scanning']
-    if not all(any(c['name'] == name and c.get('app', {}).get('id') == 15368 and c['head_sha'] == sha and c['conclusion'] == 'success' for c in checks['check_runs']) for name in contexts):
-        return 'await-default-validation'
     endpoint = f'repos/{full}/branches/{quote(branch, safe="")}/protection'
     result = subprocess.run(['gh', 'api', endpoint], capture_output=True, text=True)
     if result.returncode:
@@ -300,7 +296,14 @@ def configure_protection(client, full, branch):
             client.api(endpoint, 'PUT', payload)
             return 'protected'
         existing = protection.get('required_status_checks') or {'strict': False, 'checks': []}
-        required = list(existing.get('checks', []))
+        required = [dict(c) for c in existing.get('checks', [])]
+        # Retain legacy requirements even if an API response only lists contexts.
+        present = {c['context'] for c in required}
+        required.extend({'context': name, 'app_id': -1}
+                        for name in existing.get('contexts', []) if name not in present)
+        for check in required:
+            if check['context'] in contexts:
+                check['app_id'] = 15368
         present = {c['context'] for c in required}
         required.extend({'context': name, 'app_id': 15368} for name in contexts if name not in present)
         if required != existing.get('checks', []):
@@ -325,10 +328,13 @@ def synchronize(owner, inventory, policy_sha, client, apply=False):
     proposed, issues = reconciled_inventory(inventory, discovered, aliases)
     report = {'schema-version': 1, 'policy-sha': policy_sha, 'repositories': issues, 'errors': []}
     for repo in proposed.repositories:
-        if repo.name == '.github':
-            continue
         full = f'{owner}/{repo.name}'
         try:
+            protection = configure_protection(client, full, repo.default_branch) if apply else None
+            if repo.name == '.github':
+                report['repositories'].append({'repository': repo.name, 'status': 'current',
+                                               'protection': protection})
+                continue
             metadata = client.api(f'repos/{full}')
             if repo.name not in {r.name for r in inventory.repositories} and repo.name not in aliases:
                 enriched = []
@@ -359,7 +365,7 @@ def synchronize(owner, inventory, policy_sha, client, apply=False):
             outcome = ensure_pr(client, full, repo.default_branch, files, apply)
             if apply:
                 checked_merge(client, full, outcome)
-                outcome['protection'] = configure_protection(client, full, repo.default_branch)
+                outcome['protection'] = protection
             report['repositories'].append({'repository': repo.name, 'auto-merge-enabled': repo.auto_merge_enabled, **outcome})
         except (PolicyError, KeyError, TypeError, ValueError) as error:
             report['errors'].append({'repository': repo.name, 'error': str(error)})

@@ -18,9 +18,11 @@ dependency validation, secret scanning, and verified release automation.
 - **Git History Security Audit** scans accessible repositories weekly without
   executing their code and retains sanitized provenance for triage.
 
-Configuration changes merge only after the current commit's checks pass. Required
-dependency and secret checks are added after the merged default-branch commit
-passes them. Existing required checks and review requirements are preserved.
+Configuration changes merge only after the current commit's checks pass. Both
+dependency and secret checks are required on every active repository, including
+this policy repository, even while installation or execution is pending. Missing
+or blocked checks prevent normal PR merging. Existing required checks and review
+requirements are preserved.
 
 See [fleet automation](docs/fleet-automation.md) for setup and operating limits,
 [dependency gate](docs/dependency-gate.md) for validation and recovery, and

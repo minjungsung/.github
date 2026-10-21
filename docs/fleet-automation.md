@@ -37,20 +37,23 @@ steps for active source repositories:
    runtime versions and commands. Remove entries that no longer exist from the
    proposed inventory. Unsupported or ambiguous applications retain manual
    dependency acceptance.
-2. Enable dependency alerts, dependency security updates, automatic merging, and
+2. Require `dependency-gate` and `scan / secret-scanning` from the GitHub Actions
+   App on every active default branch, including the policy repository. Preserve
+   existing required checks, review rules, and other protection settings. Apply
+   these requirements before workflow configuration, even when installation or
+   execution is pending. Missing or blocked checks prevent normal PR merging.
+3. Enable dependency alerts, dependency security updates, automatic merging, and
    Actions PR approval. Public repositories also enable native secret scanning
    and push protection. Private repositories use the workflow scanners regardless
    of native GitHub security product availability.
-3. Open or update `automation/central-policy` with exact managed files. Add missing
+4. Open or update `automation/central-policy` with exact managed files. Add missing
    Dependabot ecosystems without replacing existing schedules or groups. Install
    a centrally pinned dependency caller and secret-scanning caller. Add a release
    caller only when no customized release workflow occupies that path.
-4. Merge the configuration PR only after its current GitHub Actions dependency
+5. Merge the configuration PR only after its current GitHub Actions dependency
    and secret checks and all other emitted checks and statuses pass. GitHub still
    enforces existing review and branch protection rules. Failed checks, unresolved
    reviews, orphan branches, and unrelated PR changes remain visible blockers.
-5. Observe successful dependency and secret checks on the actual default-branch
-   commit, then add required checks while preserving existing protections.
 6. Open a central inventory update PR, and merge it only after Policy CI and the
    dependency and secret checks pass.
 

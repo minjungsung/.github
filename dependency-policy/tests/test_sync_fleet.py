@@ -3,14 +3,15 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, call, patch
 
 import yaml
 
 from lib.models import Inventory, Project, Repository, PolicyError
 from scripts.audit_repositories import DiscoveredRepository
 from scripts.sync_fleet import (checked_merge, dependabot_config, dependency_caller,
-                                ensure_pr, reconciled_inventory, release_caller, security_caller, configure_protection)
+                                ensure_pr, reconciled_inventory, release_caller, security_caller,
+                                configure_protection, synchronize)
 
 SHA = 'a' * 40
 
@@ -107,13 +108,10 @@ class FleetSyncTests(unittest.TestCase):
         class Fake:
             def __init__(self): self.mutations = []
             def api(self, endpoint, method='GET', payload=None):
-                if method != 'GET':
-                    self.mutations.append((method, payload))
-                    return {}
-                if '/git/ref/' in endpoint: return {'object': {'sha': SHA}}
-                return {'total_count': 2, 'check_runs': [
-                    {'name': name, 'app': {'id': 15368}, 'head_sha': SHA, 'conclusion': 'success'}
-                    for name in ('dependency-gate', 'scan / secret-scanning')]}
+                if method == 'GET':
+                    raise AssertionError('Protection must not wait for successful checks')
+                self.mutations.append((method, payload))
+                return {}
         protection = {'required_status_checks': None, 'enforce_admins': {'enabled': True},
                       'restrictions': None, 'required_linear_history': {'enabled': True},
                       'required_pull_request_reviews': {'required_approving_review_count': 2,
@@ -127,6 +125,59 @@ class FleetSyncTests(unittest.TestCase):
         self.assertTrue(payload['required_linear_history'])
         self.assertEqual(payload['required_pull_request_reviews']['required_approving_review_count'], 2)
         self.assertNotIn('url', payload['required_pull_request_reviews'])
+
+    def test_unprotected_branch_requires_both_checks_without_execution_evidence(self):
+        client = Mock()
+        response = subprocess.CompletedProcess([], 1, '', 'Branch not protected (HTTP 404)')
+        with patch('scripts.sync_fleet.subprocess.run', return_value=response):
+            self.assertEqual(configure_protection(client, 'example/app', 'main'), 'protected')
+        client.api.assert_called_once_with('repos/example/app/branches/main/protection', 'PUT', {
+            'required_status_checks': {'strict': False, 'checks': [
+                {'context': 'dependency-gate', 'app_id': 15368},
+                {'context': 'scan / secret-scanning', 'app_id': 15368}]},
+            'enforce_admins': False, 'required_pull_request_reviews': None, 'restrictions': None})
+
+    def test_protection_corrects_app_bindings_preserves_unrelated_checks_and_is_idempotent(self):
+        for app_id in (None, -1, 42, 15368):
+            with self.subTest(app_id=app_id):
+                protection = {'required_status_checks': {'strict': True, 'checks': [
+                    {'context': 'application', 'app_id': 42},
+                    {'context': 'dependency-gate', 'app_id': app_id}],
+                    'contexts': ['application', 'dependency-gate', 'legacy-deployment']}}
+                client = Mock()
+                def response(*args, **kwargs):
+                    return subprocess.CompletedProcess([], 0, json.dumps(protection), '')
+                def update(endpoint, method, payload):
+                    self.assertEqual(method, 'PATCH')
+                    self.assertTrue(endpoint.endswith('/protection/required_status_checks'))
+                    protection['required_status_checks'] = payload
+                client.api.side_effect = update
+                with patch('scripts.sync_fleet.subprocess.run', side_effect=response):
+                    configure_protection(client, 'example/app', 'main')
+                    configure_protection(client, 'example/app', 'main')
+                self.assertEqual(client.api.call_count, 1)
+                self.assertEqual(protection['required_status_checks'], {'strict': True, 'checks': [
+                    {'context': 'application', 'app_id': 42},
+                    {'context': 'dependency-gate', 'app_id': 15368},
+                    {'context': 'legacy-deployment', 'app_id': -1},
+                    {'context': 'scan / secret-scanning', 'app_id': 15368}]})
+
+    def test_fleet_protects_policy_and_application_before_configuration_failures(self):
+        project = Project('workflow', 'github-actions', '.', timeout_minutes=5)
+        repositories = tuple(Repository(name, 'main', (project,)) for name in ('.github', 'app'))
+        inventory = Inventory(1, repositories)
+        discovered = [DiscoveredRepository(repo.name, 'main', False, (project,)) for repo in repositories]
+        client = Mock()
+        client.file.return_value = None
+        client.api.side_effect = PolicyError('Configuration unavailable')
+        with patch('scripts.sync_fleet.discover_repositories', return_value=discovered), \
+             patch('scripts.sync_fleet.configure_protection', return_value='protected') as protect:
+            report = synchronize('example', inventory, SHA, client, apply=True)
+        self.assertEqual(protect.call_args_list, [
+            call(client, 'example/.github', 'main'), call(client, 'example/app', 'main')])
+        self.assertEqual(report['repositories'][0]['protection'], 'protected')
+        self.assertEqual(report['errors'], [{'repository': 'app', 'error': 'Configuration unavailable'}])
+        self.assertFalse(report['synchronization-complete'])
 
 
 if __name__ == '__main__':
