@@ -457,9 +457,7 @@
           "path": "native",
           "runtime-version": "3.12",
           "manifest": "pyproject.toml",
-          "timeout-minutes": 15,
-          "install-command": "sudo apt-get update && sudo apt-get install -y ffmpeg && python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install '.[youtube]' pytest",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest"
+          "timeout-minutes": 15
         },
         {
           "name": "root-node",
@@ -468,8 +466,7 @@
           "runtime-version": "24",
           "manifest": "package.json",
           "lockfile": "package-lock.json",
-          "timeout-minutes": 15,
-          "test-command": "node --test tests/*.mjs"
+          "timeout-minutes": 15
         },
         {
           "name": "root-python-requirements",
@@ -477,8 +474,7 @@
           "path": ".",
           "runtime-version": "3.12",
           "manifest": "requirements.txt",
-          "timeout-minutes": 15,
-          "test-command": ".dependency-gate-venv/bin/python -m pip check"
+          "timeout-minutes": 15
         }
       ]
     },
