@@ -82,6 +82,22 @@
       ]
     },
     {
+      "name": "Undead-Survivor",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
       "name": "ai_algorithm_design_and_analysis",
       "default-branch": "main",
       "deployment-workflows": [
@@ -295,6 +311,22 @@
       ]
     },
     {
+      "name": "dongle-game",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
       "name": "eltango",
       "default-branch": "main",
       "deployment-workflows": [
@@ -440,6 +472,22 @@
           "runtime-version": "24",
           "manifest": "package.json",
           "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "shooting-game",
+      "default-branch": "main",
+      "deployment-workflows": [
+        ".github/workflows/publish-wiki.yml"
+      ],
+      "auto-merge-enabled": false,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
         }
       ]
     },
