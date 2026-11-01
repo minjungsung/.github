@@ -82,22 +82,6 @@
       ]
     },
     {
-      "name": "Undead-Survivor",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
       "name": "ai_algorithm_design_and_analysis",
       "default-branch": "main",
       "deployment-workflows": [
@@ -279,21 +263,6 @@
       ]
     },
     {
-      "name": "course-manager",
-      "default-branch": "main",
-      "deployment-workflows": [],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "build-command": "python3 -m unittest discover -s tests -p 'test_course_brief.py'",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
       "name": "creating_ai_enabled_systems",
       "default-branch": "main",
       "deployment-workflows": [
@@ -301,22 +270,6 @@
         ".github/workflows/release.yml"
       ],
       "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
-      "name": "dongle-game",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
-      ],
-      "auto-merge-enabled": false,
       "projects": [
         {
           "name": "github-actions",
@@ -476,22 +429,6 @@
       ]
     },
     {
-      "name": "shooting-game",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/publish-wiki.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "github-actions",
-          "ecosystem": "github-actions",
-          "path": ".",
-          "timeout-minutes": 5
-        }
-      ]
-    },
-    {
       "name": "shorts-generator",
       "default-branch": "main",
       "deployment-workflows": [
@@ -526,45 +463,6 @@
           "runtime-version": "3.12",
           "manifest": "requirements.txt",
           "test-command": ".dependency-gate-venv/bin/python -m pip check",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "visionRAG",
-      "default-branch": "main",
-      "deployment-workflows": [
-        ".github/workflows/push-wiki.yml",
-        ".github/workflows/release.yml"
-      ],
-      "auto-merge-enabled": false,
-      "projects": [
-        {
-          "name": "root-python-pyproject",
-          "ecosystem": "python-pyproject",
-          "path": ".",
-          "runtime-version": "3.12",
-          "manifest": "pyproject.toml",
-          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install \".[dev,mlops]\"",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "root-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": ".",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
-          "install-command": "python3 -m venv --clear .dependency-gate-venv && .dependency-gate-venv/bin/python -m pip install -r requirements.txt && .dependency-gate-venv/bin/python -m pip install \".[dev,mlops]\"",
-          "test-command": ".dependency-gate-venv/bin/python -m pytest tests/ -v --tb=short",
-          "timeout-minutes": 15
-        },
-        {
-          "name": "spaces-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": "spaces",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
           "timeout-minutes": 15
         }
       ]
