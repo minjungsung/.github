@@ -370,6 +370,20 @@
       ]
     },
     {
+      "name": "oss-membership-follow-up",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "github-actions",
+          "ecosystem": "github-actions",
+          "path": ".",
+          "timeout-minutes": 5
+        }
+      ]
+    },
+    {
       "name": "portfolio-backend",
       "default-branch": "main",
       "deployment-workflows": [
@@ -424,6 +438,22 @@
           "path": ".",
           "runtime-version": "24",
           "manifest": "package.json",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
+      "name": "seoul-building-monitor",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
           "timeout-minutes": 15
         }
       ]
