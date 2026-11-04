@@ -332,6 +332,22 @@
       ]
     },
     {
+      "name": "housingdigest",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
       "name": "medium",
       "default-branch": "main",
       "deployment-workflows": [
@@ -424,6 +440,22 @@
       ]
     },
     {
+      "name": "propertydigest",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-python-requirements",
+          "ecosystem": "python-requirements",
+          "path": ".",
+          "runtime-version": "3.12",
+          "manifest": "requirements.txt",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
       "name": "senior_eltango",
       "default-branch": "main",
       "deployment-workflows": [
@@ -438,22 +470,6 @@
           "path": ".",
           "runtime-version": "24",
           "manifest": "package.json",
-          "timeout-minutes": 15
-        }
-      ]
-    },
-    {
-      "name": "seoul-building-monitor",
-      "default-branch": "main",
-      "deployment-workflows": [],
-      "auto-merge-enabled": true,
-      "projects": [
-        {
-          "name": "root-python-requirements",
-          "ecosystem": "python-requirements",
-          "path": ".",
-          "runtime-version": "3.12",
-          "manifest": "requirements.txt",
           "timeout-minutes": 15
         }
       ]
