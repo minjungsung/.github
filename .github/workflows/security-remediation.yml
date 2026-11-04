@@ -33,7 +33,7 @@ jobs:
           python3 dependency-policy/scripts/security_remediation.py plan \
             --owner "$POLICY_OWNER" --inventory dependency-policy/repositories.json \
             --output candidate.json --prompt repair-prompt.txt --github-output "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: repair-plan
           path: |
@@ -155,7 +155,7 @@ jobs:
           Path('evidence/base-sha.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD'],cwd='target',text=True).strip())
           PY
       - name: Preserve successful repair
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: validated-repair
           path: evidence
