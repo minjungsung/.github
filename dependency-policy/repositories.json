@@ -400,6 +400,24 @@
       ]
     },
     {
+      "name": "pilji",
+      "default-branch": "main",
+      "deployment-workflows": [],
+      "auto-merge-enabled": true,
+      "projects": [
+        {
+          "name": "root-node",
+          "ecosystem": "npm",
+          "path": ".",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "test-command": "npm test",
+          "timeout-minutes": 15
+        }
+      ]
+    },
+    {
       "name": "portfolio-backend",
       "default-branch": "main",
       "deployment-workflows": [
