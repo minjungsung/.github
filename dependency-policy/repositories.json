@@ -403,16 +403,14 @@
       "name": "pilji",
       "default-branch": "main",
       "deployment-workflows": [],
-      "auto-merge-enabled": true,
+      "auto-merge-enabled": false,
       "projects": [
         {
-          "name": "root-node",
-          "ecosystem": "npm",
-          "path": ".",
-          "runtime-version": "24",
-          "manifest": "package.json",
-          "lockfile": "package-lock.json",
-          "test-command": "npm test",
+          "name": "backend-python-pyproject",
+          "ecosystem": "python-pyproject",
+          "path": "backend",
+          "runtime-version": "3.12",
+          "manifest": "pyproject.toml",
           "timeout-minutes": 15
         }
       ]
