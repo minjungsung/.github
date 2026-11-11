@@ -402,7 +402,10 @@
     {
       "name": "pilji",
       "default-branch": "main",
-      "deployment-workflows": [],
+      "deployment-workflows": [
+        ".github/workflows/build-release.yml",
+        ".github/workflows/deploy-release.yml"
+      ],
       "auto-merge-enabled": false,
       "projects": [
         {
@@ -411,6 +414,24 @@
           "path": "backend",
           "runtime-version": "3.12",
           "manifest": "pyproject.toml",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "deploy-cloudflare-node",
+          "ecosystem": "npm",
+          "path": "deploy/cloudflare",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
+          "timeout-minutes": 15
+        },
+        {
+          "name": "deploy-neon-node",
+          "ecosystem": "npm",
+          "path": "deploy/neon",
+          "runtime-version": "24",
+          "manifest": "package.json",
+          "lockfile": "package-lock.json",
           "timeout-minutes": 15
         }
       ]
